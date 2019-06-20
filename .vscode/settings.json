@@ -1,0 +1,23 @@
+{
+    "workbench.tree.indent": 20,
+    "terminal.integrated.shell.linux": "/bin/bash",
+    "python.pythonPath": "/usr/local/bin/python",
+    "files.exclude": {
+      "**/.git": true,
+      "**/.history": true,
+      "**/.DS_Store": true,
+      "**/*.pyc": {"when": "$(basename).py"}, 
+      "**/__pycache__": true
+    },
+    "python.testing.unittestArgs": [
+      "-v",
+      "-s",
+      "./src",
+      "-p",
+      "*Test.py"
+    ],
+    "python.testing.pyTestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.unittestEnabled": false,
+    "python.testing.promptToConfigure": false
+}
