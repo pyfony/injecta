@@ -21,6 +21,10 @@ setuptools.setup(
     ],
     packages=setuptools.find_namespace_packages(where=BASE_DIR),
     package_dir={'': BASE_DIR},
+    install_requires=[
+        'pyyaml',
+        'python-box'
+    ],
     version='0.1',
     script_args=['bdist_wheel'],
 )
