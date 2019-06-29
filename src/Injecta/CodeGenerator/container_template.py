@@ -21,6 +21,7 @@ class Container(ContainerInterface):
         self.__config = config
         self.services = {}
         self.__serviceMethodNameTranslator = ServiceMethodNameTranslator()
+        self.__tags2Services = self.__generateTags2Services()
 
     def getConfig(self) -> Box:
         return self.__config
@@ -33,3 +34,11 @@ class Container(ContainerInterface):
         method = getattr(self, '_Container{}'.format(methodName))
 
         return method()
+
+    def getByTag(self, tag: str):
+        if tag not in self.__tags2Services:
+            raise Exception('No service with tag {}'.format(tag))
+
+        serviceNames = self.__tags2Services[tag]
+
+        return list(map(lambda serviceName: self.get(serviceName), serviceNames))

@@ -10,9 +10,10 @@ class DefinitionParser:
             return Definition(serviceName, serviceName)
 
         arguments = self.__parseArguments(serviceDefinition)
+        tags = serviceDefinition['tags'] if 'tags' in serviceDefinition else []
         classFqn = serviceDefinition['class'] if 'class' in serviceDefinition else serviceName
 
-        definition = Definition(serviceName, classFqn, arguments)
+        definition = Definition(serviceName, classFqn, arguments, tags)
 
         if 'import' in serviceDefinition:
             definition.setImport(serviceDefinition['import'])

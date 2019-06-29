@@ -47,5 +47,6 @@ class Autowirer:
         return Definition(
             definition.getName(),
             definition.getClassFqn(),
-            newArguments
+            newArguments,
+            definition.getTags()
         )

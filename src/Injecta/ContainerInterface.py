@@ -9,3 +9,6 @@ class ContainerInterface(ABC):
 
     def get(self, name):
         pass
+
+    def getByTag(self, tag: str):
+        pass
