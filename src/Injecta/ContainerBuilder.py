@@ -1,6 +1,4 @@
 from box import Box
-import tempfile
-import importlib.util
 from Injecta.Autowiring.Autowirer import Autowirer
 from Injecta.Autowiring.ArgumentResolver import ArgumentResolver
 from Injecta.CodeGenerator.ContainerGenerator import ContainerGenerator
@@ -28,24 +26,4 @@ class ContainerBuilder:
 
         definitions = list(map(lambda definition: self.__autowirer.autowire(definition, classes), definitions))
 
-        code = self.__containerGenerator.generate(definitions)
-
-        tmpFile = self.__writeContainer(code)
-        module = self.__importContainer(tmpFile.name)
-        tmpFile.close()
-
-        return module.Container(config)
-
-    def __writeContainer(self, code: str):
-        f = tempfile.NamedTemporaryFile(prefix='di_container_', suffix='.py')
-        f.write(code.encode())
-        f.seek(0)
-
-        return f
-
-    def __importContainer(self, filePath):
-        spec = importlib.util.spec_from_file_location('Container', filePath)
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
-
-        return module
+        return self.__containerGenerator.generate(definitions)
