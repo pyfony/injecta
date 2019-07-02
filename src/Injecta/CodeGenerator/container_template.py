@@ -1,19 +1,7 @@
 from box import Box
 from Injecta.ContainerInterface import ContainerInterface
 from Injecta.CodeGenerator.ServiceMethodNameTranslator import ServiceMethodNameTranslator
-
-def DIService(method):
-    def wrapper(*args):
-        service_name = method.__name__
-        container = args[0]
-
-        if not service_name in container.services:
-            # print('creating service ' + service_name)
-            container.services[service_name] = method(*args)
-
-        return container.services[service_name]
-
-    return wrapper
+from Injecta.DIService import DIService
 
 class Container(ContainerInterface):
 
