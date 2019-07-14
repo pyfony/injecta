@@ -18,7 +18,7 @@ class ContainerInitializer:
         return module.Container(config)
 
     def __writeContainer(self, code: str):
-        f = tempfile.NamedTemporaryFile(prefix='di_container_', suffix='.py')
+        f = tempfile.NamedTemporaryFile(prefix='di_container_', suffix='.py', delete=False)
         f.write(code.encode())
         f.seek(0)
 
