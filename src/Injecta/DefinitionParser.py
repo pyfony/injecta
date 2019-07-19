@@ -1,7 +1,7 @@
 from Injecta.Definition import Definition
 from Injecta.Argument.ServiceArgument import ServiceArgument
 from Injecta.Argument.ParameterArgument import ParameterArgument
-from Injecta.Argument.StringArgument import StringArgument
+from Injecta.Argument.ValueArgument import ValueArgument
 
 class DefinitionParser:
     
@@ -38,7 +38,7 @@ class DefinitionParser:
             elif argument[0:1] == '%' and argument[-1:] == '%':
                 return ParameterArgument(argument[1:-1])
             else:
-                return StringArgument(argument)
+                return ValueArgument(argument)
         elif isinstance(argument, list):
             return list(map(lambda argument2: self.__parseArgument(argument2), argument))
         elif isinstance(argument, dict):
