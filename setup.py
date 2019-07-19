@@ -9,7 +9,7 @@ with open('README.md', 'r', encoding='utf-8') as fh:
 setuptools.setup(
     name='injecta',
     author='Jiri Koutny',
-    author_email='jirkakoutny@gmail.com',
+    author_email='jiri.koutny@datasentics.com',
     description='Dependency Injection Container Library',
     long_description=long_description,
     long_description_content_type='text/markdown',
