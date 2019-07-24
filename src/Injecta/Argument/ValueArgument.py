@@ -1,4 +1,6 @@
-class ValueArgument:
+from Injecta.Argument.ArgumentInterface import ArgumentInterface
+
+class ValueArgument(ArgumentInterface):
 
     def __init__(self, value: str):
         self.__value = value

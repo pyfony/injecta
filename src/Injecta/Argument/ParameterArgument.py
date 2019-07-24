@@ -1,4 +1,6 @@
-class ParameterArgument:
+from Injecta.Argument.ArgumentInterface import ArgumentInterface
+
+class ParameterArgument(ArgumentInterface):
 
     def __init__(self, name: str):
         self.__name = name

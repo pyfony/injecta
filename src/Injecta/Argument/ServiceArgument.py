@@ -1,4 +1,6 @@
-class ServiceArgument:
+from Injecta.Argument.ArgumentInterface import ArgumentInterface
+
+class ServiceArgument(ArgumentInterface):
 
     def __init__(self, name: str):
         self.__name = name
