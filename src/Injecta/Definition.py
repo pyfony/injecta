@@ -1,3 +1,5 @@
+from Injecta.Argument.ArgumentInterface import ArgumentInterface
+
 # see https://github.com/symfony/dependency-injection/blob/master/Definition.php
 class Definition:
 
@@ -8,6 +10,8 @@ class Definition:
         self.__import = 'from ' + classFqn + ' import ' + self.getClassName()
         self.__autowire = True
         self.__tags = tags or []
+        self.__factoryService = None
+        self.__factoryMethod = None
 
     def getName(self):
         return self.__name
@@ -41,3 +45,14 @@ class Definition:
 
     def hasTags(self):
         return self.__tags != []
+
+    def setFactory(self, factoryService: ArgumentInterface, factoryMethod: str):
+        self.__factoryService = factoryService
+        self.__factoryMethod = factoryMethod
+        self.__autowire = False
+
+    def getFactoryService(self) -> ArgumentInterface:
+        return self.__factoryService
+
+    def getFactoryMethod(self) -> str:
+        return self.__factoryMethod

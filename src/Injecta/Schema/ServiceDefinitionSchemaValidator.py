@@ -2,7 +2,7 @@ from Injecta.Schema.SchemaValidationException import SchemaValidationException
 
 class ServiceDefinitionSchemaValidator:
 
-    ALLOWED_ATTRIBUTES = ['class', 'arguments', 'tags', 'autowire', 'import']
+    ALLOWED_ATTRIBUTES = ['class', 'arguments', 'tags', 'autowire', 'import', 'factory']
 
     def validate(self, serviceName, rawServiceDefinition):
         if self.__isBasicDefinition(rawServiceDefinition):
@@ -28,6 +28,15 @@ class ServiceDefinitionSchemaValidator:
         if 'autowire' in rawServiceDefinition:
             if isinstance(rawServiceDefinition['autowire'], bool) is False:
                 raise SchemaValidationException('Attribute "autowire" of service "{}" must be True or False'.format(serviceName))
+
+        if 'factory' in rawServiceDefinition:
+            if (
+                isinstance(rawServiceDefinition['factory'], list) is False
+                or (
+                    isinstance(rawServiceDefinition['factory'], list) is True and len(rawServiceDefinition['factory']) != 2
+                )
+            ):
+                raise SchemaValidationException('Attribute "factory" of service "{}" must be list [factoryClass, factoryMethod]'.format(serviceName))
 
         return True
 

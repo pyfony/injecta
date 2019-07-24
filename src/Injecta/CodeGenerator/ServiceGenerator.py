@@ -18,9 +18,7 @@ class ServiceGenerator:
         service = (
             '    @DIService\n'
             '    def ' + methodName + '(self):\n'
-            '        ' + definition.getImport() + '\n'
-            '\n'
-            '        ' + self.__objectGenerator.generate(definition) + '\n'
+            '' + self.__objectGenerator.generate(definition) + '\n'
         )
 
         return service

@@ -51,6 +51,19 @@ class ServiceDefinitionSchemaValidatorTest(unittest.TestCase):
             self.__schemaValidator.validate('Foo.Bar', rawServiceDefinition)
             self.assertEqual(error.exception.message, 'Unexpected attributes (banana) for service "Foo.Bar"')
 
+    def test_factory(self):
+        rawServiceDefinition = {
+            'arguments': [
+                'jirka',
+                1
+            ],
+            'factory': 'Foo.BarFactory:create'
+        }
+
+        with self.assertRaises(SchemaValidationException) as error:
+            self.__schemaValidator.validate('Foo.Bar', rawServiceDefinition)
+            self.assertEqual(error.exception.message, 'Attribute "factory" of service "Foo.Bar" must be list [factoryClass, factoryMethod]')
+
     def test_fullOk(self):
         rawServiceDefinition = {
             'arguments': [
@@ -59,7 +72,8 @@ class ServiceDefinitionSchemaValidatorTest(unittest.TestCase):
             ],
             'tags': ['console.command'],
             'autowire': True,
-            'import': 'from databricks_api import DatabricksAPI'
+            'import': 'from databricks_api import DatabricksAPI',
+            'factory': ['@Foo.BarFactory', 'create']
         }
 
         self.__schemaValidator.validate('Foo.Bar', rawServiceDefinition)

@@ -21,6 +21,15 @@ class DefinitionParser:
         if 'autowire' in serviceDefinition:
             definition.setAutowire(serviceDefinition['autowire'] == 'True')
 
+        if 'factory' in serviceDefinition:
+            if serviceDefinition['factory'][0][0:1] != '@':
+                raise Exception('Factory service name must be prefixed with @ (service {})'.format(serviceName))
+
+            definition.setFactory(
+                ServiceArgument(serviceDefinition['factory'][0][1:]),
+                serviceDefinition['factory'][1]
+            )
+
         return definition
 
     def __parseArguments(self, serviceDefinition):

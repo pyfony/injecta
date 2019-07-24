@@ -5,9 +5,16 @@ class ObjectGenerator:
     def generate(self, definition: Definition):
         argumentLines = list(map(lambda argument: self.__stringifyArgument(argument), definition.getArguments()))
 
-        return (
-            'return ' + definition.getClassName() + '(' + ', '.join(argumentLines) + ')'
-        )
+        if definition.getFactoryService() is not None:
+            return (
+                '        return {}.{}()'.format(definition.getFactoryService().getValue(), definition.getFactoryMethod())
+            )
+        else:
+            return (
+                '        ' + definition.getImport() + '\n'
+                '\n'
+                '        return ' + definition.getClassName() + '(' + ', '.join(argumentLines) + ')'
+            )
 
     def __stringifyArgument(self, argument):
         if isinstance(argument, list):
