@@ -1,4 +1,3 @@
-import yaml
 from Injecta.YamlDefinitionsParser import YamlDefinitionsParser
 
 class YamlDefinitionsReaderParser:

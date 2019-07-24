@@ -1,6 +1,4 @@
 import json
-from pathlib import Path
-from Injecta.Definition import Definition
 from Injecta.CodeGenerator.ServiceGenerator import ServiceGenerator
 from Injecta.CodeGenerator.Tags2ServicesPreparer import Tags2ServicesPreparer
 from Injecta.getLibRoot import getLibRoot

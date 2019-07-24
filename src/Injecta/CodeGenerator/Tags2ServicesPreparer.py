@@ -1,5 +1,3 @@
-from Injecta.Definition import Definition
-
 class Tags2ServicesPreparer:
     
     def prepare(self, definitions: list):

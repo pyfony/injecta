@@ -1,7 +1,5 @@
 import inspect
 from Injecta.Definition import Definition
-from Injecta.CodeGenerator.ServiceGenerator import ServiceGenerator
-from Injecta.Argument.ServiceArgument import ServiceArgument
 from Injecta.Autowiring.ArgumentResolver import ArgumentResolver
 
 class Autowirer:

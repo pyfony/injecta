@@ -1,6 +1,3 @@
-import inspect
-from Injecta.Definition import Definition
-
 class ClassListBuilder:
 
     def buildClassList(self, definitions: list):
