@@ -1,5 +1,5 @@
-
 import setuptools
+import shutil
 
 BASE_DIR = 'src'
 
@@ -28,3 +28,6 @@ setuptools.setup(
     version='0.1.2',
     script_args=['bdist_wheel'],
 )
+
+shutil.rmtree('build')
+shutil.rmtree('src/injecta.egg-info')
