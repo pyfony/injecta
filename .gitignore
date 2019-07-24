@@ -80,6 +80,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+.idea
+
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
