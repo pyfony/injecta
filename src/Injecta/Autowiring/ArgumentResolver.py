@@ -21,10 +21,10 @@ class ArgumentResolver:
             raise Exception('Cannot resolve argument {} for service {}'.format(argumentName, definition.getName()))
 
         if classFqn not in classes:
-            raise Exception('Service not found for {} used in {}'.format(classFqn, definition.getClassFqn()))
+            raise Exception('Service not found for {} used in {}'.format(classFqn, definition.getName()))
             
         if len(classes[classFqn]) > 1:
             serviceNames = ', '.join(classes[classFqn])
-            raise Exception('Multiple services of {} defined ({}), class used in {}'.format(classFqn, serviceNames, definition.getClassFqn()))
+            raise Exception('Multiple services of {} defined ({}), class used in {}'.format(classFqn, serviceNames, definition.getName()))
 
         return ServiceArgument(classes[classFqn][0])
