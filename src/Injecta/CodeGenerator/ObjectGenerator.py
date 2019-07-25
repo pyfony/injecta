@@ -7,7 +7,7 @@ class ObjectGenerator:
 
         if definition.getFactoryService() is not None:
             return (
-                '        return {}.{}()'.format(definition.getFactoryService().getValue(), definition.getFactoryMethod())
+                '        return ' + definition.getFactoryService().getValue() + '.' + definition.getFactoryMethod() + '(' + ', '.join(argumentLines) + ')'
             )
         else:
             return (
