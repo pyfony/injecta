@@ -12,7 +12,9 @@ class ContainerBuilder:
 
     def __init__(self):
         self.__classListBuilder = ClassListBuilder()
-        self.__autowirer = Autowirer(ArgumentResolver())
+        self.__autowirer = Autowirer(
+            ArgumentResolver()
+        )
         self.__containerGenerator = ContainerGenerator(
             ServiceGenerator(
                 ObjectGenerator(),
@@ -21,7 +23,7 @@ class ContainerBuilder:
             Tags2ServicesPreparer()
         )
 
-    def build(self, config: Box, definitions: list):
+    def build(self, definitions: list):
         classes = self.__classListBuilder.buildClassList(definitions)
 
         definitions = list(map(lambda definition: self.__autowirer.autowire(definition, classes), definitions))

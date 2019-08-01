@@ -11,8 +11,7 @@ class Autowirer:
         if definition.getAutowire() == False:
             return definition
 
-        module = __import__(definition.getClassFqn(), fromlist=[definition.getClassName()])
-        classDefinition = getattr(module, definition.getClassName())
+        classDefinition = getattr(definition.getModuleClass().getModule(), definition.getModuleClass().getClassName())
 
         # constructor is missing
         if '__init__' not in classDefinition.__dict__:
@@ -33,18 +32,19 @@ class Autowirer:
             else:
                 newArgument = self.__argumentResolver.resolve(
                     argumentName,
-                    argumentValue,
-                    definition,
+                    argumentValue.annotation.__module__,
+                    argumentValue.annotation.__name__,
+                    definition.getName(),
                     classes
                 )
-                
+
             newArguments.append(newArgument)
 
             i += 1
-            
+
         return Definition(
             definition.getName(),
-            definition.getClassFqn(),
+            definition.getModuleClass(),
             newArguments,
             definition.getTags()
         )

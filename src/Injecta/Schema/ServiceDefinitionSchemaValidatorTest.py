@@ -72,7 +72,6 @@ class ServiceDefinitionSchemaValidatorTest(unittest.TestCase):
             ],
             'tags': ['console.command'],
             'autowire': True,
-            'import': 'from databricks_api import DatabricksAPI',
             'factory': ['@Foo.BarFactory', 'create']
         }
 

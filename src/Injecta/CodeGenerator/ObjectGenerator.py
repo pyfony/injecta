@@ -1,7 +1,7 @@
 from Injecta.Definition import Definition
 
 class ObjectGenerator:
-   
+
     def generate(self, definition: Definition):
         argumentLines = list(map(lambda argument: self.__stringifyArgument(argument), definition.getArguments()))
 
@@ -11,9 +11,9 @@ class ObjectGenerator:
             )
         else:
             return (
-                '        ' + definition.getImport() + '\n'
+                '        from ' + definition.getModuleClass().getModuleName() + ' import ' + definition.getModuleClass().getClassName() + '\n'
                 '\n'
-                '        return ' + definition.getClassName() + '(' + ', '.join(argumentLines) + ')'
+                '        return ' + definition.getModuleClass().getClassName() + '(' + ', '.join(argumentLines) + ')'
             )
 
     def __stringifyArgument(self, argument):

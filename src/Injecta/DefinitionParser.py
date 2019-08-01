@@ -1,22 +1,30 @@
+from Injecta.Argument.ArgumentParser import ArgumentParser
+from Injecta.Module.ModuleClassResolver import ModuleClassResolver
 from Injecta.Definition import Definition
 from Injecta.Argument.ServiceArgument import ServiceArgument
-from Injecta.Argument.ParameterArgument import ParameterArgument
-from Injecta.Argument.ValueArgument import ValueArgument
 
 class DefinitionParser:
-    
-    def parse(self, serviceName: str, serviceDefinition):
+
+    def __init__(
+        self,
+        argumentParser: ArgumentParser,
+        moduleClassResolver: ModuleClassResolver
+    ):
+        self.__argumentParser = argumentParser
+        self.__moduleClassResolver = moduleClassResolver
+
+    def parse(self, serviceName: str, serviceDefinition: dict):
         if serviceDefinition is None:
-            return Definition(serviceName, serviceName)
+            moduleClass = self.__moduleClassResolver.resolve(serviceName)
+            return Definition(serviceName, moduleClass)
 
         arguments = self.__parseArguments(serviceDefinition)
         tags = serviceDefinition['tags'] if 'tags' in serviceDefinition else []
         classFqn = serviceDefinition['class'] if 'class' in serviceDefinition else serviceName
 
-        definition = Definition(serviceName, classFqn, arguments, tags)
+        moduleClass = self.__moduleClassResolver.resolve(classFqn)
 
-        if 'import' in serviceDefinition:
-            definition.setImport(serviceDefinition['import'])
+        definition = Definition(serviceName, moduleClass, arguments, tags)
 
         if 'autowire' in serviceDefinition:
             definition.setAutowire(serviceDefinition['autowire'] == 'True')
@@ -36,26 +44,6 @@ class DefinitionParser:
         arguments = []
 
         if 'arguments' in serviceDefinition:
-            arguments = list(map(lambda argument: self.__parseArgument(argument), serviceDefinition['arguments']))
+            arguments = list(map(lambda argument: self.__argumentParser.parse(argument), serviceDefinition['arguments']))
 
         return arguments
-
-    def __parseArgument(self, argument):
-        if isinstance(argument, str):
-            if argument[0:1] == '@':
-                return ServiceArgument(argument[1:])
-            elif argument[0:1] == '%' and argument[-1:] == '%':
-                return ParameterArgument(argument[1:-1])
-            else:
-                return ValueArgument(argument)
-        elif isinstance(argument, list):
-            return list(map(lambda argument2: self.__parseArgument(argument2), argument))
-        elif isinstance(argument, dict):
-            output = {}
-
-            for key, value in argument.items():
-                output[key] = self.__parseArgument(value)
-
-            return output
-        else:
-            raise Exception('Unexpected argument type')

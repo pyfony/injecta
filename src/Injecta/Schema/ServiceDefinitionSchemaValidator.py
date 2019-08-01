@@ -2,7 +2,7 @@ from Injecta.Schema.SchemaValidationException import SchemaValidationException
 
 class ServiceDefinitionSchemaValidator:
 
-    ALLOWED_ATTRIBUTES = ['class', 'arguments', 'tags', 'autowire', 'import', 'factory']
+    ALLOWED_ATTRIBUTES = ['class', 'arguments', 'tags', 'autowire', 'factory']
 
     def validate(self, serviceName, rawServiceDefinition):
         if self.__isBasicDefinition(rawServiceDefinition):

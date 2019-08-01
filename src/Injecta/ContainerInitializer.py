@@ -9,7 +9,7 @@ class ContainerInitializer:
         self.__containerBuilder = ContainerBuilder()
 
     def init(self, config: Box, definitions: list):
-        code = self.__containerBuilder.build(config, definitions)
+        code = self.__containerBuilder.build(definitions)
 
         tmpFile = self.__writeContainer(code)
         module = self.__importContainer(tmpFile.name)

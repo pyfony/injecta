@@ -1,34 +1,24 @@
-from Injecta.Definition import Definition
 from Injecta.Argument.ServiceArgument import ServiceArgument
 
 class ArgumentResolver:
 
-    def resolve(self, argumentName: str, argumentValue, definition: Definition, classes: dict):
-        annotation = argumentValue.annotation
+    def resolve(self, argumentName: str, moduleName: str, className: str, serviceName: str, classes: dict):
+        if className == '_empty':
+            raise Exception('Cannot resolve argument {} for service {}'.format(argumentName, serviceName))
 
-        classNameFromModule = annotation.__module__[annotation.__module__.rfind('.') + 1:]
+        if moduleName not in classes:
+            moduleNameStripped = moduleName[:moduleName.rfind('.')]
 
-        if classNameFromModule == annotation.__name__:
-            classFqn = annotation.__module__
-        else:
-            moduleStripped = annotation.__module__[:annotation.__module__.rfind('.')]
-
-            classFqn = moduleStripped + '.' + annotation.__name__
-
-        if annotation.__name__ == '_empty':
-            raise Exception('Cannot resolve argument {} for service {}'.format(argumentName, definition.getName()))
-
-        if classFqn not in classes:
-            className = classFqn[classFqn.rfind('.') + 1:]
-
-            if className in classes:
-                affectedServiceName = classes[className][0]
-                raise Exception('Setting "class: {}" for service "{}" is likely missing'.format(classFqn, affectedServiceName))
+            if moduleNameStripped in classes:
+                raise Exception('Consider changing service class from {} -> {} (invalid module)'.format(moduleNameStripped + '.' + className, moduleName + '.' + className))
             else:
-                raise Exception('Service not found for {} used in {}'.format(classFqn, definition.getName()))
+                raise Exception('Service not found for {} used in {}'.format(moduleName + '.' + className, serviceName))
 
-        if len(classes[classFqn]) > 1:
-            serviceNames = ', '.join(classes[classFqn])
-            raise Exception('Multiple services of {} defined ({}), class used in {}'.format(classFqn, serviceNames, definition.getName()))
+        if className not in classes[moduleName]:
+            raise Exception('Service not found for {} used in {}'.format(moduleName + '.' + className, serviceName))
 
-        return ServiceArgument(classes[classFqn][0])
+        if len(classes[moduleName][className]) > 1:
+            serviceNames = ', '.join(classes[moduleName][className])
+            raise Exception('Multiple services of class {} in module {} defined ({}), class used in service {}'.format(className, moduleName, serviceNames, serviceName))
+
+        return ServiceArgument(classes[moduleName][className][0])
