@@ -2,13 +2,14 @@ from box import Box
 import tempfile
 import importlib.util
 from Injecta.ContainerBuilder import ContainerBuilder
+from Injecta.ContainerInterface import ContainerInterface
 
 class ContainerInitializer:
 
     def __init__(self):
         self.__containerBuilder = ContainerBuilder()
 
-    def init(self, config: Box, definitions: list):
+    def init(self, config: Box, definitions: list) -> ContainerInterface:
         code = self.__containerBuilder.build(definitions)
 
         tmpFile = self.__writeContainer(code)
