@@ -1,4 +1,5 @@
 from box import Box
+import os
 from Injecta.ContainerInterface import ContainerInterface
 from Injecta.CodeGenerator.ServiceMethodNameTranslator import ServiceMethodNameTranslator
 from Injecta.DIService import DIService
