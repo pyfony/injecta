@@ -83,6 +83,8 @@ class PlaceholderReplacerTest(unittest.TestCase):
 
         self.assertEqual('/dev/myroot/ahoj/svete/52', result['paths']['ordersPath'])
         self.assertEqual('/project_root_path/ahoj/svete', result['paths']['projectsPath'])
+        self.assertEqual('/foo/bar', result['myList'][0])
+        self.assertEqual('/dev/myroot/ahoj/svete/52', result['myList'][1])
 
     def test_non_existing(self):
         with self.assertRaises(Exception) as cm:

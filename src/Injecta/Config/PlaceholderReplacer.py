@@ -8,29 +8,24 @@ class PlaceholderReplacer:
     __appConfigWithResolvers = {}
 
     def replace(self, appConfig: dict):
-        self.__appConfigWithResolvers = self.__resolvePlaceholders(appConfig.items())
+        self.__appConfigWithResolvers = {k: self.__resolvePlaceholders(v) for k, v in appConfig.items()}
 
-        return self.__resolveFinalValues(self.__appConfigWithResolvers.items())
+        return {k: self.__resolveFinalValues(v) for k, v in self.__appConfigWithResolvers.items()}
 
-    def __resolvePlaceholders(self, iterable):
-        output = {}
+    def __resolvePlaceholders(self, value):
+        if isinstance(value, dict):
+            return {k: self.__resolvePlaceholders(v) for k, v in value.items()}
+        elif isinstance(value, list):
+            return list(map(lambda listItem: self.__resolvePlaceholders(listItem), value))
+        elif isinstance(value, str):
+            matches = re.findall(r'%([^%]+)%', value)
 
-        for key, value in iterable:
-            if isinstance(value, dict):
-                output[key] = self.__resolvePlaceholders(value.items())
-            elif isinstance(value, list):
-                output[key] = list(map(lambda listItem: self.__resolvePlaceholders(enumerate(listItem)), value))
-            elif isinstance(value, str):
-                matches = re.findall(r'%([^%]+)%', value)
-
-                if len(matches) == 0:
-                    output[key] = value
-                else:
-                    output[key] = self.__replaceAllPlaceholders(matches, value)
+            if len(matches) == 0:
+                return value
             else:
-                output[key] = value
-
-        return output
+                return self.__replaceAllPlaceholders(matches, value)
+        else:
+            return value
 
     def __replaceAllPlaceholders(self, placeholders: list, value):
         def resolver():
@@ -73,17 +68,12 @@ class PlaceholderReplacer:
         else:
             raise Exception('Unexpected type: {}'.format(type(finalValueResolved)))
 
-    def __resolveFinalValues(self, iterable):
-        output = {}
-
-        for key, value in iterable:
-            if isinstance(value, dict):
-                output[key] = self.__resolveFinalValues(value.items())
-            elif isinstance(value, list):
-                output[key] = list(map(lambda listItem: self.__resolveFinalValues(enumerate(listItem)), value))
-            elif callable(value):
-                output[key] = value()
-            else:
-                output[key] = value
-
-        return output
+    def __resolveFinalValues(self, value):
+        if isinstance(value, dict):
+            return {k: self.__resolveFinalValues(v) for k, v in value.items()}
+        elif isinstance(value, list):
+            return list(map(lambda listItem: self.__resolveFinalValues(listItem), value))
+        elif callable(value):
+            return value()
+        else:
+            return value

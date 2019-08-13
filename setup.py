@@ -25,7 +25,7 @@ setuptools.setup(
         'pyyaml',
         'python-box'
     ],
-    version='0.3.3',
+    version='0.3.4',
     script_args=['bdist_wheel'],
 )
 
