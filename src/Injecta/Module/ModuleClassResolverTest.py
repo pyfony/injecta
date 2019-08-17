@@ -13,9 +13,9 @@ class ModuleClassResolverTest(unittest.TestCase):
         self.assertEqual('LazyLoder', moduleClass.getClassName())
 
     def test_classNameInModuleName(self):
-        moduleClass = self.__moduleClassResolver.resolve('Injecta.Definition')
+        moduleClass = self.__moduleClassResolver.resolve('Injecta.Service.Definition')
 
-        self.assertEqual('Injecta.Definition', moduleClass.getModuleName())
+        self.assertEqual('Injecta.Service.Definition', moduleClass.getModuleName())
         self.assertEqual('Definition', moduleClass.getClassName())
 
 if __name__ == '__main__':

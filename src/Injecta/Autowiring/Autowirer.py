@@ -1,5 +1,5 @@
 import inspect
-from Injecta.Definition import Definition
+from Injecta.Service.Definition import Definition
 from Injecta.Autowiring.ArgumentResolver import ArgumentResolver
 
 class Autowirer:

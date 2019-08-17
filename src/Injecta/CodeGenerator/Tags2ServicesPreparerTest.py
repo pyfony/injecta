@@ -1,7 +1,7 @@
 import unittest
 
 from Injecta.CodeGenerator.Tags2ServicesPreparer import Tags2ServicesPreparer
-from Injecta.Definition import Definition
+from Injecta.Service.Definition import Definition
 
 class LinesTransformerTest(unittest.TestCase):
 

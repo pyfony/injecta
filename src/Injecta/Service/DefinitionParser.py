@@ -1,6 +1,6 @@
 from Injecta.Argument.ArgumentParser import ArgumentParser
 from Injecta.Module.ModuleClassResolver import ModuleClassResolver
-from Injecta.Definition import Definition
+from Injecta.Service.Definition import Definition
 from Injecta.Argument.ServiceArgument import ServiceArgument
 
 class DefinitionParser:

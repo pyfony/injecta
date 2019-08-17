@@ -28,7 +28,7 @@ class Definition:
     def setAutowire(self, autowire: bool):
         self.__autowire = autowire
 
-    def getAutowire(self) -> bool: 
+    def getAutowire(self) -> bool:
         return self.__autowire
 
     def getTags(self):

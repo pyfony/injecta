@@ -1,5 +1,5 @@
 import yaml
-from Injecta.DefinitionParser import DefinitionParser
+from Injecta.Service.DefinitionParser import DefinitionParser
 from Injecta.Argument.ArgumentParser import ArgumentParser
 from Injecta.Module.ModuleClassResolver import ModuleClassResolver
 from Injecta.Schema.SchemaValidator import SchemaValidator

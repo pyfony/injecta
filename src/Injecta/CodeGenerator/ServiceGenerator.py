@@ -1,4 +1,4 @@
-from Injecta.Definition import Definition
+from Injecta.Service.Definition import Definition
 from Injecta.CodeGenerator.ObjectGenerator import ObjectGenerator
 from Injecta.CodeGenerator.ServiceMethodNameTranslator import ServiceMethodNameTranslator
 
