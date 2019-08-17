@@ -1,0 +1,4 @@
+parameters:
+  paramLevel2: 456
+  mergedParam:
+    level2: 2

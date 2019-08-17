@@ -1,0 +1,4 @@
+parameters:
+  paramLevel3: 789
+  mergedParam:
+    level3: 3

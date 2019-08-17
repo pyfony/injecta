@@ -1,5 +1,5 @@
 import unittest
-from Injecta.Config.PlaceholderReplacer import PlaceholderReplacer
+from Injecta.Parameter.PlaceholderReplacer import PlaceholderReplacer
 import os
 
 class PlaceholderReplacerTest(unittest.TestCase):

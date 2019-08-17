@@ -9,14 +9,14 @@ class ContainerInitializer:
     def __init__(self):
         self.__containerBuilder = ContainerBuilder()
 
-    def init(self, config: Box, definitions: list) -> ContainerInterface:
+    def init(self, parameters: Box, definitions: list) -> ContainerInterface:
         code = self.__containerBuilder.build(definitions)
 
         tmpFile = self.__writeContainer(code)
         module = self.__importContainer(tmpFile.name)
         tmpFile.close()
 
-        return module.Container(config)
+        return module.Container(parameters)
 
     def __writeContainer(self, code: str):
         f = tempfile.NamedTemporaryFile(prefix='di_container_', suffix='.py', delete=False)

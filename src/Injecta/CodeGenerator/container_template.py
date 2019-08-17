@@ -6,14 +6,14 @@ from Injecta.Service.DIService import DIService
 
 class Container(ContainerInterface):
 
-    def __init__(self, config: Box):
-        self.__config = config
+    def __init__(self, parameters: Box):
+        self.__parameters = parameters
         self.services = {}
         self.__serviceMethodNameTranslator = ServiceMethodNameTranslator()
         self.__tags2Services = self.__generateTags2Services()
 
     def getConfig(self) -> Box:
-        return self.__config
+        return self.__parameters
 
     def get(self, name):
         if hasattr(name, '__module__'):

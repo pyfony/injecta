@@ -1,0 +1,7 @@
+imports:
+  - sub_sub_config.yaml
+
+parameters:
+  paramLevel2: 456
+  mergedParam:
+    level2: 2

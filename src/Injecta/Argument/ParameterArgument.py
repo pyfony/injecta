@@ -10,4 +10,4 @@ class ParameterArgument(ArgumentInterface):
             envVariableName = self.__name[4:-1]
             return 'os.environ[\'{}\']'.format(envVariableName)
         else:
-            return 'self.__config.' + self.__name
+            return 'self.__parameters.' + self.__name
