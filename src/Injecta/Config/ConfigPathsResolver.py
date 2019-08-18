@@ -12,6 +12,9 @@ class ConfigPathsResolver:
         yamlConfig = self.__configLoader.load(configPath)
         configPaths = {configPath}
 
+        if yamlConfig is None:
+            return set()
+
         if 'imports' in yamlConfig:
             newConfigPaths = set()
 
