@@ -1,0 +1,7 @@
+name: injecta
+channels:
+  - defaults
+dependencies:
+  - python=3.5
+  - ca-certificates=2018.03.07=0
+  - pip
