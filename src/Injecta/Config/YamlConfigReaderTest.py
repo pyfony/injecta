@@ -1,6 +1,6 @@
 import unittest
 from Injecta.Config.YamlConfigReader import YamlConfigReader
-from Injecta.getLibRoot import getLibRoot
+from Injecta.LibRoot import getLibRoot
 
 class YamlConfigReaderTest(unittest.TestCase):
 

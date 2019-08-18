@@ -1,10 +1,15 @@
 import setuptools
 import shutil
+from pip._internal.req import parse_requirements
 
 BASE_DIR = 'src'
 
 with open('README.md', 'r', encoding='utf-8') as fh:
     long_description = fh.read()
+
+def load_requirements(fname):
+    reqs = parse_requirements(fname, session='test')
+    return [str(ir.req) for ir in reqs]
 
 setuptools.setup(
     name='injecta',
@@ -21,10 +26,7 @@ setuptools.setup(
     ],
     packages=setuptools.find_namespace_packages(where=BASE_DIR),
     package_dir={'': BASE_DIR},
-    install_requires=[
-        'pyyaml',
-        'python-box'
-    ],
+    install_requires=load_requirements('requirements.txt'),
     version='0.4.0',
     script_args=['bdist_wheel'],
 )

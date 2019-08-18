@@ -1,0 +1,16 @@
+image: python:3.5
+
+before_script:
+  - pip install -r requirements.txt
+  - pip install -r requirements_dev.txt
+
+tests:
+  stage: test
+  script:
+    - ./run-tests.sh
+
+code_analysis:
+  stage: test
+  script:
+    - ./pylint.sh
+    - ./check-crlf.sh

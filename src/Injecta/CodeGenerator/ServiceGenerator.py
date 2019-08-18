@@ -8,15 +8,15 @@ class ServiceGenerator:
         self,
         objectGenerator: ObjectGenerator,
         serviceMethodNameTranslator: ServiceMethodNameTranslator
-        ):
+    ):
         self.__objectGenerator = objectGenerator
         self.__serviceMethodNameTranslator = serviceMethodNameTranslator
-        
+
     def generate(self, definition: Definition):
         methodName = self.__serviceMethodNameTranslator.translate(definition.getName())
 
         service = (
-            '    @DIService\n'
+            '    @diService\n'
             '    def ' + methodName + '(self):\n'
             '' + self.__objectGenerator.generate(definition) + '\n'
         )

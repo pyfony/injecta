@@ -2,19 +2,21 @@ from Injecta.Schema.SchemaValidationException import SchemaValidationException
 
 class ServiceDefinitionSchemaValidator:
 
-    ALLOWED_ATTRIBUTES = ['class', 'arguments', 'tags', 'autowire', 'factory']
+    allowedAttributes = ['class', 'arguments', 'tags', 'autowire', 'factory']
 
     def validate(self, serviceName, rawServiceDefinition):
         if self.__isBasicDefinition(rawServiceDefinition):
             return
-        elif isinstance(rawServiceDefinition, list):
+
+        if isinstance(rawServiceDefinition, list):
             raise SchemaValidationException('Arguments of service "{}" must be defined in the "arguments" key'.format(serviceName))
-        elif isinstance(rawServiceDefinition, dict) is False:
+
+        if isinstance(rawServiceDefinition, dict) is False:
             raise SchemaValidationException('Service "{}" not properly defined'.format(serviceName))
 
-        unexpectedAttributes = set(rawServiceDefinition.keys()) - set(ServiceDefinitionSchemaValidator.ALLOWED_ATTRIBUTES)
+        unexpectedAttributes = set(rawServiceDefinition.keys()) - set(ServiceDefinitionSchemaValidator.allowedAttributes)
 
-        if len(unexpectedAttributes) > 0:
+        if unexpectedAttributes:
             raise SchemaValidationException('Unexpected attributes ({}) for service "{}"'.format(', '.join(unexpectedAttributes), serviceName))
 
         if 'arguments' in rawServiceDefinition:
@@ -37,8 +39,6 @@ class ServiceDefinitionSchemaValidator:
                 )
             ):
                 raise SchemaValidationException('Attribute "factory" of service "{}" must be list [factoryClass, factoryMethod]'.format(serviceName))
-
-        return True
 
     def __isBasicDefinition(self, rawServiceDefinition):
         return rawServiceDefinition is None

@@ -44,6 +44,6 @@ class DefinitionParser:
         arguments = []
 
         if 'arguments' in serviceDefinition:
-            arguments = list(map(lambda argument: self.__argumentParser.parse(argument), serviceDefinition['arguments']))
+            arguments = list(map(self.__argumentParser.parse, serviceDefinition['arguments']))
 
         return arguments

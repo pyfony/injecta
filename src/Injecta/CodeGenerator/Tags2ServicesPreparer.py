@@ -1,10 +1,10 @@
 class Tags2ServicesPreparer:
-    
+
     def prepare(self, definitions: list):
         tags2Services = {}
 
         for definition in definitions:
-            if definition.hasTags() == False:
+            if definition.hasTags() is False:
                 continue
 
             for tag in definition.getTags():

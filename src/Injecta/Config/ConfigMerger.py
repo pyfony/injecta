@@ -2,7 +2,9 @@ class ConfigMerger:
 
     def merge(self, a, b, path=None):
         "merges b into a"
-        if path is None: path = []
+        if path is None:
+            path = []
+
         for key in b:
             if key in a:
                 if isinstance(a[key], dict) and isinstance(b[key], dict):

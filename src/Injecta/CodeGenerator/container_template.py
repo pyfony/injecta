@@ -1,8 +1,9 @@
+#pylint: disable = invalid-name, no-member, unused-import, unused-import
 from box import Box
 import os
 from Injecta.ContainerInterface import ContainerInterface
 from Injecta.CodeGenerator.ServiceMethodNameTranslator import ServiceMethodNameTranslator
-from Injecta.Service.DIService import DIService
+from Injecta.Service.DiService import diService
 
 class Container(ContainerInterface):
 
@@ -30,4 +31,4 @@ class Container(ContainerInterface):
 
         serviceNames = self.__tags2Services[tag]
 
-        return list(map(lambda serviceName: self.get(serviceName), serviceNames))
+        return list(map(self.get, serviceNames))

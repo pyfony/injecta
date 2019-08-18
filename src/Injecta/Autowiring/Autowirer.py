@@ -8,7 +8,7 @@ class Autowirer:
         self.__argumentResolver = argumentResolver
 
     def autowire(self, definition: Definition, classes: dict):
-        if definition.getAutowire() == False:
+        if definition.getAutowire() is False:
             return definition
 
         classDefinition = getattr(definition.getModuleClass().getModule(), definition.getModuleClass().getClassName())

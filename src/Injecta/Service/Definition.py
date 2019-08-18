@@ -4,7 +4,7 @@ from Injecta.Module.ModuleClass import ModuleClass
 # see https://github.com/symfony/dependency-injection/blob/master/Definition.php
 class Definition:
 
-    def __init__(self, name: str, moduleClass: ModuleClass, arguments: list = [], tags: list = []):
+    def __init__(self, name: str, moduleClass: ModuleClass, arguments: list = None, tags: list = None):
         self.__name = name
         self.__moduleClass = moduleClass
         self.__arguments = arguments or []

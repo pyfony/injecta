@@ -15,17 +15,19 @@ class PlaceholderReplacer:
     def __resolvePlaceholders(self, value):
         if isinstance(value, dict):
             return {k: self.__resolvePlaceholders(v) for k, v in value.items()}
-        elif isinstance(value, list):
-            return list(map(lambda listItem: self.__resolvePlaceholders(listItem), value))
-        elif isinstance(value, str):
+
+        if isinstance(value, list):
+            return list(map(self.__resolvePlaceholders, value))
+
+        if isinstance(value, str):
             matches = re.findall(r'%([^%]+)%', value)
 
-            if len(matches) == 0:
+            if not matches:
                 return value
-            else:
-                return self.__replaceAllPlaceholders(matches, value)
-        else:
-            return value
+
+            return self.__replaceAllPlaceholders(matches, value)
+
+        return value
 
     def __replaceAllPlaceholders(self, placeholders: list, value):
         def resolver():
@@ -55,25 +57,29 @@ class PlaceholderReplacer:
     def __replacePlaceholder(self, output, placeholder: str, finalValueResolved):
         if isinstance(finalValueResolved, str):
             return output.replace('%{}%'.format(placeholder), finalValueResolved)
-        elif isinstance(finalValueResolved, int):
+
+        if isinstance(finalValueResolved, int):
             if output == ('%' + placeholder + '%'):
                 return finalValueResolved
-            else:
-                return output.replace('%{}%'.format(placeholder), str(finalValueResolved))
-        elif isinstance(finalValueResolved, bool):
-            if output == ('%' + placeholder + '%'):
-                return finalValueResolved
-            else:
+
+            return output.replace('%{}%'.format(placeholder), str(finalValueResolved))
+
+        if isinstance(finalValueResolved, bool):
+            if output != ('%' + placeholder + '%'):
                 raise Exception('Merging boolean parameters with other variable types is not allowed')
-        else:
-            raise Exception('Unexpected type: {}'.format(type(finalValueResolved)))
+
+            return finalValueResolved
+
+        raise Exception('Unexpected type: {}'.format(type(finalValueResolved)))
 
     def __resolveFinalValues(self, value):
         if isinstance(value, dict):
             return {k: self.__resolveFinalValues(v) for k, v in value.items()}
-        elif isinstance(value, list):
-            return list(map(lambda listItem: self.__resolveFinalValues(listItem), value))
-        elif callable(value):
+
+        if isinstance(value, list):
+            return list(map(self.__resolveFinalValues, value))
+
+        if callable(value):
             return value()
-        else:
-            return value
+
+        return value

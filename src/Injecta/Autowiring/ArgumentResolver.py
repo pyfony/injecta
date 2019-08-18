@@ -11,8 +11,8 @@ class ArgumentResolver:
 
             if moduleNameStripped in classes:
                 raise Exception('Consider changing service class from {} -> {} (invalid module)'.format(moduleNameStripped + '.' + className, moduleName + '.' + className))
-            else:
-                raise Exception('Service not found for {} used in {}'.format(moduleName + '.' + className, serviceName))
+
+            raise Exception('Service not found for {} used in {}'.format(moduleName + '.' + className, serviceName))
 
         if className not in classes[moduleName]:
             raise Exception('Service not found for {} used in {}'.format(moduleName + '.' + className, serviceName))

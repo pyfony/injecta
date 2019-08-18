@@ -1,4 +1,3 @@
-from box import Box
 from Injecta.Autowiring.Autowirer import Autowirer
 from Injecta.Autowiring.ArgumentResolver import ArgumentResolver
 from Injecta.CodeGenerator.ContainerGenerator import ContainerGenerator
