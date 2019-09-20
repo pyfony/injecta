@@ -1,5 +1,4 @@
 from Injecta.Argument.ServiceArgument import ServiceArgument
-from Injecta.Argument.ParameterArgument import ParameterArgument
 from Injecta.Argument.ValueArgument import ValueArgument
 
 class ArgumentParser:
@@ -8,9 +7,6 @@ class ArgumentParser:
         if isinstance(argument, str):
             if argument[0:1] == '@':
                 return ServiceArgument(argument[1:])
-
-            if argument[0:1] == '%' and argument[-1:] == '%':
-                return ParameterArgument(argument[1:-1])
 
             return ValueArgument(argument)
 

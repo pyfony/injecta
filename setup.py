@@ -27,7 +27,7 @@ setuptools.setup(
     packages=setuptools.find_namespace_packages(where=BASE_DIR),
     package_dir={'': BASE_DIR},
     install_requires=load_requirements('requirements.txt'),
-    version='0.4.1',
+    version='0.4.2',
     script_args=['bdist_wheel'],
 )
 
