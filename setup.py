@@ -1,15 +1,14 @@
 import setuptools
 import shutil
-from pip._internal.req import parse_requirements
 
 BASE_DIR = 'src'
 
 with open('README.md', 'r', encoding='utf-8') as fh:
     long_description = fh.read()
 
-def load_requirements(fname):
-    reqs = parse_requirements(fname, session='test')
-    return [str(ir.req) for ir in reqs]
+def loadRequirements(fname: str):
+    with open(fname) as f:
+        return f.read().strip().split('\n')
 
 setuptools.setup(
     name='injecta',
@@ -26,7 +25,7 @@ setuptools.setup(
     ],
     packages=setuptools.find_namespace_packages(where=BASE_DIR),
     package_dir={'': BASE_DIR},
-    install_requires=load_requirements('requirements.txt'),
+    install_requires=loadRequirements('requirements.txt'),
     version='0.4.2',
     script_args=['bdist_wheel'],
 )
