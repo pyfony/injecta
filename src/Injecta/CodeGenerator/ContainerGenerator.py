@@ -1,7 +1,9 @@
 import json
+from typing import List
 from Injecta.CodeGenerator.ServiceGenerator import ServiceGenerator
 from Injecta.CodeGenerator.Tags2ServicesPreparer import Tags2ServicesPreparer
 from Injecta.LibRoot import getLibRoot
+from Injecta.Service import Definition
 
 class ContainerGenerator:
 
@@ -12,7 +14,7 @@ class ContainerGenerator:
         self.__serviceGenerator = serviceGenerator
         self.__tags2ServicesPreparer = tags2ServicesPreparer
 
-    def generate(self, definitions: list):
+    def generate(self, definitions: List[Definition]):
         path = getLibRoot() + '/CodeGenerator/container_template.py'
 
         with open(path, 'r', encoding='utf-8') as f:

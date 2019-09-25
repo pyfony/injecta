@@ -1,8 +1,9 @@
+from typing import List
 from Injecta.Service.Definition import Definition
 
 class ClassListBuilder:
 
-    def buildClassList(self, definitions: list):
+    def buildClassList(self, definitions: List[Definition]):
         classes = {}
 
         for definition in definitions: # type: Definition

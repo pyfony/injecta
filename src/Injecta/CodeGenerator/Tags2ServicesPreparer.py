@@ -1,6 +1,9 @@
+from typing import List
+from Injecta.Service.Definition import Definition
+
 class Tags2ServicesPreparer:
 
-    def prepare(self, definitions: list):
+    def prepare(self, definitions: List[Definition]):
         tags2Services = {}
 
         for definition in definitions:
