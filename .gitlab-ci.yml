@@ -1,13 +1,17 @@
 image: python:3.5
 
 before_script:
-  - pip install -r requirements.txt
-  - pip install -r requirements_dev.txt
+  - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py --silent -o get-poetry.py
+  - python get-poetry.py -y --version 1.0.0b3
+  - ln -s ~/.poetry/bin/poetry /usr/bin/poetry
+  - poetry config virtualenvs.create false
+  - poetry install --no-root
+  - export PYTHONPATH="$PWD/src"
 
 tests:
   stage: test
   script:
-    - ./run-tests.sh
+    - ./run_tests.sh
 
 code_analysis:
   stage: test

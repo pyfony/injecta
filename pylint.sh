@@ -1,9 +1,6 @@
 #!/bin/bash
 set -e
 
-PATH=$PWD/.venv/Scripts:$PATH
-export PYTHONPATH="$PWD/src"
-
 find src/Injecta -iname "*.py" -not -name "*Test.py" | xargs pylint --rcfile=.pylintrc \
 --ignored-modules=pyspark.sql.functions \
 --extension-pkg-whitelist=pyspark \

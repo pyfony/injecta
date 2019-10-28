@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRC_FILES_CRLF=`find src -not -type d -exec file "{}" ";" | grep CRLF`
-ROOT_FILES_CRLF=`find . -maxdepth 1 -not -type d -exec file "{}" ";" | grep CRLF`
+ROOT_FILES_CRLF=`find . -maxdepth 1 -not -type d -and -not -name "poetry.lock" -exec file "{}" ";" | grep CRLF`
 
 if [ ! -z "$SRC_FILES_CRLF" ] || [ ! -z "$ROOT_FILES_CRLF" ]; then
   echo "The following files contain CRLF line endings:"
