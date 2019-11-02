@@ -1,7 +1,6 @@
-#!/bin/bash
-set -e
+#!/bin/bash -e
 
-find src/Injecta -iname "*.py" -not -name "*Test.py" | xargs pylint --rcfile=.pylintrc \
+find src -iname "*.py" -not -name "*Test.py" | xargs pylint --rcfile=.pylintrc \
 --ignored-modules=pyspark.sql.functions \
 --extension-pkg-whitelist=pyspark \
 --generated-members=pyspark.* \
