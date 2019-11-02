@@ -1,5 +1,3 @@
-#!/bin/bash
-shopt -s globstar
-set -e
+#!/bin/bash -e
 
-for x in **/*Test.py; do printf "\nRunning $x:\n\n" && python "$x"; done
+find src -name "*Test.py" | xargs -n1 /bin/bash -c 'echo ""; echo "Running $@:"; echo ""; echo ""; python "$@";' ''
