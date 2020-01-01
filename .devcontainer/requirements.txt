@@ -1,9 +1,0 @@
-pylint
-pytest
-pyyaml
-rope
-python-box
-setuptools
-wheel
-tqdm
-twine
