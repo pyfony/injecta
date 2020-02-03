@@ -9,11 +9,11 @@ class Bundle:
     def getCompilerPasses(self) -> List[CompilerPassInterface]:
         return []
 
-    def modifyDefinitions(self, definitions: List[Definition]):
-        return definitions
-
     def modifyRawConfig(self, rawConfig: dict) -> dict:
         return rawConfig
+
+    def modifyDefinitions(self, definitions: List[Definition]):
+        return definitions
 
     def modifyParameters(self, parameters: Box) -> Box:
         return parameters

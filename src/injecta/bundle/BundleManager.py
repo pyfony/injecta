@@ -17,17 +17,17 @@ class BundleManager:
 
         return compilerPasses
 
-    def modifyDefinitions(self, definitions: List[Definition]):
-        for bundle in self.__bundles:
-            definitions = bundle.modifyDefinitions(definitions)
-
-        return definitions
-
     def modifyRawConfig(self, rawConfig: dict) -> dict:
         for bundle in self.__bundles:
             rawConfig = bundle.modifyRawConfig(rawConfig)
 
         return rawConfig
+
+    def modifyDefinitions(self, definitions: List[Definition]):
+        for bundle in self.__bundles:
+            definitions = bundle.modifyDefinitions(definitions)
+
+        return definitions
 
     def modifyParameters(self, parameters: Box) -> Box:
         for bundle in self.__bundles:
