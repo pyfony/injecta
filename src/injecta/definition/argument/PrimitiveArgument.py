@@ -15,7 +15,7 @@ class PrimitiveArgument(ArgumentInterface):
         if isinstance(self.__value, bool):
             return 'True' if self.__value is True else 'False'
 
-        return self.__value
+        return str(self.__value)
 
     def checkTypeMatchesDefinition(self, constructorArgument: ConstructorArgument, services2Classes: dict):
         dtype = constructorArgument.dtype

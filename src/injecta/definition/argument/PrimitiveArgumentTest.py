@@ -12,12 +12,17 @@ class PrimitiveArgumentTest(unittest.TestCase):
     def test_number(self):
         argument = PrimitiveArgument(123456)
 
-        self.assertEqual(123456, argument.getStringValue())
+        self.assertEqual('123456', argument.getStringValue())
 
     def test_bool(self):
         argument = PrimitiveArgument(True)
 
         self.assertEqual('True', argument.getStringValue())
+
+    def test_none(self):
+        argument = PrimitiveArgument(None)
+
+        self.assertEqual('None', argument.getStringValue())
 
     def test_envPlaceholderOnly(self):
         argument = PrimitiveArgument('%env(APP_ENV)%')
