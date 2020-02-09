@@ -37,15 +37,18 @@ class PlaceholderReplacerTest(unittest.TestCase):
             'typedValues': {
                 'number': 123456,
                 'bool': True,
+                'none': None,
             },
             'referencedTypedValues': {
                 'number': '%typedValues.number%',
                 'bool': '%typedValues.bool%',
+                'none': '%typedValues.none%',
             },
         })
 
         self.assertEqual(123456, result['referencedTypedValues']['number'])
         self.assertEqual(True, result['referencedTypedValues']['bool'])
+        self.assertEqual(None, result['referencedTypedValues']['none'])
 
     def test_envVariables(self):
         os.environ['LEVEL_1'] = '1'

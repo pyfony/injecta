@@ -70,7 +70,13 @@ class PlaceholderReplacer:
 
             return finalValueResolved
 
-        raise Exception('Unexpected type: {}'.format(type(finalValueResolved)))
+        if finalValueResolved is None:
+            if output != ('%' + placeholder + '%'):
+                raise Exception('Merging None values with other variable types is not allowed')
+
+            return finalValueResolved
+
+        raise Exception('Unexpected type: {} for {}'.format(type(finalValueResolved), placeholder))
 
     def __resolveFinalValues(self, value):
         if isinstance(value, dict):
