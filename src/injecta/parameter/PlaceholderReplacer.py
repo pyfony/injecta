@@ -20,7 +20,7 @@ class PlaceholderReplacer:
             return list(map(self.__resolvePlaceholders, value))
 
         if isinstance(value, str):
-            matches = re.findall(r'%([^%]+)%', value)
+            matches = re.findall(r'%([a-zA-Z0-9_.()-]+)%', value)
 
             if not matches:
                 return value
