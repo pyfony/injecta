@@ -13,7 +13,7 @@ class ImportDefinitionResolver:
             if 'include' not in importDefinition['search']:
                 raise Exception('Missing the "include" keyword under "search" main keyword')
 
-            basePathGlob = set(baseDir.glob('*.*'))
+            basePathGlob = set(baseDir.glob('./**/*.*'))
             allConfigsGlob = set(map(lambda path: path.resolve(), baseDir.glob(importDefinition['search']['include'])))
 
             return set(allConfigsGlob - basePathGlob)
