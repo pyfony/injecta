@@ -36,9 +36,10 @@ class ContainerBuilder:
         self.__parametersParser = ParametersParser()
         self.__tag2DefinitionsPreparer = Tag2DefinitionsPreparer()
 
-    def build(self, rawConfig: dict, bundles: List[Bundle], appEnv: str, configPath: str) -> ContainerBuild:
+    def build(self, appRawConfig: dict, bundles: List[Bundle], appEnv: str, configPath: str) -> ContainerBuild:
         bundleManager = BundleManager([InjectaBundle()] + bundles)
 
+        rawConfig = bundleManager.mergeRawConfig(appRawConfig)
         rawConfig = bundleManager.modifyRawConfig(rawConfig)
 
         definitions = self.__definitionsPreparer.prepare(rawConfig['services'])

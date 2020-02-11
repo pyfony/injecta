@@ -9,6 +9,9 @@ class Bundle:
     def getCompilerPasses(self) -> List[CompilerPassInterface]:
         return []
 
+    def getConfigFiles(self):
+        return []
+
     def modifyRawConfig(self, rawConfig: dict) -> dict:
         return rawConfig
 
