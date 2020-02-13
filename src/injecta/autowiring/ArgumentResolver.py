@@ -1,5 +1,5 @@
 from injecta.service.class_.ConstructorArgument import ConstructorArgument
-from injecta.definition.argument.ServiceArgument import ServiceArgument
+from injecta.service.argument.ServiceArgument import ServiceArgument
 
 class ArgumentResolver:
 

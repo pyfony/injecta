@@ -1,4 +1,4 @@
-from injecta.definition.argument.ArgumentInterface import ArgumentInterface
+from injecta.service.argument.ArgumentInterface import ArgumentInterface
 from injecta.service.class_.ConstructorArgument import ConstructorArgument
 
 class TaggedServicesArgument(ArgumentInterface):

@@ -1,9 +1,9 @@
-from injecta.definition.argument.DictArgument import DictArgument
-from injecta.definition.argument.ListArgument import ListArgument
-from injecta.definition.argument.ServiceArgument import ServiceArgument
-from injecta.definition.argument.PrimitiveArgument import PrimitiveArgument
+from injecta.service.argument.DictArgument import DictArgument
+from injecta.service.argument.ListArgument import ListArgument
+from injecta.service.argument.ServiceArgument import ServiceArgument
+from injecta.service.argument.PrimitiveArgument import PrimitiveArgument
 from injecta.config.ConfigLoader import TaggedServices
-from injecta.definition.argument.TaggedServicesArgument import TaggedServicesArgument
+from injecta.service.argument.TaggedServicesArgument import TaggedServicesArgument
 
 class ArgumentParser:
 

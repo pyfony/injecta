@@ -1,6 +1,6 @@
-from injecta.service.Service import Service
+from injecta.service.resolved.ResolvedService import ResolvedService
 from injecta.service.ServiceValidator import ServiceValidator
-from injecta.definition.Definition import Definition
+from injecta.service.Service import Service
 from injecta.service.class_.ConstructorArgumentsResolver import ConstructorArgumentsResolver
 
 class ServiceResolver:
@@ -9,15 +9,15 @@ class ServiceResolver:
         self.__constructorArgumentsResolver = ConstructorArgumentsResolver()
         self.__serviceValidator = ServiceValidator()
 
-    def resolve(self, definition: Definition, services2Classes: dict) -> Service:
-        constructorArguments = self.__constructorArgumentsResolver.resolve(definition.class_)
+    def resolve(self, service: Service, services2Classes: dict) -> ResolvedService:
+        constructorArguments = self.__constructorArgumentsResolver.resolve(service.class_)
 
-        if definition.usesFactory() is False:
+        if service.usesFactory() is False:
             self.__serviceValidator.validate(
-                definition.name,
-                definition.arguments,
+                service.name,
+                service.arguments,
                 constructorArguments,
                 services2Classes
             )
 
-        return Service(definition, constructorArguments)
+        return ResolvedService(service, constructorArguments)

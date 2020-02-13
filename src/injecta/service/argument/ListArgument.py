@@ -1,7 +1,7 @@
 from typing import List
 from injecta.service.ServiceValidatorException import ServiceValidatorException
 from injecta.dtype.ListType import ListType as ListTypeInjecta
-from injecta.definition.argument.ArgumentInterface import ArgumentInterface
+from injecta.service.argument.ArgumentInterface import ArgumentInterface
 from injecta.service.class_.ConstructorArgument import ConstructorArgument
 
 class ListArgument(ArgumentInterface):

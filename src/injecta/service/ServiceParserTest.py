@@ -1,20 +1,20 @@
 import unittest
-from injecta.definition.Definition import Definition
-from injecta.definition.DefinitionParser import DefinitionParser
-from injecta.definition.DTypeResolver import DTypeResolver
-from injecta.definition.argument.ArgumentParser import ArgumentParser
-from injecta.definition.argument.PrimitiveArgument import PrimitiveArgument
-from injecta.definition.argument.ServiceArgument import ServiceArgument
+from injecta.service.Service import Service
+from injecta.service.ServiceParser import ServiceParser
+from injecta.service.DTypeResolver import DTypeResolver
+from injecta.service.argument.ArgumentParser import ArgumentParser
+from injecta.service.argument.PrimitiveArgument import PrimitiveArgument
+from injecta.service.argument.ServiceArgument import ServiceArgument
 from injecta.dtype.DType import DType
 
-class DefinitionParserTest(unittest.TestCase):
+class ServiceParserTest(unittest.TestCase):
 
     def setUp(self):
-        self.__definitionParser = DefinitionParser(ArgumentParser(), DTypeResolver())
+        self.__serviceParser = ServiceParser(ArgumentParser(), DTypeResolver())
 
     def test_serviceWithNoArgs(self):
-        result = self.__definitionParser.parse('injecta.api.ApiClient.ApiClient', None)
-        expected = Definition(
+        result = self.__serviceParser.parse('injecta.api.ApiClient.ApiClient', None)
+        expected = Service(
             'injecta.api.ApiClient.ApiClient',
             DType('injecta.api.ApiClient', 'ApiClient')
         )
@@ -22,7 +22,7 @@ class DefinitionParserTest(unittest.TestCase):
         self.assertEqual(expected, result)
 
     def test_basic(self):
-        result = self.__definitionParser.parse('injecta.api.ApiClient_test', {
+        result = self.__serviceParser.parse('injecta.api.ApiClient_test', {
             'class': 'injecta.api.ApiClient.ApiClient',
             'autowire': True,
             'arguments': [
@@ -32,7 +32,7 @@ class DefinitionParserTest(unittest.TestCase):
                 '@injecta.api.Connector'
             ]
         })
-        expected = Definition(
+        expected = Service(
             'injecta.api.ApiClient_test',
             DType('injecta.api.ApiClient', 'ApiClient'),
             [
@@ -47,13 +47,13 @@ class DefinitionParserTest(unittest.TestCase):
         self.assertEqual(expected, result)
 
     def test_factory(self):
-        result = self.__definitionParser.parse('injecta.api.ApiClient', {
+        result = self.__serviceParser.parse('injecta.api.ApiClient', {
             'factory': ['@injecta.api.ApiClientFactory.ApiClientFactory', 'create'],
             'arguments': [
                 'Jirka',
             ]
         })
-        expected = Definition(
+        expected = Service(
             'injecta.api.ApiClient',
             DType('injecta.api', 'ApiClient'),
             [

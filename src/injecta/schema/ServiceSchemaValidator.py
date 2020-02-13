@@ -1,6 +1,6 @@
 from injecta.schema.SchemaValidationException import SchemaValidationException
 
-class ServiceDefinitionSchemaValidator:
+class ServiceSchemaValidator:
 
     allowedAttributes = ['class', 'arguments', 'tags', 'autowire', 'factory']
 
@@ -14,7 +14,7 @@ class ServiceDefinitionSchemaValidator:
         if isinstance(rawServiceDefinition, dict) is False:
             raise SchemaValidationException('service "{}" not properly defined'.format(serviceName))
 
-        unexpectedAttributes = set(rawServiceDefinition.keys()) - set(ServiceDefinitionSchemaValidator.allowedAttributes)
+        unexpectedAttributes = set(rawServiceDefinition.keys()) - set(ServiceSchemaValidator.allowedAttributes)
 
         if unexpectedAttributes:
             raise SchemaValidationException('Unexpected attributes ({}) for service "{}"'.format(', '.join(unexpectedAttributes), serviceName))

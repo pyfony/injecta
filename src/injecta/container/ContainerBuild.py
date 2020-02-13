@@ -1,35 +1,35 @@
 from typing import List, Dict, Any
 from box import Box
-from injecta.definition.Definition import Definition
 from injecta.service.Service import Service
+from injecta.service.resolved.ResolvedService import ResolvedService
 
 class ContainerBuild:
 
     def __init__(
         self,
         parameters: Dict[Any, Box],
-        services: List[Service],
+        resolvedServices: List[ResolvedService],
         classes2Services: dict,
-        tag2Definitions: Dict[str, List[Definition]],
+        tag2Services: Dict[str, List[Service]],
         appEnv: str
     ):
         self.__parameters = parameters
-        self.__services = services
+        self.__resolvedServices = resolvedServices
         self.__classes2Services = classes2Services
-        self.__tag2Definitions = tag2Definitions
+        self.__tag2Services = tag2Services
         self.__appEnv = appEnv
 
     @property
-    def services(self) -> List[Service]:
-        return self.__services
+    def resolvedServices(self) -> List[ResolvedService]:
+        return self.__resolvedServices
 
     @property
     def parameters(self) -> Dict[Any, Box]:
         return self.__parameters
 
     @property
-    def definitions(self) -> List[Definition]:
-        return list(map(lambda service: service.definition, self.__services))
+    def services(self) -> List[Service]:
+        return list(map(lambda resolvedService: resolvedService.service, self.__resolvedServices))
 
     @property
     def classes2Services(self):
@@ -39,8 +39,8 @@ class ContainerBuild:
     def appEnv(self) -> str:
         return self.__appEnv
 
-    def getServicesByTag(self, tagName) -> List[Definition]:
-        if tagName not in self.__tag2Definitions:
+    def getServicesByTag(self, tagName) -> List[Service]:
+        if tagName not in self.__tag2Services:
             return []
 
-        return self.__tag2Definitions[tagName]
+        return self.__tag2Services[tagName]

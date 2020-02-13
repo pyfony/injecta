@@ -1,4 +1,4 @@
-from injecta.definition.Definition import Definition
+from injecta.service.Service import Service
 from injecta.generator.ObjectGenerator import ObjectGenerator
 from injecta.generator.ServiceMethodNameTranslator import ServiceMethodNameTranslator
 
@@ -12,13 +12,13 @@ class ServiceGenerator:
         self.__objectGenerator = objectGenerator
         self.__serviceMethodNameTranslator = serviceMethodNameTranslator
 
-    def generate(self, definition: Definition):
-        methodName = self.__serviceMethodNameTranslator.translate(definition.name)
+    def generate(self, service: Service):
+        methodName = self.__serviceMethodNameTranslator.translate(service.name)
 
         serviceMethodCode = (
             '    @diService\n'
             '    def ' + methodName + '(self):\n'
-            '' + self.__objectGenerator.generate(definition) + '\n'
+            '' + self.__objectGenerator.generate(service) + '\n'
         )
 
         return serviceMethodCode

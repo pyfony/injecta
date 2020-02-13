@@ -1,11 +1,11 @@
 import unittest
-from injecta.schema.ServiceDefinitionSchemaValidator import ServiceDefinitionSchemaValidator
+from injecta.schema.ServiceSchemaValidator import ServiceSchemaValidator
 from injecta.schema.SchemaValidationException import SchemaValidationException
 
-class ServiceDefinitionSchemaValidatorTest(unittest.TestCase):
+class ServiceSchemaValidatorTest(unittest.TestCase):
 
     def setUp(self):
-        self.__schemaValidator = ServiceDefinitionSchemaValidator()
+        self.__schemaValidator = ServiceSchemaValidator()
 
     def test_basic(self):
         self.__schemaValidator.validate('Foo.Bar', None)

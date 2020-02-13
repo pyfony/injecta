@@ -1,5 +1,5 @@
 from typing import List
-from injecta.definition.argument.ArgumentInterface import ArgumentInterface
+from injecta.service.argument.ArgumentInterface import ArgumentInterface
 from injecta.autowiring.ArgumentResolver import ArgumentResolver
 from injecta.service.class_.ConstructorArgument import ConstructorArgument
 

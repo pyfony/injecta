@@ -1,14 +1,14 @@
 from typing import List
-from injecta.service.Service import Definition
+from injecta.service.Service import Service
 
 class Classes2ServicesBuilder:
 
-    def build(self, definitions: List[Definition]):
+    def build(self, services: List[Service]):
         classes = {}
 
-        for definition in definitions:
-            moduleName = definition.class_.moduleName
-            className = definition.class_.className
+        for service in services:
+            moduleName = service.class_.moduleName
+            className = service.class_.className
 
             if moduleName not in classes:
                 classes[moduleName] = {}
@@ -16,6 +16,6 @@ class Classes2ServicesBuilder:
             if className not in classes[moduleName]:
                 classes[moduleName][className] = []
 
-            classes[moduleName][className].append(definition.name)
+            classes[moduleName][className].append(service.name)
 
         return classes

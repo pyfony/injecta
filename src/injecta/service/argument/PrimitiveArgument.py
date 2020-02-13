@@ -1,5 +1,5 @@
 import re
-from injecta.definition.argument.ArgumentInterface import ArgumentInterface
+from injecta.service.argument.ArgumentInterface import ArgumentInterface
 from injecta.service.ServiceValidatorException import ServiceValidatorException
 from injecta.service.class_.ConstructorArgument import ConstructorArgument
 

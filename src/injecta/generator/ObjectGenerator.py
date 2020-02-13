@@ -1,17 +1,17 @@
-from injecta.definition.Definition import Definition
+from injecta.service.Service import Service
 
 class ObjectGenerator:
 
-    def generate(self, definition: Definition):
-        argumentLines = list(map(lambda argument: argument.getStringValue(), definition.arguments))
+    def generate(self, service: Service):
+        argumentLines = list(map(lambda argument: argument.getStringValue(), service.arguments))
 
-        if definition.factoryService is not None:
+        if service.factoryService is not None:
             return (
-                '        return ' + definition.factoryService.getStringValue() + '.' + definition.factoryMethod + '(' + ', '.join(argumentLines) + ')'
+                '        return ' + service.factoryService.getStringValue() + '.' + service.factoryMethod + '(' + ', '.join(argumentLines) + ')'
             )
 
         return (
-            '        from ' + definition.class_.moduleName + ' import ' + definition.class_.className + '\n'
+            '        from ' + service.class_.moduleName + ' import ' + service.class_.className + '\n'
             '\n'
-            '        return ' + definition.class_.className + '(' + ', '.join(argumentLines) + ')'
+            '        return ' + service.class_.className + '(' + ', '.join(argumentLines) + ')'
         )

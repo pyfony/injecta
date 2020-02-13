@@ -18,7 +18,7 @@ class ConfigLoader:
             raise Exception('{} does not exist'.format(configPath))
 
         with configPath.open('r', encoding='utf-8') as f:
-            yamlDefinitionsString = f.read()
+            yamlConfigString = f.read()
             f.close()
 
-        return yaml.safe_load(yamlDefinitionsString)
+        return yaml.safe_load(yamlConfigString)

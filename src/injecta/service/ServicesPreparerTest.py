@@ -1,20 +1,20 @@
 import unittest
-from injecta.definition.DefinitionParser import DefinitionParser
-from injecta.definition.DefinitionsPreparer import DefinitionsPreparer
-from injecta.definition.DTypeResolver import DTypeResolver
-from injecta.definition.argument.ArgumentParser import ArgumentParser
+from injecta.service.ServiceParser import ServiceParser
+from injecta.service.ServicesPreparer import ServicesPreparer
+from injecta.service.DTypeResolver import DTypeResolver
+from injecta.service.argument.ArgumentParser import ArgumentParser
 from injecta.schema.SchemaValidator import SchemaValidator
 from injecta.dtype.DType import DType
-from injecta.definition.argument.PrimitiveArgument import PrimitiveArgument
-from injecta.definition.argument.ServiceArgument import ServiceArgument
-from injecta.definition.Definition import Definition
+from injecta.service.argument.PrimitiveArgument import PrimitiveArgument
+from injecta.service.argument.ServiceArgument import ServiceArgument
+from injecta.service.Service import Service
 
-class DefinitionsPreparerTest(unittest.TestCase):
+class ServicesPreparerTest(unittest.TestCase):
 
     def setUp(self):
-        self.__definitionsPreparer = DefinitionsPreparer(
+        self.__servicesPreparer = ServicesPreparer(
             SchemaValidator(),
-            DefinitionParser(
+            ServiceParser(
                 ArgumentParser(),
                 DTypeResolver(),
             )
@@ -34,7 +34,7 @@ class DefinitionsPreparerTest(unittest.TestCase):
             },
         }
 
-        expectedDefinition1 = Definition(
+        expectedService1 = Service(
             'injecta.mocks.Bar.Bar',
             DType('injecta.mocks.Bar', 'Bar'),
             [
@@ -42,7 +42,7 @@ class DefinitionsPreparerTest(unittest.TestCase):
             ]
         )
 
-        expectedDefinition2 = Definition(
+        expectedService2 = Service(
             'injecta.mocks.Foo.Foo',
             DType('injecta.mocks.Foo', 'Foo'),
             [
@@ -50,10 +50,10 @@ class DefinitionsPreparerTest(unittest.TestCase):
             ]
         )
 
-        result = self.__definitionsPreparer.prepare(rawServices)
+        result = self.__servicesPreparer.prepare(rawServices)
 
-        self.assertEqual(expectedDefinition1, result[0])
-        self.assertEqual(expectedDefinition2, result[1])
+        self.assertEqual(expectedService1, result[0])
+        self.assertEqual(expectedService2, result[1])
 
 if __name__ == '__main__':
     unittest.main()

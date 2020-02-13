@@ -1,6 +1,6 @@
 import unittest
 
-from injecta.definition.argument.PrimitiveArgument import PrimitiveArgument
+from injecta.service.argument.PrimitiveArgument import PrimitiveArgument
 
 class PrimitiveArgumentTest(unittest.TestCase):
 

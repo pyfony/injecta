@@ -1,8 +1,8 @@
 import unittest
 
-from injecta.definition.argument.ServiceArgument import ServiceArgument
+from injecta.service.argument.ServiceArgument import ServiceArgument
 from injecta.dtype.DType import DType
-from injecta.definition.argument.PrimitiveArgument import PrimitiveArgument
+from injecta.service.argument.PrimitiveArgument import PrimitiveArgument
 from injecta.service.ServiceValidator import ServiceValidator
 from injecta.service.class_.ConstructorArgumentsResolver import ConstructorArgumentsResolver
 
