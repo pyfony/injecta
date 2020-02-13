@@ -1,9 +1,17 @@
 from pathlib import Path
+from injecta.package.pathResolver import resolvePath
 
 class ImportDefinitionResolver:
 
     def resolve(self, importDefinition, baseDir: Path) -> set:
         if isinstance(importDefinition, str):
+            if importDefinition[0:1] == '@':
+                firstSlashPosition = importDefinition.find('/')
+                rootModuleName = importDefinition[1:firstSlashPosition]
+                rootModulePath = resolvePath(rootModuleName)
+
+                return {Path(rootModulePath + importDefinition[firstSlashPosition:])}
+
             return {baseDir.joinpath(importDefinition).resolve()}
 
         if isinstance(importDefinition, dict):
