@@ -64,9 +64,9 @@ class PlaceholderReplacer:
 
             return output.replace('%{}%'.format(placeholder), str(finalValueResolved))
 
-        if isinstance(finalValueResolved, bool):
+        if isinstance(finalValueResolved, (bool, dict, list)):
             if output != ('%' + placeholder + '%'):
-                raise Exception('Merging boolean parameters with other variable types is not allowed')
+                raise Exception('Merging {} parameters with other variable types is not allowed'.format(type(finalValueResolved)))
 
             return finalValueResolved
 
@@ -86,6 +86,6 @@ class PlaceholderReplacer:
             return list(map(self.__resolveFinalValues, value))
 
         if callable(value):
-            return value()
+            return self.__resolveFinalValues(value())
 
         return value
