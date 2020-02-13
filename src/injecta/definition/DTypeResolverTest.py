@@ -8,9 +8,9 @@ class DTypeResolverTest(unittest.TestCase):
         self.__typeResolver = DTypeResolver()
 
     def test_basic(self):
-        result = self.__typeResolver.resolve('injecta.bundle.BundleManager')
+        result = self.__typeResolver.resolve('injecta.parameter.ParametersParser')
 
-        self.assertEqual(DType('injecta.bundle.BundleManager', 'BundleManager'), result)
+        self.assertEqual(DType('injecta.parameter.ParametersParser', 'ParametersParser'), result)
 
     def test_classic(self):
         result = self.__typeResolver.resolve('importlib.util.LazyLoader')
