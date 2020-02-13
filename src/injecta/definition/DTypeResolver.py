@@ -1,6 +1,6 @@
 from os import path
 from injecta.dtype.DType import DType
-import importlib.util
+from injecta.package.pathResolver import resolvePath
 
 class DTypeResolver:
 
@@ -10,15 +10,7 @@ class DTypeResolver:
         className = dtypeStr[lastDotIndex + 1:]
         rootModuleName = dtypeStr[:dtypeStr.find('.')]
 
-        baseModuleSpec = importlib.util.find_spec(rootModuleName)
-
-        if not baseModuleSpec:
-            raise Exception('Cannot resolve root module {}'.format(rootModuleName))
-
-        if baseModuleSpec.origin is not None:
-            rootModulePath = baseModuleSpec.origin
-        else:
-            rootModulePath = baseModuleSpec.submodule_search_locations._path[0] # pylint: disable = protected-access
+        rootModulePath = resolvePath(rootModuleName)
 
         filePath = rootModulePath[:-len(rootModuleName)] + dtypeStr.replace('.', '/') + '.py'
 
