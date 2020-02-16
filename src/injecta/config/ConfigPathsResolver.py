@@ -8,20 +8,20 @@ class ConfigPathsResolver:
         self.__configLoader = ConfigLoader()
         self.__importDefinitionResolver = ImportDefinitionResolver()
 
-    def resolve(self, configPath: Path, baseDir: Path) -> set:
+    def resolve(self, configPath: Path, baseDir: Path) -> list:
         yamlConfig = self.__configLoader.load(configPath)
-        configPaths = {configPath}
+        configPaths = [configPath]
 
         if yamlConfig is None:
-            return set()
+            return []
 
         if 'imports' in yamlConfig:
-            newConfigPaths = set()
+            newConfigPaths = []
 
             for importDefinition in yamlConfig['imports']:
-                newConfigPaths = newConfigPaths.union(self.__importDefinitionResolver.resolve(importDefinition, baseDir))
+                newConfigPaths += self.__importDefinitionResolver.resolve(importDefinition, baseDir)
 
             for newConfigPath in newConfigPaths:
-                configPaths = configPaths.union(self.resolve(newConfigPath, baseDir))
+                configPaths += self.resolve(newConfigPath, baseDir)
 
-        return set(configPaths)
+        return configPaths

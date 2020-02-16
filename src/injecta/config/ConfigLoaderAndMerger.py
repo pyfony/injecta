@@ -7,7 +7,7 @@ class ConfigLoaderAndMerger:
         self.__configLoader = ConfigLoader()
         self.__configMerger = ConfigMerger()
 
-    def loadAndMerge(self, configPaths: set):
+    def loadAndMerge(self, configPaths: list):
         yamlConfig = {}
 
         for configPath in configPaths:
