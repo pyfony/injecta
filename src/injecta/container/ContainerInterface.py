@@ -3,7 +3,7 @@ from box import Box
 
 class ContainerInterface(ABC):
 
-    def getConfig(self) -> Box:
+    def getParameters(self) -> Box:
         pass
 
     def get(self, ident):

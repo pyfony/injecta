@@ -12,7 +12,7 @@ class Container(ContainerInterface):
         self.services = {}
         self.__serviceMethodNameTranslator = ServiceMethodNameTranslator()
 
-    def getConfig(self) -> Box:
+    def getParameters(self) -> Box:
         return self.__parameters
 
     def get(self, ident):
