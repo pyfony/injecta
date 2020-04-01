@@ -1,3 +1,5 @@
+from pathlib import Path
+from typing import List
 from injecta.config.ConfigLoader import ConfigLoader
 from injecta.config.ConfigMerger import ConfigMerger
 
@@ -7,7 +9,7 @@ class ConfigLoaderAndMerger:
         self.__configLoader = ConfigLoader()
         self.__configMerger = ConfigMerger()
 
-    def loadAndMerge(self, configPaths: list):
+    def loadAndMerge(self, configPaths: List[Path]):
         yamlConfig = {}
 
         for configPath in configPaths:
