@@ -2,12 +2,16 @@
 
 function cleanup {
   rv=$?
-  rm ./env-init-functions.sh
+  rm ./dev_env_init.sh
   exit $rv
 }
 trap cleanup EXIT
 
-curl "https://raw.githubusercontent.com/DataSentics/dev-env-init/master/env-init-functions.sh?$(date +%s)" -H 'Cache-Control: no-cache' --silent -o env-init-functions.sh
-. "env-init-functions.sh"
+if [[ -z "$ENV_INIT_BRANCH" ]]; then ENV_INIT_BRANCH="master"; fi
+
+echo "dev-env-init branch: $ENV_INIT_BRANCH"
+
+curl "https://raw.githubusercontent.com/pyfony/dev-env-init/$ENV_INIT_BRANCH/dev_env_init.sh?$(date +%s)" -H 'Cache-Control: no-cache' --silent -o dev_env_init.sh
+. "dev_env_init.sh"
 
 prepare_environment_for_package
