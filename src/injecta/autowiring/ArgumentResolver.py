@@ -16,10 +16,10 @@ class ArgumentResolver:
             if moduleNameStripped in classes2Services:
                 raise Exception('Consider changing service dtype from {} -> {} (invalid dtype)'.format(moduleNameStripped + '.' + className, moduleName + '.' + className))
 
-            raise Exception('service not found for {} used in {}'.format(moduleName + '.' + className, serviceName))
+            raise Exception('Service not found for {} used in {}'.format(moduleName + '.' + className, serviceName))
 
         if className not in classes2Services[moduleName]:
-            raise Exception('service not found for {} used in {}'.format(moduleName + '.' + className, serviceName))
+            raise Exception('Service not found for {} used in {}'.format(moduleName + '.' + className, serviceName))
 
         if len(classes2Services[moduleName][className]) > 1:
             serviceNames = ', '.join(classes2Services[moduleName][className])
