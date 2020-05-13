@@ -3,6 +3,11 @@ from injecta.service.class_.InspectedArgument import InspectedArgument
 
 class ArgumentInterface(ABC):
 
+    @property
+    @abstractmethod
+    def name(self):
+        pass
+
     @abstractmethod
     def getStringValue(self):
         pass

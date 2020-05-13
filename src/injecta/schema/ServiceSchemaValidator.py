@@ -19,9 +19,9 @@ class ServiceSchemaValidator:
         if unexpectedAttributes:
             raise SchemaValidationException('Unexpected attributes ({}) for service "{}"'.format(', '.join(unexpectedAttributes), serviceName))
 
-        if 'arguments' in rawServiceDefinition:
-            if isinstance(rawServiceDefinition['arguments'], list) is False:
-                raise SchemaValidationException('Arguments of service "{}" must be defined as list'.format(serviceName))
+        #if 'arguments' in rawServiceDefinition:
+            #if isinstance(rawServiceDefinition['arguments'], list) is False:
+                #raise SchemaValidationException('Arguments of service "{}" must be defined as list'.format(serviceName))
 
         if 'tags' in rawServiceDefinition:
             if isinstance(rawServiceDefinition['tags'], list) is False:

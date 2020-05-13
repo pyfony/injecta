@@ -1,24 +1,20 @@
 from typing import List
-from injecta.service.argument.ArgumentInterface import ArgumentInterface
 from injecta.service.ServiceValidatorException import ServiceValidatorException
-from injecta.service.class_.InspectedArgument import InspectedArgument
+from injecta.service.resolved.ResolvedArgument import ResolvedArgument
 
 class ServiceValidator:
 
     def validate(
         self,
         serviceName: str,
-        serviceArguments: List[ArgumentInterface],
-        inspectedArguments: List[InspectedArgument],
+        resolvedArguments: List[ResolvedArgument],
         services2Classes: dict
     ):
-        for index, argument in enumerate(serviceArguments):
-            try:
-                inspectedArgument = inspectedArguments[index]
-            except IndexError:
-                raise Exception('More arguments defined than given for "{}"'.format(serviceName))
+        for resolvedArgument in resolvedArguments:
+            argument = resolvedArgument.argument
+            inspectedArgument = resolvedArgument.inspectedArgument
 
-            if inspectedArgument.dtype.isDefined():
+            if argument and inspectedArgument and inspectedArgument.dtype.isDefined():
                 try:
                     argument.checkTypeMatchesDefinition(inspectedArgument, services2Classes)
                 except ServiceValidatorException as e:

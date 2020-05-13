@@ -24,9 +24,12 @@ class InspectedArgument:
     def defaultValue(self):
         return self.__defaultValue
 
+    def hasDefaultValue(self):
+        return self.__defaultValue is not None
+
     def __eq__(self, other: 'InspectedArgument'):
         return (
-                self.name == other.name
-                and self.dtype == other.dtype
-                and self.defaultValue == other.defaultValue
+            self.name == other.name
+            and self.dtype == other.dtype
+            and self.defaultValue == other.defaultValue
         )

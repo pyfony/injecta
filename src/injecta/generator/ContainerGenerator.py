@@ -1,7 +1,7 @@
 from typing import List
 from injecta.generator.ServiceGenerator import ServiceGenerator
-from injecta.service.Service import Service
 from injecta.libRoot import getLibRoot
+from injecta.service.resolved.ResolvedService import ResolvedService
 
 class ContainerGenerator:
 
@@ -10,14 +10,14 @@ class ContainerGenerator:
     ):
         self.__serviceGenerator = serviceGenerator
 
-    def generate(self, services: List[Service]):
+    def generate(self, resolvedServices: List[ResolvedService]):
         path = getLibRoot() + '/generator/container_template.py'
 
         with open(path, 'r', encoding='utf-8') as f:
             output = f.read() + '\n'
             f.close()
 
-        codeOfServiceMethods = list(map(self.__serviceGenerator.generate, services))
+        codeOfServiceMethods = list(map(self.__serviceGenerator.generate, resolvedServices))
 
         output += '\n'.join(codeOfServiceMethods)
 

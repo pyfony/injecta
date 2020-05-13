@@ -41,6 +41,9 @@ class ServiceParser:
         arguments = []
 
         if 'arguments' in rawService:
-            arguments = list(map(self.__argumentParser.parse, rawService['arguments']))
+            if isinstance(rawService['arguments'], list):
+                arguments = [self.__argumentParser.parse(argument) for argument in rawService['arguments']]
+            elif isinstance(rawService['arguments'], dict):
+                arguments = [self.__argumentParser.parse(argument, name) for name, argument in rawService['arguments'].items()]
 
         return arguments

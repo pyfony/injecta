@@ -1,25 +1,20 @@
 from typing import List
-from injecta.service.argument.ArgumentInterface import ArgumentInterface
 from injecta.autowiring.ArgumentResolver import ArgumentResolver
-from injecta.service.class_.InspectedArgument import InspectedArgument
+from injecta.service.resolved.ResolvedArgument import ResolvedArgument
 
 class ArgumentsAutowirer:
 
     def __init__(self, argumentResolver: ArgumentResolver):
         self.__argumentResolver = argumentResolver
 
-    def autowire(self, serviceName: str, arguments: List[ArgumentInterface], inspectedArguments: List[InspectedArgument], classes2Services: dict):
-        newArguments = []
+    def autowire(self, serviceName: str, resolvedArguments: List[ResolvedArgument], classes2Services: dict):
+        def autowireArgument(resolvedArgument: ResolvedArgument):
+            if resolvedArgument.argument or resolvedArgument.inspectedArgument.hasDefaultValue():
+                return resolvedArgument
 
-        i = 1
-        for inspectedArgument in inspectedArguments:
-            if i <= len(arguments):
-                newArgument = arguments[i - 1]
-            else:
-                newArgument = self.__argumentResolver.resolve(inspectedArgument, serviceName, classes2Services)
+            serviceArgument = self.__argumentResolver.resolve(resolvedArgument.inspectedArgument, serviceName, classes2Services)
+            resolvedArgument.modifyArgument(serviceArgument, 'autowiring')
 
-            newArguments.append(newArgument)
+            return resolvedArgument
 
-            i += 1
-
-        return newArguments
+        return list(map(autowireArgument, resolvedArguments))

@@ -5,8 +5,13 @@ from injecta.service.class_.InspectedArgument import InspectedArgument
 
 class PrimitiveArgument(ArgumentInterface):
 
-    def __init__(self, value):
+    def __init__(self, value, name: str = None):
         self.__value = value
+        self.__name = name
+
+    @property
+    def name(self):
+        return self.__name
 
     def getStringValue(self):
         if isinstance(self.__value, str):
@@ -50,4 +55,4 @@ class PrimitiveArgument(ArgumentInterface):
         return output
 
     def __eq__(self, other: 'PrimitiveArgument'):
-        return self.getStringValue() == other.getStringValue()
+        return self.name == other.name and self.getStringValue() == other.getStringValue()

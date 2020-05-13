@@ -26,8 +26,12 @@ class Service:
     def arguments(self) -> List[ArgumentInterface]:
         return self.__arguments
 
-    def setArguments(self, newArguments: List[ArgumentInterface]):
-        self.__arguments = newArguments
+    def hasNamedArguments(self) -> bool:
+        for argument in self.__arguments:
+            if argument.name is not None:
+                return True
+
+        return False
 
     def setAutowire(self, autowire: bool):
         self.__autowire = autowire

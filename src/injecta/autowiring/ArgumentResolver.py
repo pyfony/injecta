@@ -25,4 +25,4 @@ class ArgumentResolver:
             serviceNames = ', '.join(classes2Services[moduleName][className])
             raise Exception('Multiple services of dtype {} in dtype {} defined ({}), dtype used in service {}'.format(className, moduleName, serviceNames, serviceName))
 
-        return ServiceArgument(classes2Services[moduleName][className][0])
+        return ServiceArgument(classes2Services[moduleName][className][0], inspectedArgument.name)

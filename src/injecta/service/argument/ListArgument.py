@@ -6,8 +6,17 @@ from injecta.service.class_.InspectedArgument import InspectedArgument
 
 class ListArgument(ArgumentInterface):
 
-    def __init__(self, items: List[ArgumentInterface]):
+    def __init__(self, items: List[ArgumentInterface], name: str = None):
         self.__items = items
+        self.__name = name
+
+    @property
+    def name(self):
+        return self.__name
+
+    @property
+    def items(self):
+        return self.__items
 
     def getStringValue(self):
         argumentList = list(map(lambda item: item.getStringValue(), self.__items))
@@ -30,4 +39,4 @@ class ListArgument(ArgumentInterface):
             item.checkTypeMatchesDefinition(inspectedSubArgument, services2Classes)
 
     def __eq__(self, other: 'ListArgument'):
-        return self.getStringValue() == other.getStringValue()
+        return self.name == other.name and self.getStringValue() == other.getStringValue()

@@ -9,20 +9,28 @@ from injecta.service.class_.InspectedArgument import InspectedArgument
 
 class InspectedArgumentsResolver:
 
-    def resolve(self, dtype: DType) -> List[InspectedArgument]:
+    def resolveConstructor(self, dtype: DType) -> List[InspectedArgument]:
         classDefinition = loadClass(dtype.moduleName, dtype.className)
 
         # constructor is missing
         if '__init__' not in classDefinition.__dict__:
             return []
 
-        signature = createInspectSignature(classDefinition.__init__)
+        return self.__resolve(classDefinition, '__init__')
 
-        def isConstructorArgument(argument):
+    def resolveMethod(self, dtype: DType, methodName: str) -> List[InspectedArgument]:
+        classDefinition = loadClass(dtype.moduleName, dtype.className)
+
+        return self.__resolve(classDefinition, methodName)
+
+    def __resolve(self, classDefinition, methodName: str):
+        signature = createInspectSignature(getattr(classDefinition, methodName))
+
+        def isRealArgument(argument):
             argumentName, _ = argument
             return argumentName != 'self'
 
-        inspectedArguments = list(filter(isConstructorArgument, signature.parameters.items()))
+        inspectedArguments = list(filter(isRealArgument, signature.parameters.items()))
 
         return list(map(lambda argument: self.__createArgument(argument[0], argument[1]), inspectedArguments))
 

@@ -1,9 +1,11 @@
-from injecta.service.Service import Service
+from injecta.service.resolved.ResolvedArgument import ResolvedArgument
+from injecta.service.resolved.ResolvedService import ResolvedService
 
 class ObjectGenerator:
 
-    def generate(self, service: Service):
-        argumentLines = list(map(lambda argument: argument.getStringValue(), service.arguments))
+    def generate(self, resolvedService: ResolvedService):
+        service = resolvedService.service
+        argumentLines = list(map(self.__createArgumentLine, resolvedService.resolvedArguments))
 
         if service.factoryService is not None:
             return (
@@ -15,3 +17,11 @@ class ObjectGenerator:
             '\n'
             '        return ' + service.class_.className + '(' + ', '.join(argumentLines) + ')'
         )
+
+    def __createArgumentLine(self, resolvedArgument: ResolvedArgument):
+        argument = resolvedArgument.argument
+
+        if argument.name is None:
+            return argument.getStringValue()
+
+        return argument.name + '=' + argument.getStringValue()

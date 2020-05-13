@@ -10,12 +10,12 @@ class InspectedArgumentsResolverTest(unittest.TestCase):
         self.__inspectedArgumentsResolver = InspectedArgumentsResolver()
 
     def test_emptyClass(self):
-        result = self.__inspectedArgumentsResolver.resolve(DType('injecta.mocks.Empty', 'Empty'))
+        result = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.Empty', 'Empty'))
 
         self.assertEqual([], result)
 
     def test_basicClass(self):
-        result = self.__inspectedArgumentsResolver.resolve(DType('injecta.mocks.Foo', 'Foo'))
+        result = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.Foo', 'Foo'))
 
         expectedResult = [
             InspectedArgument('bar', DType('injecta.mocks.Bar', 'Bar'))
@@ -24,7 +24,7 @@ class InspectedArgumentsResolverTest(unittest.TestCase):
         self.assertEqual(expectedResult, result)
 
     def test_withDefaultValues(self):
-        result = self.__inspectedArgumentsResolver.resolve(DType('injecta.mocks.Bar', 'Bar'))
+        result = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.Bar', 'Bar'))
 
         expectedArguments = [
             InspectedArgument('name', DType('builtins', 'str')),
@@ -35,7 +35,7 @@ class InspectedArgumentsResolverTest(unittest.TestCase):
         self.assertEqual(expectedArguments, result)
 
     def test_withObjectList(self):
-        result = self.__inspectedArgumentsResolver.resolve(DType('injecta.mocks.ObjectList', 'ObjectList'))
+        result = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.ObjectList', 'ObjectList'))
 
         expectedArguments = [
             InspectedArgument('objects', ListType('injecta.mocks.Empty', 'Empty')),

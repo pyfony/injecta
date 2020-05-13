@@ -9,18 +9,23 @@ class ServiceArgument(ArgumentInterface):
 
     __serviceMethodTranslator = ServiceMethodNameTranslator()
 
-    def __init__(self, name: str):
+    def __init__(self, serviceName: str, name: str = None):
+        self.__serviceName = serviceName
         self.__name = name
 
     @property
     def name(self):
         return self.__name
 
+    @property
+    def serviceName(self):
+        return self.__serviceName
+
     def getStringValue(self):
-        return 'self.' + self.__serviceMethodTranslator.translate(self.__name) + '()'
+        return 'self.' + self.__serviceMethodTranslator.translate(self.__serviceName) + '()'
 
     def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict):
-        serviceClassType = services2Classes[self.__name] # type: DType
+        serviceClassType = services2Classes[self.__serviceName] # type: DType
 
         if serviceClassType == inspectedArgument.dtype:
             return
@@ -32,4 +37,4 @@ class ServiceArgument(ArgumentInterface):
             raise ServiceValidatorException(inspectedArgument.name, str(inspectedArgument.dtype), str(serviceClassType))
 
     def __eq__(self, other: 'ServiceArgument'):
-        return self.getStringValue() == other.getStringValue()
+        return self.name == other.name and self.getStringValue() == other.getStringValue()

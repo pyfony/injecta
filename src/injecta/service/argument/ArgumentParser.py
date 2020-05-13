@@ -7,23 +7,23 @@ from injecta.service.argument.TaggedServicesArgument import TaggedServicesArgume
 
 class ArgumentParser:
 
-    def parse(self, argument):
+    def parse(self, argument, name=None):
         if isinstance(argument, str):
             if argument[0:1] == '@':
-                return ServiceArgument(argument[1:])
+                return ServiceArgument(argument[1:], name)
 
-            return PrimitiveArgument(argument)
+            return PrimitiveArgument(argument, name)
 
         if isinstance(argument, TaggedServices):
-            return TaggedServicesArgument(argument.val)
+            return TaggedServicesArgument(argument.val, name)
 
         if isinstance(argument, (int, bool)):
-            return PrimitiveArgument(argument)
+            return PrimitiveArgument(argument, name)
 
         if isinstance(argument, list):
-            return ListArgument(list(map(self.parse, argument)))
+            return ListArgument(list(map(self.parse, argument)), name)
 
         if isinstance(argument, dict):
-            return DictArgument({k: self.parse(v) for k, v in argument.items()})
+            return DictArgument({k: self.parse(v) for k, v in argument.items()}, name)
 
         raise Exception('Unexpected argument type: {}'.format(type(argument)))
