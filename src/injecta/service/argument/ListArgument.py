@@ -2,7 +2,7 @@ from typing import List
 from injecta.service.ServiceValidatorException import ServiceValidatorException
 from injecta.dtype.ListType import ListType as ListTypeInjecta
 from injecta.service.argument.ArgumentInterface import ArgumentInterface
-from injecta.service.class_.ConstructorArgument import ConstructorArgument
+from injecta.service.class_.InspectedArgument import InspectedArgument
 
 class ListArgument(ArgumentInterface):
 
@@ -13,21 +13,21 @@ class ListArgument(ArgumentInterface):
         argumentList = list(map(lambda item: item.getStringValue(), self.__items))
         return '[' + ', '.join(argumentList) + ']'
 
-    def checkTypeMatchesDefinition(self, constructorArgument: ConstructorArgument, services2Classes: dict):
-        dtype = constructorArgument.dtype
+    def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict):
+        dtype = inspectedArgument.dtype
 
         if isinstance(dtype, ListTypeInjecta) is False:
             raise ServiceValidatorException(
-                constructorArgument.name,
+                inspectedArgument.name,
                 'typing.List',
                 self.__items.__class__.__name__,
             )
 
         i = 0
         for item in self.__items:
-            constructorSubArgument = ConstructorArgument(constructorArgument.name + '_' + str(i), constructorArgument.dtype)
+            inspectedSubArgument = InspectedArgument(inspectedArgument.name + '_' + str(i), inspectedArgument.dtype)
 
-            item.checkTypeMatchesDefinition(constructorSubArgument, services2Classes)
+            item.checkTypeMatchesDefinition(inspectedSubArgument, services2Classes)
 
     def __eq__(self, other: 'ListArgument'):
         return self.getStringValue() == other.getStringValue()

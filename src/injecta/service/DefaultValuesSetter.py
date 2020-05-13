@@ -1,19 +1,19 @@
 from typing import List
 from injecta.service.argument.ArgumentInterface import ArgumentInterface
 from injecta.service.argument.PrimitiveArgument import PrimitiveArgument
-from injecta.service.class_.ConstructorArgument import ConstructorArgument
+from injecta.service.class_.InspectedArgument import InspectedArgument
 
 class DefaultValuesSetter:
 
-    def set(self, arguments: List[ArgumentInterface], constructorArguments: List[ConstructorArgument]):
+    def set(self, arguments: List[ArgumentInterface], inspectedArguments: List[InspectedArgument]):
         newArguments = []
 
         i = 1
-        for constructorArgument in constructorArguments:
+        for inspectedArgument in inspectedArguments:
             if i <= len(arguments):
                 newArguments.append(arguments[i - 1])
-            elif constructorArgument.defaultValue is not None:
-                newArguments.append(PrimitiveArgument(constructorArgument.defaultValue))
+            elif inspectedArgument.defaultValue is not None:
+                newArguments.append(PrimitiveArgument(inspectedArgument.defaultValue))
 
             i += 1
 

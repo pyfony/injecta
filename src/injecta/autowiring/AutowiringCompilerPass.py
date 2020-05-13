@@ -10,7 +10,7 @@ class AutowiringCompilerPass(CompilerPassInterface):
 
     def process(self, containerBuild: ContainerBuild):
         def shouldAutowire(resolvedService: ResolvedService):
-            return resolvedService.service.autowire is True and resolvedService.constructorArguments
+            return resolvedService.service.autowire is True and resolvedService.inspectedArguments
 
         servicesForAutowiring = list(filter(shouldAutowire, containerBuild.resolvedServices))
 
@@ -23,7 +23,7 @@ class AutowiringCompilerPass(CompilerPassInterface):
         newArguments = self.__argumentsAutowirer.autowire(
             service.name,
             service.arguments,
-            resolvedService.constructorArguments,
+            resolvedService.inspectedArguments,
             classes2Services,
         )
 

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from injecta.service.class_.ConstructorArgument import ConstructorArgument
+from injecta.service.class_.InspectedArgument import InspectedArgument
 
 class ArgumentInterface(ABC):
 
@@ -8,5 +8,5 @@ class ArgumentInterface(ABC):
         pass
 
     @abstractmethod
-    def checkTypeMatchesDefinition(self, constructorArgument: ConstructorArgument, services2Classes: dict):
+    def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict):
         pass

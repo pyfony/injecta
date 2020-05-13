@@ -1,6 +1,6 @@
 from injecta.dtype.AbstractType import AbstractType
 
-class ConstructorArgument:
+class InspectedArgument:
 
     def __init__(
         self,
@@ -24,7 +24,7 @@ class ConstructorArgument:
     def defaultValue(self):
         return self.__defaultValue
 
-    def __eq__(self, other: 'ConstructorArgument'):
+    def __eq__(self, other: 'InspectedArgument'):
         return (
                 self.name == other.name
                 and self.dtype == other.dtype

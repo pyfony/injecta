@@ -20,7 +20,7 @@ class DefaultValuesSetterCompilerPass(CompilerPassInterface):
 
         newArguments = self.__defaultValuesSetter.set(
             service.arguments,
-            resolvedService.constructorArguments,
+            resolvedService.inspectedArguments,
         )
 
         service.setArguments(newArguments)

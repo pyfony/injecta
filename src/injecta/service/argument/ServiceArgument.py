@@ -1,7 +1,7 @@
 from injecta.generator.ServiceMethodNameTranslator import ServiceMethodNameTranslator
 from injecta.service.argument.ArgumentInterface import ArgumentInterface
 from injecta.service.ServiceValidatorException import ServiceValidatorException
-from injecta.service.class_.ConstructorArgument import ConstructorArgument
+from injecta.service.class_.InspectedArgument import InspectedArgument
 from injecta.dtype.DType import DType
 from injecta.dtype.classLoader import loadClass
 
@@ -19,17 +19,17 @@ class ServiceArgument(ArgumentInterface):
     def getStringValue(self):
         return 'self.' + self.__serviceMethodTranslator.translate(self.__name) + '()'
 
-    def checkTypeMatchesDefinition(self, constructorArgument: ConstructorArgument, services2Classes: dict):
+    def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict):
         serviceClassType = services2Classes[self.__name] # type: DType
 
-        if serviceClassType == constructorArgument.dtype:
+        if serviceClassType == inspectedArgument.dtype:
             return
 
         serviceClass = loadClass(serviceClassType.moduleName, serviceClassType.className)
-        constructorArgumentClass = loadClass(constructorArgument.dtype.moduleName, constructorArgument.dtype.className)
+        inspectedArgumentClass = loadClass(inspectedArgument.dtype.moduleName, inspectedArgument.dtype.className)
 
-        if not issubclass(serviceClass, constructorArgumentClass):
-            raise ServiceValidatorException(constructorArgument.name, str(constructorArgument.dtype), str(serviceClassType))
+        if not issubclass(serviceClass, inspectedArgumentClass):
+            raise ServiceValidatorException(inspectedArgument.name, str(inspectedArgument.dtype), str(serviceClassType))
 
     def __eq__(self, other: 'ServiceArgument'):
         return self.getStringValue() == other.getStringValue()

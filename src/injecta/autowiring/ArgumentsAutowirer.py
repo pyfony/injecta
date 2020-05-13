@@ -1,22 +1,22 @@
 from typing import List
 from injecta.service.argument.ArgumentInterface import ArgumentInterface
 from injecta.autowiring.ArgumentResolver import ArgumentResolver
-from injecta.service.class_.ConstructorArgument import ConstructorArgument
+from injecta.service.class_.InspectedArgument import InspectedArgument
 
 class ArgumentsAutowirer:
 
     def __init__(self, argumentResolver: ArgumentResolver):
         self.__argumentResolver = argumentResolver
 
-    def autowire(self, serviceName: str, arguments: List[ArgumentInterface], constructorArguments: List[ConstructorArgument], classes2Services: dict):
+    def autowire(self, serviceName: str, arguments: List[ArgumentInterface], inspectedArguments: List[InspectedArgument], classes2Services: dict):
         newArguments = []
 
         i = 1
-        for constructorArgument in constructorArguments:
+        for inspectedArgument in inspectedArguments:
             if i <= len(arguments):
                 newArgument = arguments[i - 1]
             else:
-                newArgument = self.__argumentResolver.resolve(constructorArgument, serviceName, classes2Services)
+                newArgument = self.__argumentResolver.resolve(inspectedArgument, serviceName, classes2Services)
 
             newArguments.append(newArgument)
 

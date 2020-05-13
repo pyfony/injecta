@@ -1,14 +1,14 @@
-from injecta.service.class_.ConstructorArgument import ConstructorArgument
+from injecta.service.class_.InspectedArgument import InspectedArgument
 from injecta.service.argument.ServiceArgument import ServiceArgument
 
 class ArgumentResolver:
 
-    def resolve(self, constructorArgument: ConstructorArgument, serviceName: str, classes2Services: dict):
-        moduleName = constructorArgument.dtype.moduleName
-        className = constructorArgument.dtype.className
+    def resolve(self, inspectedArgument: InspectedArgument, serviceName: str, classes2Services: dict):
+        moduleName = inspectedArgument.dtype.moduleName
+        className = inspectedArgument.dtype.className
 
         if className == '_empty':
-            raise Exception('Cannot resolve argument {} for service {}'.format(constructorArgument.name, serviceName))
+            raise Exception('Cannot resolve argument {} for service {}'.format(inspectedArgument.name, serviceName))
 
         if moduleName not in classes2Services:
             moduleNameStripped = moduleName[:moduleName.rfind('.')]

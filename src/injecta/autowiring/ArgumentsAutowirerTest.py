@@ -4,7 +4,7 @@ from injecta.autowiring.ArgumentsAutowirer import ArgumentsAutowirer
 from injecta.dtype.DType import DType
 from injecta.service.argument.PrimitiveArgument import PrimitiveArgument
 from injecta.service.argument.ServiceArgument import ServiceArgument
-from injecta.service.class_.ConstructorArgument import ConstructorArgument
+from injecta.service.class_.InspectedArgument import InspectedArgument
 
 class ArgumentsAutowirerTest(unittest.TestCase):
 
@@ -16,10 +16,10 @@ class ArgumentsAutowirerTest(unittest.TestCase):
             PrimitiveArgument(123),
             ServiceArgument('my.module.ManuallyWiredClass'),
         ]
-        constructorArguments = [
-            ConstructorArgument('myNumber', DType('builtins', 'int')),
-            ConstructorArgument('manuallyWiredService', DType('my.module.ManuallyWiredClass', 'ManuallyWiredClass')),
-            ConstructorArgument('autowiredService', DType('my.module.OtherClass', 'OtherClass')),
+        inspectedArguments = [
+            InspectedArgument('myNumber', DType('builtins', 'int')),
+            InspectedArgument('manuallyWiredService', DType('my.module.ManuallyWiredClass', 'ManuallyWiredClass')),
+            InspectedArgument('autowiredService', DType('my.module.OtherClass', 'OtherClass')),
         ]
         classes2Services = {
             'my.module.OtherClass': {'OtherClass': ['my.module.OtherClass']}
@@ -28,7 +28,7 @@ class ArgumentsAutowirerTest(unittest.TestCase):
         newArguments = self.__argumentsAutowirer.autowire(
             'my.module.MyClass',
             arguments,
-            constructorArguments,
+            inspectedArguments,
             classes2Services,
         )
 

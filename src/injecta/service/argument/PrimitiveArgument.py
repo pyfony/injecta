@@ -1,7 +1,7 @@
 import re
 from injecta.service.argument.ArgumentInterface import ArgumentInterface
 from injecta.service.ServiceValidatorException import ServiceValidatorException
-from injecta.service.class_.ConstructorArgument import ConstructorArgument
+from injecta.service.class_.InspectedArgument import InspectedArgument
 
 class PrimitiveArgument(ArgumentInterface):
 
@@ -17,16 +17,16 @@ class PrimitiveArgument(ArgumentInterface):
 
         return str(self.__value)
 
-    def checkTypeMatchesDefinition(self, constructorArgument: ConstructorArgument, services2Classes: dict):
-        dtype = constructorArgument.dtype
+    def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict):
+        dtype = inspectedArgument.dtype
 
         if dtype.moduleName == 'box':
             return
 
         if dtype.isPrimitiveType() is False:
             raise ServiceValidatorException(
-                constructorArgument.name,
-                str(constructorArgument.dtype),
+                inspectedArgument.name,
+                str(inspectedArgument.dtype),
                 self.__value.__class__.__name__
             )
 

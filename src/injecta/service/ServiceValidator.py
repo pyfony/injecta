@@ -1,7 +1,7 @@
 from typing import List
 from injecta.service.argument.ArgumentInterface import ArgumentInterface
 from injecta.service.ServiceValidatorException import ServiceValidatorException
-from injecta.service.class_.ConstructorArgument import ConstructorArgument
+from injecta.service.class_.InspectedArgument import InspectedArgument
 
 class ServiceValidator:
 
@@ -9,17 +9,17 @@ class ServiceValidator:
         self,
         serviceName: str,
         serviceArguments: List[ArgumentInterface],
-        constructorArguments: List[ConstructorArgument],
+        inspectedArguments: List[InspectedArgument],
         services2Classes: dict
     ):
         for index, argument in enumerate(serviceArguments):
             try:
-                constructorArgument = constructorArguments[index]
+                inspectedArgument = inspectedArguments[index]
             except IndexError:
                 raise Exception('More arguments defined than given for "{}"'.format(serviceName))
 
-            if constructorArgument.dtype.isDefined():
+            if inspectedArgument.dtype.isDefined():
                 try:
-                    argument.checkTypeMatchesDefinition(constructorArgument, services2Classes)
+                    argument.checkTypeMatchesDefinition(inspectedArgument, services2Classes)
                 except ServiceValidatorException as e:
                     raise e.createFinalException(serviceName)

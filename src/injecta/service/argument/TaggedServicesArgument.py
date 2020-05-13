@@ -1,5 +1,5 @@
 from injecta.service.argument.ArgumentInterface import ArgumentInterface
-from injecta.service.class_.ConstructorArgument import ConstructorArgument
+from injecta.service.class_.InspectedArgument import InspectedArgument
 
 class TaggedServicesArgument(ArgumentInterface):
 
@@ -13,7 +13,7 @@ class TaggedServicesArgument(ArgumentInterface):
     def getStringValue(self):
         raise Exception('Not implemented')
 
-    def checkTypeMatchesDefinition(self, constructorArgument: ConstructorArgument, services2Classes: dict):
+    def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict):
         pass
 
     def __eq__(self, other: 'TaggedServicesArgument'):

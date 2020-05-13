@@ -4,13 +4,13 @@ from injecta.service.argument.ServiceArgument import ServiceArgument
 from injecta.dtype.DType import DType
 from injecta.service.argument.PrimitiveArgument import PrimitiveArgument
 from injecta.service.ServiceValidator import ServiceValidator
-from injecta.service.class_.ConstructorArgumentsResolver import ConstructorArgumentsResolver
+from injecta.service.class_.InspectedArgumentsResolver import InspectedArgumentsResolver
 
 class ServiceValidatorTest(unittest.TestCase):
 
     def setUp(self):
         self.__serviceValidator = ServiceValidator()
-        self.__constructorArgumentsResolver = ConstructorArgumentsResolver()
+        self.__inspectedArgumentsResolver = InspectedArgumentsResolver()
 
     def test_basic(self):
         self.__serviceValidator.validate(
@@ -18,7 +18,7 @@ class ServiceValidatorTest(unittest.TestCase):
             [
                 PrimitiveArgument('Jiri Koutny'),
             ],
-            self.__constructorArgumentsResolver.resolve(DType('injecta.mocks.Bar', 'Bar')),
+            self.__inspectedArgumentsResolver.resolve(DType('injecta.mocks.Bar', 'Bar')),
             {},
         )
 
@@ -46,7 +46,7 @@ class ServiceValidatorTest(unittest.TestCase):
                 [
                     PrimitiveArgument('Jiri Koutny'),
                 ],
-                self.__constructorArgumentsResolver.resolve(DType('injecta.mocks.Foo', 'Foo')),
+                self.__inspectedArgumentsResolver.resolve(DType('injecta.mocks.Foo', 'Foo')),
                 {},
             )
 
@@ -61,7 +61,7 @@ class ServiceValidatorTest(unittest.TestCase):
                 [
                     ServiceArgument('injecta.mocks.Empty'),
                 ],
-                self.__constructorArgumentsResolver.resolve(DType('injecta.mocks.Bar', 'Bar')),
+                self.__inspectedArgumentsResolver.resolve(DType('injecta.mocks.Bar', 'Bar')),
                 {
                     'injecta.mocks.Empty': DType('injecta.mocks.Empty', 'Empty')
                 },
