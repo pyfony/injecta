@@ -7,7 +7,7 @@ class ObjectGenerator:
         service = resolvedService.service
         argumentLines = list(map(self.__createArgumentLine, resolvedService.resolvedArguments))
 
-        if service.factoryService is not None:
+        if service.usesFactory():
             return (
                 '        return ' + service.factoryService.getStringValue() + '.' + service.factoryMethod + '(' + ', '.join(argumentLines) + ')'
             )
