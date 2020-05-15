@@ -61,6 +61,6 @@ class ContainerBuilder:
         for compilerPass in self.__defaultCompilerPasses:
             compilerPass.process(containerBuild)
 
-        containerBuild = hooks.containerBuildReady(containerBuild)
+        hooks.containerBuildReady(containerBuild)
 
         return containerBuild

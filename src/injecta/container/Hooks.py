@@ -18,4 +18,4 @@ class Hooks:
         return services
 
     def containerBuildReady(self, containerBuild: ContainerBuild):
-        return containerBuild
+        pass
