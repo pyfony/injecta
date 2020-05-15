@@ -1,7 +1,7 @@
 from pydoc import locate
 from typing import List
 from inspect import signature as createInspectSignature
-from inspect import Parameter
+from inspect import Parameter, isclass
 from injecta.dtype.ListType import ListType
 from injecta.dtype.classLoader import loadClass
 from injecta.dtype.DType import DType
@@ -47,7 +47,13 @@ class InspectedArgumentsResolver:
             dtype = DType(annotation.__module__, annotation.__name__)
 
             defaultValue = parameter.default if not isinstance(parameter.default, locate('type')) else None
+            defaultValueSet = not (
+                parameter.default
+                and isclass(parameter.default)
+                and parameter.default.__module__ == 'inspect'
+                and parameter.default.__name__ == '_empty'
+            )
 
-            inspectedArgument = InspectedArgument(name, dtype, defaultValue)
+            inspectedArgument = InspectedArgument(name, dtype, defaultValue, defaultValueSet)
 
         return inspectedArgument

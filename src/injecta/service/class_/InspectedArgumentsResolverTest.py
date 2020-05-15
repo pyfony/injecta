@@ -34,6 +34,17 @@ class InspectedArgumentsResolverTest(unittest.TestCase):
 
         self.assertEqual(expectedArguments, result)
 
+    def test_withDefaultNoneValue(self):
+        result = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.NoneClass', 'NoneClass'))
+
+        expectedArguments = [
+            InspectedArgument('name', DType('builtins', 'str')),
+            InspectedArgument('someNoneValue', DType('builtins', 'int'), None),
+        ]
+
+        self.assertEqual(expectedArguments, result)
+        self.assertTrue(result[1].hasDefaultValue())
+
     def test_withObjectList(self):
         result = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.ObjectList', 'ObjectList'))
 
