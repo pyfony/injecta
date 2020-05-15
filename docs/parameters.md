@@ -59,3 +59,17 @@ services:
         - '%api.endpoint%'
         - '%env(API_TOKEN)%'
 ```
+
+## Named arguments
+
+Contructor arguments can be also specified using their names: 
+
+```yaml
+services:
+    mycompany.api.Authenticator:
+      arguments:
+        baseUrl: 'https://api.mycompany.com'
+        token: 'd1a654fe84fgs65g4sedf4s6e5f'
+```
+
+Always use either argument list or named arguments. Those approaches **cannot be combined due to the limitation of the YAML syntax**.
