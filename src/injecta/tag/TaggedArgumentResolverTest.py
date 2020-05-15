@@ -20,7 +20,7 @@ class TaggedArgumentResolverTest(unittest.TestCase):
             PrimitiveArgument(123),
             InspectedArgument('myNumber', DType('builtins', 'int'))
         )
-        containerBuild = ContainerBuild({}, [], {}, {}, 'test')
+        containerBuild = ContainerBuild({}, [], {}, {})
 
         newResolvedArgument = self.__taggedArgumentResolver.resolve(resolvedArgument, containerBuild)
 
@@ -66,7 +66,7 @@ class TaggedArgumentResolverTest(unittest.TestCase):
             ]
         }
 
-        return ContainerBuild({}, [], {}, tags2Services, 'test')
+        return ContainerBuild({}, [], {}, tags2Services)
 
 if __name__ == '__main__':
     unittest.main()

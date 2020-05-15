@@ -1,0 +1,14 @@
+parameters:
+  name: 'Peter'
+  some:
+    random:
+      number: 123
+
+services:
+  injecta.mocks.Bar:
+    arguments:
+      - '%name%'
+      - '%some.random.number%'
+      - True
+
+  injecta.mocks.Foo:
