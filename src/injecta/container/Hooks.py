@@ -14,8 +14,8 @@ class Hooks:
     def getCustomParameters(self) -> dict:
         return {}
 
-    def parametersParsed(self, services: Box) -> Box:
-        return services
+    def parametersParsed(self, parameters: Box) -> Box:
+        return parameters
 
     def containerBuildReady(self, containerBuild: ContainerBuild):
         pass
