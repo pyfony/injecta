@@ -12,19 +12,24 @@ class InspectedArgumentsResolver:
     def resolveConstructor(self, dtype: DType) -> List[InspectedArgument]:
         classDefinition = loadClass(dtype.moduleName, dtype.className)
 
-        # constructor is missing
-        if '__init__' not in classDefinition.__dict__:
-            return []
+        while '__init__' not in classDefinition.__dict__:
+            firstParentClass = classDefinition.__bases__[0]
 
-        return self.__resolve(classDefinition, '__init__')
+            # no constructor found in base class or parents
+            if firstParentClass.__module__ == 'builtins' and firstParentClass.__name__ == 'object':
+                return []
+
+            classDefinition = loadClass(firstParentClass.__module__, firstParentClass.__name__)
+
+        return self.__resolve(getattr(classDefinition, '__init__'))
 
     def resolveMethod(self, dtype: DType, methodName: str) -> List[InspectedArgument]:
         classDefinition = loadClass(dtype.moduleName, dtype.className)
 
-        return self.__resolve(classDefinition, methodName)
+        return self.__resolve(getattr(classDefinition, methodName))
 
-    def __resolve(self, classDefinition, methodName: str):
-        signature = createInspectSignature(getattr(classDefinition, methodName))
+    def __resolve(self, obj):
+        signature = createInspectSignature(obj)
 
         def isRealArgument(argument):
             argumentName, _ = argument

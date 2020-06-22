@@ -55,5 +55,16 @@ class InspectedArgumentsResolverTest(unittest.TestCase):
 
         self.assertEqual(expectedArguments, result)
 
+    def test_useParentConstructor(self):
+        result = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.UseParentConstructor', 'UseParentConstructor'))
+
+        expectedArguments = [
+            InspectedArgument('name', DType('builtins', 'str')),
+            InspectedArgument('numberWithDefault', DType('builtins', 'int'), 0),
+            InspectedArgument('boolWithDefault', DType('builtins', 'bool'), False),
+        ]
+
+        self.assertEqual(expectedArguments, result)
+
 if __name__ == '__main__':
     unittest.main()
