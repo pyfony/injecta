@@ -45,3 +45,6 @@ class Container(ContainerInterface):
             return service
 
         raise Exception('Cannot find service for: {}'.format(ident))
+
+    def _Container__serviceContainer(self):
+        return self
