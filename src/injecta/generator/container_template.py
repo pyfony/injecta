@@ -17,7 +17,10 @@ class Container(ContainerInterface):
 
     def get(self, ident):
         if isinstance(ident, str):
-            method = getattr(self, '_Container{}'.format(self.__serviceMethodNameTranslator.translate(ident)))
+            try:
+                method = getattr(self, '_Container{}'.format(self.__serviceMethodNameTranslator.translate(ident)))
+            except AttributeError:
+                raise Exception(f'Service {ident} not found')
 
             return method()
 
@@ -26,7 +29,10 @@ class Container(ContainerInterface):
         methodName = '_Container{}'.format(self.__serviceMethodNameTranslator.translate(name))
 
         if hasattr(self, methodName):
-            method = getattr(self, methodName)
+            try:
+                method = getattr(self, methodName)
+            except AttributeError:
+                raise Exception(f'Service {name} not found')
 
             return method()
 
@@ -35,7 +41,10 @@ class Container(ContainerInterface):
         methodName = '_Container{}'.format(self.__serviceMethodNameTranslator.translate(name))
 
         if hasattr(self, methodName):
-            method = getattr(self, methodName)
+            try:
+                method = getattr(self, methodName)
+            except AttributeError:
+                raise Exception(f'Service {name} not found')
 
             service = method()
 
