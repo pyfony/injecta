@@ -106,7 +106,17 @@ class PlaceholderReplacerTest(unittest.TestCase):
                 }
             })
 
-        self.assertEqual('parameter "first.second.thirdddddd" not found', str(cm.exception))
+        self.assertEqual('Parameter "first.second.thirdddddd" used in paths.ordersPath not found', str(cm.exception))
+
+    def test_nonExistingEnvVar(self):
+        with self.assertRaises(Exception) as cm:
+            self.__placeholderReplacer.replace({
+                'first': {
+                    'second': '%env(NON_EXISTENT_ENV_VAR)%'
+                }
+            })
+
+        self.assertEqual('Undefined environment variable "NON_EXISTENT_ENV_VAR" used in first.second', str(cm.exception))
 
 if __name__ == '__main__':
     unittest.main()
