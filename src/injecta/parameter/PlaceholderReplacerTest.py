@@ -93,7 +93,7 @@ class PlaceholderReplacerTest(unittest.TestCase):
         self.assertEqual('/dev/myroot/ahoj/svete/52', result['myListLinked'][1])
         self.assertEqual('/project_root_path/ahoj/svete', result['myDictLinked']['projectsPath'])
 
-    def test_non_existing(self):
+    def test_nonExisting(self):
         with self.assertRaises(Exception) as cm:
             self.__placeholderReplacer.replace({
                 'first': {
@@ -106,7 +106,7 @@ class PlaceholderReplacerTest(unittest.TestCase):
                 }
             })
 
-            self.assertEqual('parameter "first.second.thirdddddd" not found', cm.exception.msg)
+        self.assertEqual('parameter "first.second.thirdddddd" not found', str(cm.exception))
 
 if __name__ == '__main__':
     unittest.main()

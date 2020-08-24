@@ -13,7 +13,8 @@ class ServiceSchemaValidatorTest(unittest.TestCase):
     def test_basic_fail(self):
         with self.assertRaises(SchemaValidationException) as error:
             self.__schemaValidator.validate('Foo.Bar', 1)
-            self.assertEqual(error.exception.message, 'service "Foo.Bar" not properly defined')
+
+        self.assertEqual('service "Foo.Bar" not properly defined', str(error.exception))
 
     def test_basic_argumentsWithoutKey(self):
         rawServiceDefinition = [
@@ -23,7 +24,8 @@ class ServiceSchemaValidatorTest(unittest.TestCase):
 
         with self.assertRaises(SchemaValidationException) as error:
             self.__schemaValidator.validate('Foo.Bar', rawServiceDefinition)
-            self.assertEqual(error.exception.message, 'Arguments of service "Foo.Bar" must be defined in the "arguments" key')
+
+        self.assertEqual('Arguments of service "Foo.Bar" must be defined in the "arguments" key', str(error.exception))
 
     def test_unexpectedAttribute(self):
         rawServiceDefinition = {
@@ -36,7 +38,8 @@ class ServiceSchemaValidatorTest(unittest.TestCase):
 
         with self.assertRaises(SchemaValidationException) as error:
             self.__schemaValidator.validate('Foo.Bar', rawServiceDefinition)
-            self.assertEqual(error.exception.message, 'Unexpected attributes (banana) for service "Foo.Bar"')
+
+        self.assertEqual('Unexpected attributes (banana) for service "Foo.Bar"', str(error.exception))
 
     def test_autowire(self):
         rawServiceDefinition = {
@@ -49,7 +52,8 @@ class ServiceSchemaValidatorTest(unittest.TestCase):
 
         with self.assertRaises(SchemaValidationException) as error:
             self.__schemaValidator.validate('Foo.Bar', rawServiceDefinition)
-            self.assertEqual(error.exception.message, 'Unexpected attributes (banana) for service "Foo.Bar"')
+
+        self.assertEqual('Attribute "autowire" of service "Foo.Bar" must be True or False', str(error.exception))
 
     def test_factory(self):
         rawServiceDefinition = {
@@ -62,7 +66,8 @@ class ServiceSchemaValidatorTest(unittest.TestCase):
 
         with self.assertRaises(SchemaValidationException) as error:
             self.__schemaValidator.validate('Foo.Bar', rawServiceDefinition)
-            self.assertEqual(error.exception.message, 'Attribute "factory" of service "Foo.Bar" must be list [factoryClass, factoryMethod]')
+
+        self.assertEqual('Attribute "factory" of service "Foo.Bar" must be list [factoryClass, factoryMethod]', str(error.exception))
 
     def test_fullOk(self):
         rawServiceDefinition = {
