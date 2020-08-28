@@ -17,12 +17,7 @@ class Container(ContainerInterface):
 
     def get(self, ident):
         if isinstance(ident, str):
-            try:
-                method = getattr(self, '_Container{}'.format(self.__serviceMethodNameTranslator.translate(ident)))
-            except AttributeError:
-                raise Exception(f'Service {ident} not found')
-
-            return method()
+            return self.getByIdent(ident)
 
         # service: foo.bar.HelloClass, class: foo.bar.HelloClass
         name = ident.__module__ + '.' + ident.__name__
@@ -54,6 +49,14 @@ class Container(ContainerInterface):
             return service
 
         raise Exception('Cannot find service for: {}'.format(ident))
+
+    def getByIdent(self, ident: str):
+        try:
+            method = getattr(self, '_Container{}'.format(self.__serviceMethodNameTranslator.translate(ident)))
+        except AttributeError:
+            raise Exception(f'Service {ident} not found')
+
+        return method()
 
     def _Container__serviceContainer(self):
         return self

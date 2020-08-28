@@ -1,6 +1,8 @@
+# pylint: disable = too-many-return-statements
 from injecta.service.argument.DictArgument import DictArgument
 from injecta.service.argument.ListArgument import ListArgument
 from injecta.service.argument.ServiceArgument import ServiceArgument
+from injecta.service.argument.DynamicServiceArgument import DynamicServiceArgument
 from injecta.service.argument.PrimitiveArgument import PrimitiveArgument
 from injecta.config.ConfigLoader import TaggedServices
 from injecta.service.argument.TaggedServicesArgument import TaggedServicesArgument
@@ -9,6 +11,9 @@ class ArgumentParser:
 
     def parse(self, argument, name=None):
         if isinstance(argument, str):
+            if argument[0:3] == '@(%':
+                return DynamicServiceArgument(argument[2:-1], name)
+
             if argument[0:1] == '@':
                 return ServiceArgument(argument[1:], name)
 
