@@ -27,7 +27,7 @@ class ServiceValidatorTest(unittest.TestCase):
         self.assertTrue(True)
 
     def test_exceptionStringForObject(self):
-        try:
+        with self.assertRaises(Exception) as error:
             self.__serviceValidator.validate(
                 'injecta.mocks.Foo',
                 [
@@ -40,12 +40,10 @@ class ServiceValidatorTest(unittest.TestCase):
                 {},
             )
 
-            self.fail('Exception must be thrown')
-        except Exception as e:
-            self.assertEqual('Expected dtype "injecta.mocks.Bar.Bar", got "str" (argument "bar", service "injecta.mocks.Foo")', str(e))
+        self.assertEqual('Expected dtype "injecta.mocks.Bar.Bar", got "str" (argument "bar", service "injecta.mocks.Foo")', str(error.exception))
 
     def test_exceptionObjectForString(self):
-        try:
+        with self.assertRaises(Exception) as error:
             self.__serviceValidator.validate(
                 'injecta.mocks.Bar',
                 [
@@ -60,9 +58,7 @@ class ServiceValidatorTest(unittest.TestCase):
                 },
             )
 
-            self.fail('Exception must be thrown')
-        except Exception as e:
-            self.assertEqual('Expected dtype "str", got "injecta.mocks.Empty.Empty" (argument "name", service "injecta.mocks.Bar")', str(e))
+        self.assertEqual('Expected dtype "str", got "injecta.mocks.Empty.Empty" (argument "name", service "injecta.mocks.Bar")', str(error.exception))
 
 if __name__ == '__main__':
     unittest.main()

@@ -32,12 +32,10 @@ class ArgumentListResolverTest(unittest.TestCase):
         ]
         inspectedArguments = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.Bar', 'Bar'))
 
-        try:
+        with self.assertRaises(Exception) as error:
             self.__argumentListResolver.resolve(arguments, inspectedArguments, 'injecta.mocks.Bar')
 
-            self.fail('Exception must be thrown')
-        except Exception as e:
-            self.assertEqual('Too many arguments given for "injecta.mocks.Bar"', str(e))
+        self.assertEqual('Too many arguments given for "injecta.mocks.Bar"', str(error.exception))
 
     def test_args(self):
         arguments = [
@@ -56,12 +54,10 @@ class ArgumentListResolverTest(unittest.TestCase):
         arguments = []
         inspectedArguments = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.Kwargs', 'Kwargs'))
 
-        try:
+        with self.assertRaises(Exception) as error:
             self.__argumentListResolver.resolve(arguments, inspectedArguments, 'injecta.mocks.Kwargs')
 
-            self.fail('Exception must be thrown')
-        except Exception as e:
-            self.assertEqual('__init__() in service "injecta.mocks.Kwargs" contains **kwargs, use named arguments instead', str(e))
+        self.assertEqual('__init__() in service "injecta.mocks.Kwargs" contains **kwargs, use named arguments instead', str(error.exception))
 
 if __name__ == '__main__':
     unittest.main()

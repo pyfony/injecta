@@ -32,12 +32,10 @@ class NamedArgumentsResolverTest(unittest.TestCase):
         ]
         inspectedArguments = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.Bar', 'Bar'))
 
-        try:
+        with self.assertRaises(Exception) as error:
             self.__namedArgumentsResolver.resolve(arguments, inspectedArguments, 'injecta.mocks.Bar')
 
-            self.fail('Exception must be thrown')
-        except Exception as e:
-            self.assertEqual('Unknown argument "someNonexistentName" in service "injecta.mocks.Bar"', str(e))
+        self.assertEqual('Unknown argument "someNonexistentName" in service "injecta.mocks.Bar"', str(error.exception))
 
     def test_kwargs(self):
         arguments = [
