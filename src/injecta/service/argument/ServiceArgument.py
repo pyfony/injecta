@@ -25,7 +25,7 @@ class ServiceArgument(ArgumentInterface):
         return 'self.' + self.__serviceMethodTranslator.translate(self.__serviceName) + '()'
 
     def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict):
-        serviceClassType = services2Classes[self.__serviceName] # type: DType
+        serviceClassType = self.__resolveServiceClassType(services2Classes)
 
         if serviceClassType == inspectedArgument.dtype:
             return
@@ -35,6 +35,12 @@ class ServiceArgument(ArgumentInterface):
 
         if not issubclass(serviceClass, inspectedArgumentClass):
             raise ServiceValidatorException(inspectedArgument.name, str(inspectedArgument.dtype), str(serviceClassType))
+
+    def __resolveServiceClassType(self, services2Classes: dict) -> DType:
+        if self.__serviceName in services2Classes:
+            return services2Classes[self.__serviceName]
+
+        raise Exception(f'Undefined service {self.__serviceName}')
 
     def __eq__(self, other: 'ServiceArgument'):
         return self.name == other.name and self.getStringValue() == other.getStringValue()
