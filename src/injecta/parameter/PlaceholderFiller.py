@@ -3,11 +3,11 @@ import operator
 import re
 import os
 
-class PlaceholderReplacer:
+class PlaceholderFiller:
 
     __appConfigWithResolvers = {}
 
-    def replace(self, appConfig: dict):
+    def fill(self, appConfig: dict):
         self.__appConfigWithResolvers = {k: self.__resolvePlaceholders(v, k) for k, v in appConfig.items()}
 
         return {k: self.__resolveFinalValues(v) for k, v in self.__appConfigWithResolvers.items()}

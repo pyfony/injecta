@@ -1,14 +1,14 @@
 import unittest
-from injecta.parameter.PlaceholderReplacer import PlaceholderReplacer
+from injecta.parameter.PlaceholderFiller import PlaceholderFiller
 import os
 
-class PlaceholderReplacerTest(unittest.TestCase):
+class PlaceholderFillerTest(unittest.TestCase):
 
     def setUp(self):
-        self.__placeholderReplacer = PlaceholderReplacer()
+        self.__placeholderFiller = PlaceholderFiller()
 
     def test_basicMultiLevel(self):
-        result = self.__placeholderReplacer.replace({
+        result = self.__placeholderFiller.fill({
             'level_1': '1',
             'level_2_1': '2 + %level_1%',
             'level_3_2_1': '3 + %level_2_1%',
@@ -21,7 +21,7 @@ class PlaceholderReplacerTest(unittest.TestCase):
         self.assertEqual('4 + 3 + 2 + 1', result['level_4_3_2_1'])
 
     def test_multiplePlaceholders(self):
-        result = self.__placeholderReplacer.replace({
+        result = self.__placeholderFiller.fill({
             'level_1': '1',
             'level_2_1': '2 + %level_1%',
             'level_3': '3',
@@ -33,7 +33,7 @@ class PlaceholderReplacerTest(unittest.TestCase):
         self.assertEqual('4 + 3 + 2 + 1', result['level_4_3_2_1'])
 
     def test_typesConsistency(self):
-        result = self.__placeholderReplacer.replace({
+        result = self.__placeholderFiller.fill({
             'typedValues': {
                 'number': 123456,
                 'bool': True,
@@ -53,7 +53,7 @@ class PlaceholderReplacerTest(unittest.TestCase):
     def test_envVariables(self):
         os.environ['LEVEL_1'] = '1'
 
-        result = self.__placeholderReplacer.replace({
+        result = self.__placeholderFiller.fill({
             'level_2_1': '2 + %env(LEVEL_1)%',
             'level_3_2_1': '3 + %level_2_1%',
             'level_4_3_2_1': '4 + %level_3_2_1%',
@@ -66,7 +66,7 @@ class PlaceholderReplacerTest(unittest.TestCase):
     def test_full(self):
         os.environ['APP_ENV'] = 'dev'
 
-        result = self.__placeholderReplacer.replace({
+        result = self.__placeholderFiller.fill({
             'first': {
                 'second': {
                     'third': 52,
@@ -95,7 +95,7 @@ class PlaceholderReplacerTest(unittest.TestCase):
 
     def test_nonExisting(self):
         with self.assertRaises(Exception) as cm:
-            self.__placeholderReplacer.replace({
+            self.__placeholderFiller.fill({
                 'first': {
                     'second': {
                         'third': '52'
@@ -110,7 +110,7 @@ class PlaceholderReplacerTest(unittest.TestCase):
 
     def test_nonExistingEnvVar(self):
         with self.assertRaises(Exception) as cm:
-            self.__placeholderReplacer.replace({
+            self.__placeholderFiller.fill({
                 'first': {
                     'second': '%env(NON_EXISTENT_ENV_VAR)%'
                 }
