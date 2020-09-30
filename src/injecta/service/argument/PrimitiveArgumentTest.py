@@ -5,9 +5,9 @@ from injecta.service.argument.PrimitiveArgument import PrimitiveArgument
 class PrimitiveArgumentTest(unittest.TestCase):
 
     def test_string(self):
-        argument = PrimitiveArgument('ahoj svete')
+        argument = PrimitiveArgument('hello world')
 
-        self.assertEqual('\'ahoj svete\'', argument.getStringValue())
+        self.assertEqual('\'hello world\'', argument.getStringValue())
 
     def test_number(self):
         argument = PrimitiveArgument(123456)
