@@ -37,6 +37,17 @@ class NamedArgumentsResolverTest(unittest.TestCase):
 
         self.assertEqual('Unknown argument "someNonexistentName" in service "injecta.mocks.Bar"', str(error.exception))
 
+    def test_args(self):
+        arguments = [
+            PrimitiveArgument('George', 'name'),
+        ]
+        inspectedArguments = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.Args', 'Args'))
+
+        resolvedArguments = self.__namedArgumentsResolver.resolve(arguments, inspectedArguments, 'injecta.mocks.Args')
+
+        self.assertEqual(1, len(resolvedArguments))
+        self.assertEqual(PrimitiveArgument('George', 'name'), resolvedArguments[0].argument)
+
     def test_kwargs(self):
         arguments = [
             PrimitiveArgument(111, 'someNumber'),
@@ -46,6 +57,21 @@ class NamedArgumentsResolverTest(unittest.TestCase):
         inspectedArguments = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.Kwargs', 'Kwargs'))
 
         resolvedArguments = self.__namedArgumentsResolver.resolve(arguments, inspectedArguments, 'injecta.mocks.Kwargs')
+
+        self.assertEqual(3, len(resolvedArguments))
+        self.assertEqual(PrimitiveArgument('George', 'name'), resolvedArguments[0].argument)
+        self.assertEqual(PrimitiveArgument(111, 'someNumber'), resolvedArguments[1].argument)
+        self.assertEqual(PrimitiveArgument(True, 'someBool'), resolvedArguments[2].argument)
+
+    def test_argsKwargs(self):
+        arguments = [
+            PrimitiveArgument(111, 'someNumber'),
+            PrimitiveArgument('George', 'name'),
+            PrimitiveArgument(True, 'someBool'),
+        ]
+        inspectedArguments = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.ArgsKwargs', 'ArgsKwargs'))
+
+        resolvedArguments = self.__namedArgumentsResolver.resolve(arguments, inspectedArguments, 'injecta.mocks.ArgsKwargs')
 
         self.assertEqual(3, len(resolvedArguments))
         self.assertEqual(PrimitiveArgument('George', 'name'), resolvedArguments[0].argument)

@@ -12,6 +12,7 @@ class NamedArgumentsResolver:
         self.__serviceValidator = ServiceValidator()
 
     def resolve(self, arguments: List[ArgumentInterface], inspectedArguments: List[InspectedArgument], serviceName: str):
+        inspectedArguments = [inspectedArgument for inspectedArgument in inspectedArguments if inspectedArgument.name != 'args']
         inspectedArgumentsIndexed = {inspectedArgument.name: inspectedArgument for inspectedArgument in inspectedArguments}
         argumentsIndexed = {argument.name: argument for argument in arguments}
 

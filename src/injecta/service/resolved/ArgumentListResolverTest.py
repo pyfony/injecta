@@ -59,5 +59,14 @@ class ArgumentListResolverTest(unittest.TestCase):
 
         self.assertEqual('__init__() in service "injecta.mocks.Kwargs" contains **kwargs, use named arguments instead', str(error.exception))
 
+    def test_argsKwargs(self):
+        arguments = []
+        inspectedArguments = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.ArgsKwargs', 'ArgsKwargs'))
+
+        with self.assertRaises(Exception) as error:
+            self.__argumentListResolver.resolve(arguments, inspectedArguments, 'injecta.mocks.ArgsKwargs')
+
+        self.assertEqual('__init__() in service "injecta.mocks.ArgsKwargs" contains **kwargs, use named arguments instead', str(error.exception))
+
 if __name__ == '__main__':
     unittest.main()
