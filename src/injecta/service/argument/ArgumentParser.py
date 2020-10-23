@@ -1,10 +1,11 @@
 # pylint: disable = too-many-return-statements
 from injecta.service.argument.DictArgument import DictArgument
 from injecta.service.argument.ListArgument import ListArgument
+from injecta.service.argument.TaggedAliasedServiceArgument import TaggedAliasedServiceArgument
 from injecta.service.argument.ServiceArgument import ServiceArgument
 from injecta.service.argument.DynamicServiceArgument import DynamicServiceArgument
 from injecta.service.argument.PrimitiveArgument import PrimitiveArgument
-from injecta.config.ConfigLoader import TaggedServices
+from injecta.config.ConfigLoader import TaggedServices, TaggedAliasedService
 from injecta.service.argument.TaggedServicesArgument import TaggedServicesArgument
 
 class ArgumentParser:
@@ -21,6 +22,9 @@ class ArgumentParser:
 
         if isinstance(argument, TaggedServices):
             return TaggedServicesArgument(argument.val, name)
+
+        if isinstance(argument, TaggedAliasedService):
+            return TaggedAliasedServiceArgument(argument.tagName, argument.tagAlias, name)
 
         if isinstance(argument, (int, bool)):
             return PrimitiveArgument(argument, name)

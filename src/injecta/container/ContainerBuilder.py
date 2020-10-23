@@ -14,7 +14,7 @@ from injecta.service.resolved.ServiceResolver import ServiceResolver
 from injecta.service.ServiceParser import ServiceParser
 from injecta.service.argument.ArgumentParser import ArgumentParser
 from injecta.schema.SchemaValidator import SchemaValidator
-from injecta.tag.TaggedServicesCompilerPass import TaggedServicesCompilerPass
+from injecta.service.argument.YamlTagArgumentsCompilerPass import YamlTagArgumentsCompilerPass
 
 class ContainerBuilder:
 
@@ -31,7 +31,7 @@ class ContainerBuilder:
         self.__parametersParser = ParametersParser()
         self.__tag2ServicesPreparer = Tag2ServicesPreparer()
         self.__defaultCompilerPasses = [
-            TaggedServicesCompilerPass(),
+            YamlTagArgumentsCompilerPass(),
             AutowiringCompilerPass(ArgumentsAutowirer(ArgumentResolver())),
         ]
 

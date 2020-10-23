@@ -44,6 +44,13 @@ class Service:
     def tags(self) -> list:
         return self.__tags
 
+    def getTagAttributes(self, tagName: str):
+        for tag in self.__tags:
+            if isinstance(tag, dict) and tag['name'] == tagName:
+                return tag
+
+        raise Exception(f'No attributes found for tag {tagName}')
+
     def setFactory(self, factoryService: ServiceArgument, factoryMethod: str):
         self.__factoryService = factoryService
         self.__factoryMethod = factoryMethod

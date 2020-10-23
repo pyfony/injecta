@@ -11,6 +11,17 @@ class TaggedServices(yaml.YAMLObject):
     def from_yaml(cls, loader, node):
         return cls(node.value)
 
+class TaggedAliasedService(yaml.YAMLObject):
+    yaml_loader = yaml.SafeLoader
+    yaml_tag = '!tagged_aliased'
+    def __init__(self, tagName, tagAlias):
+        self.tagName = tagName
+        self.tagAlias = tagAlias
+
+    @classmethod
+    def from_yaml(cls, loader, node):
+        return cls(node.value[0].value, node.value[1].value)
+
 class ConfigLoader:
 
     def load(self, configPath: Path):
