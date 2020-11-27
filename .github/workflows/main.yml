@@ -11,10 +11,8 @@ jobs:
           miniconda-version: 'py38_4.8.3'
       - name: setup
         run: |
-          ./env-init.sh
-          eval "$(conda shell.bash hook)"
-          source $HOME/.poetry/env
-          conda activate $PWD/.venv
+          export SHELL=$SHELL # for python to be able to access the bash version
+          ./env-init.sh -y --verbose
       - name: pylint
         run: |
           eval "$(conda shell.bash hook)"
