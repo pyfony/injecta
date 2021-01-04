@@ -5,11 +5,6 @@ from injecta.service.Service import Service
 
 class Hooks:
 
-    _servicesTestingModeEnabled = False
-
-    def enableServicesTestingMode(self):
-        self._servicesTestingModeEnabled = True
-
     def start(self, rawConfig: dict) -> dict:
         return rawConfig
 
@@ -17,11 +12,7 @@ class Hooks:
         return services
 
     def getCustomParameters(self) -> dict:
-        return {
-            'container': {
-                'servicesTestingModeEnabled': self._servicesTestingModeEnabled
-            }
-        }
+        return {}
 
     def parametersParsed(self, parameters: Box) -> Box:
         return parameters
