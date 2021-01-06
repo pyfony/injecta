@@ -46,14 +46,17 @@ class ConfigMergerTest(unittest.TestCase):
         }
 
         result = self.__configMerger.merge(a, b)
-
-        self.assertEqual({
+        expectedResult = {
             'hello': {
                 'world': 1,
                 'street': 'Nova',
                 'zip': '11000',
             }
-        }, result)
+        }
+
+        self.assertEqual(expectedResult, result)
+        # strict dict fields order check
+        self.assertEqual(tuple(expectedResult['hello']), tuple(result['hello']))
 
 if __name__ == '__main__':
     unittest.main()
