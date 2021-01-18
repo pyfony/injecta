@@ -7,6 +7,7 @@ from injecta.container.Hooks import Hooks
 from injecta.generator.Tag2ServicesPreparer import Tag2ServicesPreparer
 from injecta.container.ContainerBuild import ContainerBuild
 from injecta.service.Service import Service
+from injecta.service.ServiceAlias import ServiceAlias
 from injecta.service.parser.ServicesPreparer import ServicesPreparer
 from injecta.service.parser.DTypeResolver import DTypeResolver
 from injecta.parameter.ParametersParser import ParametersParser
@@ -48,10 +49,10 @@ class ContainerBuilder:
         parameters = self.__parametersParser.parse(rawConfig['parameters'], hooks.getCustomParameters())
         parameters = hooks.parametersParsed(parameters)
 
-        services = self.__servicesPreparer.prepare(rawConfig['services'])
-        services = hooks.servicesPrepared(services)
+        services, aliases = self.__servicesPreparer.prepare(rawConfig['services'])
+        services, aliases = hooks.servicesPrepared(services, aliases, parameters)
 
-        containerBuild = self._build(parameters, services)
+        containerBuild = self._build(parameters, services, aliases)
 
         for compilerPass in self.__defaultCompilerPasses:
             compilerPass.process(containerBuild)
@@ -60,12 +61,13 @@ class ContainerBuilder:
 
         return containerBuild
 
-    def _build(self, parameters: Box, services: List[Service]):
+    def _build(self, parameters: Box, services: List[Service], aliases: List[ServiceAlias]):
+        aliases2Services = {serviceAlias.name: serviceAlias.aliasedService for serviceAlias in aliases}
         classes2Services = self.__classes2ServicesBuilder.build(services)
-        services2Classes = dict(map(lambda service: (service.name, service.class_), services))
+        services2Classes = {service.name: service.class_ for service in services}
 
-        resolvedServices: List[ResolvedService] = [self.__servicesResolver.resolve(service, services2Classes) for service in services]
+        resolvedServices: List[ResolvedService] = [self.__servicesResolver.resolve(service, services2Classes, aliases2Services) for service in services]
 
         tag2Services = self.__tag2ServicesPreparer.prepare(services)
 
-        return ContainerBuild(parameters, resolvedServices, classes2Services, tag2Services)
+        return ContainerBuild(parameters, resolvedServices, classes2Services, aliases2Services, tag2Services)

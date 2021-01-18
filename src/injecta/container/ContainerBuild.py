@@ -10,11 +10,13 @@ class ContainerBuild:
         parameters: Dict[Any, Box],
         resolvedServices: List[ResolvedService],
         classes2Services: dict,
+        aliases2Services: dict,
         tag2Services: Dict[str, List[Service]],
     ):
         self.__parameters = parameters
         self.__resolvedServices = resolvedServices
         self.__classes2Services = classes2Services
+        self.__aliases2Services = aliases2Services
         self.__tag2Services = tag2Services
 
     @property
@@ -32,6 +34,10 @@ class ContainerBuild:
     @property
     def classes2Services(self):
         return self.__classes2Services
+
+    @property
+    def aliases2Services(self) -> dict:
+        return self.__aliases2Services
 
     def getServicesByTag(self, tagName) -> List[Service]:
         if tagName not in self.__tag2Services:

@@ -41,6 +41,14 @@ class ServiceSchemaValidatorTest(unittest.TestCase):
 
         self.assertEqual('Unexpected attributes (banana) for service "Foo.Bar"', str(error.exception))
 
+    def test_invalidAlias(self):
+        rawServiceDefinition = 'mycompany.MyService'
+
+        with self.assertRaises(SchemaValidationException) as error:
+            self.__schemaValidator.validate('mycompany.MyServiceAlias', rawServiceDefinition)
+
+        self.assertEqual('Service aliased with mycompany.MyServiceAlias must be prefixed with @', str(error.exception))
+
     def test_autowire(self):
         rawServiceDefinition = {
             'arguments': [

@@ -8,6 +8,12 @@ class ServiceSchemaValidator:
         if self.__isBasicDefinition(rawServiceDefinition):
             return
 
+        if isinstance(rawServiceDefinition, str):
+            if self.__isAlias(rawServiceDefinition):
+                return
+
+            raise SchemaValidationException(f'Service aliased with {serviceName} must be prefixed with @')
+
         if isinstance(rawServiceDefinition, list):
             raise SchemaValidationException('Arguments of service "{}" must be defined in the "arguments" key'.format(serviceName))
 
@@ -42,3 +48,6 @@ class ServiceSchemaValidator:
 
     def __isBasicDefinition(self, rawServiceDefinition):
         return rawServiceDefinition is None
+
+    def __isAlias(self, rawServiceDefinition):
+        return rawServiceDefinition[:1] == '@'

@@ -10,7 +10,7 @@ class ContainerGenerator:
     ):
         self.__serviceGenerator = serviceGenerator
 
-    def generate(self, resolvedServices: List[ResolvedService]):
+    def generate(self, resolvedServices: List[ResolvedService], aliases2Services: dict):
         path = getLibRoot() + '/generator/container_template.py'
 
         with open(path, 'r', encoding='utf-8') as f:
@@ -18,7 +18,8 @@ class ContainerGenerator:
             f.close()
 
         codeOfServiceMethods = list(map(self.__serviceGenerator.generate, resolvedServices))
+        codeOfServiceAliasMethods = [self.__serviceGenerator.generateAliases(alias, serviceName) for alias, serviceName in aliases2Services.items()]
 
-        output += '\n'.join(codeOfServiceMethods)
+        output += '\n'.join(codeOfServiceMethods + codeOfServiceAliasMethods)
 
         return output

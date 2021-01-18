@@ -24,8 +24,8 @@ class ServiceArgument(ArgumentInterface):
     def getStringValue(self):
         return 'self.' + self.__serviceMethodTranslator.translate(self.__serviceName) + '()'
 
-    def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict):
-        serviceClassType = self.__resolveServiceClassType(services2Classes)
+    def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict, aliases2Services: dict):
+        serviceClassType = self.__resolveServiceClassType(services2Classes, aliases2Services)
 
         if serviceClassType == inspectedArgument.dtype:
             return
@@ -36,9 +36,23 @@ class ServiceArgument(ArgumentInterface):
         if not issubclass(serviceClass, inspectedArgumentClass):
             raise ArgumentsValidatorException(inspectedArgument.name, str(inspectedArgument.dtype), str(serviceClassType))
 
-    def __resolveServiceClassType(self, services2Classes: dict) -> DType:
+    def __resolveServiceClassType(self, services2Classes: dict, aliases2Services: dict) -> DType:
         if self.__serviceName in services2Classes:
             return services2Classes[self.__serviceName]
+
+        if self.__serviceName in aliases2Services:
+            def resolveRecursive(serviceName):
+                aliasedServiceName = aliases2Services[serviceName]
+
+                if aliasedServiceName in aliases2Services:
+                    return resolveRecursive(aliasedServiceName)
+
+                if aliasedServiceName not in services2Classes:
+                    raise Exception(f'Aliased service "{aliasedServiceName}" does not exist')
+
+                return services2Classes[aliasedServiceName]
+
+            return resolveRecursive(self.__serviceName)
 
         raise Exception(f'Undefined service {self.__serviceName}')
 

@@ -18,7 +18,7 @@ class ContainerInitializer:
         )
 
     def init(self, containerBuild: ContainerBuild) -> ContainerInterface:
-        code = self.__containerGenerator.generate(containerBuild.resolvedServices)
+        code = self.__containerGenerator.generate(containerBuild.resolvedServices, containerBuild.aliases2Services)
 
         tmpFile = self.__writeContainer(code)
         module = self.__importContainer(tmpFile.name)

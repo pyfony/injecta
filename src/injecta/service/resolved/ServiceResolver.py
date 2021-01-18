@@ -13,7 +13,7 @@ class ServiceResolver:
         self.__argumentListResolver = ArgumentListResolver()
         self.__namedArgumentsResolver = NamedArgumentsResolver()
 
-    def resolve(self, service: Service, services2Classes: dict) -> ResolvedService:
+    def resolve(self, service: Service, services2Classes: dict, aliases2Services: dict) -> ResolvedService:
         if service.usesFactory():
             factoryClass = services2Classes[service.factoryService.serviceName]
             inspectedArguments = self.__inspectedArgumentsResolver.resolveMethod(factoryClass, service.factoryMethod)
@@ -26,6 +26,6 @@ class ServiceResolver:
             resolvedArguments = self.__argumentListResolver.resolve(service.arguments, inspectedArguments, service.name)
 
         if not service.usesFactory():
-            self.__argumentsValidator.validate(service.name, resolvedArguments, services2Classes)
+            self.__argumentsValidator.validate(service.name, resolvedArguments, services2Classes, aliases2Services)
 
         return ResolvedService(service, resolvedArguments)

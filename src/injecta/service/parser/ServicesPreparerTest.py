@@ -1,4 +1,5 @@
 import unittest
+from injecta.service.ServiceAlias import ServiceAlias
 from injecta.service.parser.ServiceParser import ServiceParser
 from injecta.service.parser.ServicesPreparer import ServicesPreparer
 from injecta.service.parser.DTypeResolver import DTypeResolver
@@ -32,6 +33,7 @@ class ServicesPreparerTest(unittest.TestCase):
                     '@injecta.mocks.Bar.Bar'
                 ]
             },
+            'injecta.mocks.Bar.BarAlias': '@injecta.mocks.Bar.Bar',
         }
 
         expectedService1 = Service(
@@ -50,10 +52,13 @@ class ServicesPreparerTest(unittest.TestCase):
             ]
         )
 
-        result = self.__servicesPreparer.prepare(rawServices)
+        expectedAlias1 = ServiceAlias('injecta.mocks.Bar.BarAlias', 'injecta.mocks.Bar.Bar')
 
-        self.assertEqual(expectedService1, result[0])
-        self.assertEqual(expectedService2, result[1])
+        services, aliases = self.__servicesPreparer.prepare(rawServices)
+
+        self.assertEqual(expectedService1, services[0])
+        self.assertEqual(expectedService2, services[1])
+        self.assertEqual(expectedAlias1, aliases[0])
 
 if __name__ == '__main__':
     unittest.main()

@@ -22,7 +22,7 @@ class ListArgument(ArgumentInterface):
         argumentList = list(map(lambda item: item.getStringValue(), self.__items))
         return '[' + ', '.join(argumentList) + ']'
 
-    def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict):
+    def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict, aliases2Services: dict):
         dtype = inspectedArgument.dtype
 
         if isinstance(dtype, ListTypeInjecta) is False:
@@ -36,7 +36,7 @@ class ListArgument(ArgumentInterface):
         for item in self.__items:
             inspectedSubArgument = InspectedArgument(inspectedArgument.name + '_' + str(i), inspectedArgument.dtype)
 
-            item.checkTypeMatchesDefinition(inspectedSubArgument, services2Classes)
+            item.checkTypeMatchesDefinition(inspectedSubArgument, services2Classes, aliases2Services)
 
     def __eq__(self, other: 'ListArgument'):
         return self.name == other.name and self.getStringValue() == other.getStringValue()

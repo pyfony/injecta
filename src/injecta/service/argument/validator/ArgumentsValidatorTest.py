@@ -22,6 +22,7 @@ class ArgumentsValidatorTest(unittest.TestCase):
                 )
             ],
             {},
+            {},
         )
 
         self.assertTrue(True)
@@ -37,6 +38,7 @@ class ArgumentsValidatorTest(unittest.TestCase):
                         InspectedArgument('bar', DType('injecta.mocks.Bar', 'Bar'))
                     )
                 ],
+                {},
                 {},
             )
 
@@ -56,6 +58,7 @@ class ArgumentsValidatorTest(unittest.TestCase):
                 {
                     'injecta.mocks.Empty': DType('injecta.mocks.Empty', 'Empty')
                 },
+                {},
             )
 
         self.assertEqual('Expected dtype "str", got "injecta.mocks.Empty.Empty" (argument "name", service "injecta.mocks.Bar")', str(error.exception))

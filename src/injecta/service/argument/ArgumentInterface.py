@@ -13,5 +13,5 @@ class ArgumentInterface(ABC):
         pass
 
     @abstractmethod
-    def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict):
+    def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict, aliases2Services: dict):
         pass

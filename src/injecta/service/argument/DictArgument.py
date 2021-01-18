@@ -19,7 +19,7 @@ class DictArgument(ArgumentInterface):
 
         return ', '.join(output)
 
-    def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict):
+    def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict, aliases2Services: dict):
         pass
 
     def __eq__(self, other: 'DictArgument'):

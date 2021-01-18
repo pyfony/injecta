@@ -18,7 +18,7 @@ class TaggedServicesArgument(ArgumentInterface):
     def getStringValue(self):
         raise Exception('YamlTagArgumentsCompilerPass probably failed to convert tagged arguments')
 
-    def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict):
+    def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict, aliases2Services: dict):
         pass
 
     def __eq__(self, other: 'TaggedServicesArgument'):

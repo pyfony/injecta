@@ -15,10 +15,18 @@ class ServiceGenerator:
     def generate(self, resolvedService: ResolvedService):
         methodName = self.__serviceMethodNameTranslator.translate(resolvedService.service.name)
 
-        serviceMethodCode = (
+        return (
             '    @diService\n'
             '    def ' + methodName + '(self):\n'
             '' + self.__objectGenerator.generate(resolvedService) + '\n'
         )
 
-        return serviceMethodCode
+    def generateAliases(self, alias: str, serviceName: str):
+        methodName = self.__serviceMethodNameTranslator.translate(alias)
+        aliasMethodName = self.__serviceMethodNameTranslator.translate(serviceName)
+
+        return (
+            '    @diService\n'
+            '    def ' + methodName + '(self):\n'
+            '        return self.' + aliasMethodName + '()\n'
+        )

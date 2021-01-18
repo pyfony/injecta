@@ -8,7 +8,8 @@ class ArgumentsValidator:
         self,
         serviceName: str,
         resolvedArguments: List[ResolvedArgument],
-        services2Classes: dict
+        services2Classes: dict,
+        aliases2Services: dict,
     ):
         for resolvedArgument in resolvedArguments:
             argument = resolvedArgument.argument
@@ -16,6 +17,6 @@ class ArgumentsValidator:
 
             if argument and inspectedArgument and inspectedArgument.dtype.isDefined():
                 try:
-                    argument.checkTypeMatchesDefinition(inspectedArgument, services2Classes)
+                    argument.checkTypeMatchesDefinition(inspectedArgument, services2Classes, aliases2Services)
                 except ArgumentsValidatorException as e:
                     raise e.createFinalException(serviceName)

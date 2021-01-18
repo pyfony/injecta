@@ -22,7 +22,7 @@ class PrimitiveArgument(ArgumentInterface):
 
         return str(self.__value)
 
-    def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict):
+    def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict, aliases2Services: dict):
         dtype = inspectedArgument.dtype
 
         if dtype.moduleName == 'box':
