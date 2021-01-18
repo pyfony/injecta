@@ -1,6 +1,6 @@
 import unittest
 from injecta.dtype.DType import DType
-from injecta.service.DTypeResolver import DTypeResolver
+from injecta.service.parser.DTypeResolver import DTypeResolver
 
 class DTypeResolverTest(unittest.TestCase):
 

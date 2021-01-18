@@ -7,13 +7,13 @@ from injecta.container.Hooks import Hooks
 from injecta.generator.Tag2ServicesPreparer import Tag2ServicesPreparer
 from injecta.container.ContainerBuild import ContainerBuild
 from injecta.service.Service import Service
-from injecta.service.ServicesPreparer import ServicesPreparer
-from injecta.service.DTypeResolver import DTypeResolver
+from injecta.service.parser.ServicesPreparer import ServicesPreparer
+from injecta.service.parser.DTypeResolver import DTypeResolver
 from injecta.parameter.ParametersParser import ParametersParser
 from injecta.service.Classes2ServicesBuilder import Classes2ServicesBuilder
 from injecta.service.resolved.ResolvedService import ResolvedService
 from injecta.service.resolved.ServiceResolver import ServiceResolver
-from injecta.service.ServiceParser import ServiceParser
+from injecta.service.parser.ServiceParser import ServiceParser
 from injecta.service.argument.ArgumentParser import ArgumentParser
 from injecta.schema.SchemaValidator import SchemaValidator
 from injecta.service.argument.YamlTagArgumentsCompilerPass import YamlTagArgumentsCompilerPass

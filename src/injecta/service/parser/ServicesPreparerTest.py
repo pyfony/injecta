@@ -1,7 +1,7 @@
 import unittest
-from injecta.service.ServiceParser import ServiceParser
-from injecta.service.ServicesPreparer import ServicesPreparer
-from injecta.service.DTypeResolver import DTypeResolver
+from injecta.service.parser.ServiceParser import ServiceParser
+from injecta.service.parser.ServicesPreparer import ServicesPreparer
+from injecta.service.parser.DTypeResolver import DTypeResolver
 from injecta.service.argument.ArgumentParser import ArgumentParser
 from injecta.schema.SchemaValidator import SchemaValidator
 from injecta.dtype.DType import DType

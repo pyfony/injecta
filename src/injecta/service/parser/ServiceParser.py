@@ -1,4 +1,4 @@
-from injecta.service.DTypeResolver import DTypeResolver
+from injecta.service.parser.DTypeResolver import DTypeResolver
 from injecta.service.argument.ArgumentParser import ArgumentParser
 from injecta.service.Service import Service
 from injecta.service.argument.ServiceArgument import ServiceArgument

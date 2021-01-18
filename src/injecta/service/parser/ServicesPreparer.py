@@ -1,5 +1,5 @@
 from typing import List
-from injecta.service.ServiceParser import ServiceParser
+from injecta.service.parser.ServiceParser import ServiceParser
 from injecta.service.Service import Service
 from injecta.schema.SchemaValidator import SchemaValidator
 
