@@ -1,4 +1,4 @@
-class ServiceValidatorException(Exception):
+class ArgumentsValidatorException(Exception):
 
     def __init__(self, argumentMame: str, argumentType: str, serviceClassType: str):
         self.__argumentMame = argumentMame

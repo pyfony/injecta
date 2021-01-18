@@ -1,8 +1,8 @@
 from typing import List
-from injecta.service.ServiceValidatorException import ServiceValidatorException
+from injecta.service.argument.validator.ArgumentsValidatorException import ArgumentsValidatorException
 from injecta.service.resolved.ResolvedArgument import ResolvedArgument
 
-class ServiceValidator:
+class ArgumentsValidator:
 
     def validate(
         self,
@@ -17,5 +17,5 @@ class ServiceValidator:
             if argument and inspectedArgument and inspectedArgument.dtype.isDefined():
                 try:
                     argument.checkTypeMatchesDefinition(inspectedArgument, services2Classes)
-                except ServiceValidatorException as e:
+                except ArgumentsValidatorException as e:
                     raise e.createFinalException(serviceName)

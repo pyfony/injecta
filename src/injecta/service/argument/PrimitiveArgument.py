@@ -1,6 +1,6 @@
 import re
 from injecta.service.argument.ArgumentInterface import ArgumentInterface
-from injecta.service.ServiceValidatorException import ServiceValidatorException
+from injecta.service.argument.validator.ArgumentsValidatorException import ArgumentsValidatorException
 from injecta.service.class_.InspectedArgument import InspectedArgument
 
 class PrimitiveArgument(ArgumentInterface):
@@ -29,7 +29,7 @@ class PrimitiveArgument(ArgumentInterface):
             return
 
         if dtype.isPrimitiveType() is False:
-            raise ServiceValidatorException(
+            raise ArgumentsValidatorException(
                 inspectedArgument.name,
                 str(inspectedArgument.dtype),
                 self.__value.__class__.__name__

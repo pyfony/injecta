@@ -2,17 +2,17 @@ import unittest
 from injecta.service.argument.ServiceArgument import ServiceArgument
 from injecta.dtype.DType import DType
 from injecta.service.argument.PrimitiveArgument import PrimitiveArgument
-from injecta.service.ServiceValidator import ServiceValidator
+from injecta.service.argument.validator.ArgumentsValidator import ArgumentsValidator
 from injecta.service.class_.InspectedArgument import InspectedArgument
 from injecta.service.resolved.ResolvedArgument import ResolvedArgument
 
-class ServiceValidatorTest(unittest.TestCase):
+class ArgumentsValidatorTest(unittest.TestCase):
 
     def setUp(self):
-        self.__serviceValidator = ServiceValidator()
+        self.__argumentsValidator = ArgumentsValidator()
 
     def test_basic(self):
-        self.__serviceValidator.validate(
+        self.__argumentsValidator.validate(
             'injecta.mocks.Bar',
             [
                 ResolvedArgument(
@@ -28,7 +28,7 @@ class ServiceValidatorTest(unittest.TestCase):
 
     def test_exceptionStringForObject(self):
         with self.assertRaises(Exception) as error:
-            self.__serviceValidator.validate(
+            self.__argumentsValidator.validate(
                 'injecta.mocks.Foo',
                 [
                     ResolvedArgument(
@@ -44,7 +44,7 @@ class ServiceValidatorTest(unittest.TestCase):
 
     def test_exceptionObjectForString(self):
         with self.assertRaises(Exception) as error:
-            self.__serviceValidator.validate(
+            self.__argumentsValidator.validate(
                 'injecta.mocks.Bar',
                 [
                     ResolvedArgument(

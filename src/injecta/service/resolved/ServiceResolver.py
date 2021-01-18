@@ -1,7 +1,7 @@
 from injecta.service.resolved.ArgumentListResolver import ArgumentListResolver
 from injecta.service.resolved.NamedArgumentsResolver import NamedArgumentsResolver
 from injecta.service.resolved.ResolvedService import ResolvedService
-from injecta.service.ServiceValidator import ServiceValidator
+from injecta.service.argument.validator.ArgumentsValidator import ArgumentsValidator
 from injecta.service.Service import Service
 from injecta.service.class_.InspectedArgumentsResolver import InspectedArgumentsResolver
 
@@ -9,7 +9,7 @@ class ServiceResolver:
 
     def __init__(self):
         self.__inspectedArgumentsResolver = InspectedArgumentsResolver()
-        self.__serviceValidator = ServiceValidator()
+        self.__argumentsValidator = ArgumentsValidator()
         self.__argumentListResolver = ArgumentListResolver()
         self.__namedArgumentsResolver = NamedArgumentsResolver()
 
@@ -26,6 +26,6 @@ class ServiceResolver:
             resolvedArguments = self.__argumentListResolver.resolve(service.arguments, inspectedArguments, service.name)
 
         if not service.usesFactory():
-            self.__serviceValidator.validate(service.name, resolvedArguments, services2Classes)
+            self.__argumentsValidator.validate(service.name, resolvedArguments, services2Classes)
 
         return ResolvedService(service, resolvedArguments)

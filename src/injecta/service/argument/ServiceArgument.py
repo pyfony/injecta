@@ -1,6 +1,6 @@
 from injecta.generator.ServiceMethodNameTranslator import ServiceMethodNameTranslator
 from injecta.service.argument.ArgumentInterface import ArgumentInterface
-from injecta.service.ServiceValidatorException import ServiceValidatorException
+from injecta.service.argument.validator.ArgumentsValidatorException import ArgumentsValidatorException
 from injecta.service.class_.InspectedArgument import InspectedArgument
 from injecta.dtype.DType import DType
 from injecta.dtype.classLoader import loadClass
@@ -34,7 +34,7 @@ class ServiceArgument(ArgumentInterface):
         inspectedArgumentClass = loadClass(inspectedArgument.dtype.moduleName, inspectedArgument.dtype.className)
 
         if not issubclass(serviceClass, inspectedArgumentClass):
-            raise ServiceValidatorException(inspectedArgument.name, str(inspectedArgument.dtype), str(serviceClassType))
+            raise ArgumentsValidatorException(inspectedArgument.name, str(inspectedArgument.dtype), str(serviceClassType))
 
     def __resolveServiceClassType(self, services2Classes: dict) -> DType:
         if self.__serviceName in services2Classes:

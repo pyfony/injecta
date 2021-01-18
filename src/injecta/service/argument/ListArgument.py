@@ -1,5 +1,5 @@
 from typing import List
-from injecta.service.ServiceValidatorException import ServiceValidatorException
+from injecta.service.argument.validator.ArgumentsValidatorException import ArgumentsValidatorException
 from injecta.dtype.ListType import ListType as ListTypeInjecta
 from injecta.service.argument.ArgumentInterface import ArgumentInterface
 from injecta.service.class_.InspectedArgument import InspectedArgument
@@ -26,7 +26,7 @@ class ListArgument(ArgumentInterface):
         dtype = inspectedArgument.dtype
 
         if isinstance(dtype, ListTypeInjecta) is False:
-            raise ServiceValidatorException(
+            raise ArgumentsValidatorException(
                 inspectedArgument.name,
                 'typing.List',
                 self.__items.__class__.__name__,

@@ -2,14 +2,14 @@ from typing import List
 from injecta.service.argument.ArgumentInterface import ArgumentInterface
 from injecta.service.class_.InspectedArgument import InspectedArgument
 from injecta.service.resolved.ResolvedArgument import ResolvedArgument
-from injecta.service.ServiceValidator import ServiceValidator
+from injecta.service.argument.validator.ArgumentsValidator import ArgumentsValidator
 from injecta.service.class_.InspectedArgumentsResolver import InspectedArgumentsResolver
 
 class ArgumentListResolver:
 
     def __init__(self):
         self.__inspectedArgumentsResolver = InspectedArgumentsResolver()
-        self.__serviceValidator = ServiceValidator()
+        self.__argumentsValidator = ArgumentsValidator()
 
     def resolve(self, arguments: List[ArgumentInterface], inspectedArguments: List[InspectedArgument], serviceName: str):
         if self.__containsKwargs(inspectedArguments):
