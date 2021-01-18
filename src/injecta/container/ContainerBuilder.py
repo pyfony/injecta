@@ -45,11 +45,11 @@ class ContainerBuilder:
 
         rawConfig = hooks.start(rawConfig)
 
-        services = self.__servicesPreparer.prepare(rawConfig['services'])
-        services = hooks.servicesPrepared(services)
-
         parameters = self.__parametersParser.parse(rawConfig['parameters'], hooks.getCustomParameters())
         parameters = hooks.parametersParsed(parameters)
+
+        services = self.__servicesPreparer.prepare(rawConfig['services'])
+        services = hooks.servicesPrepared(services)
 
         containerBuild = self._build(parameters, services)
 
