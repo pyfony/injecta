@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "injecta"
-version = "0.9.0"
+version = "0.9.1"
 description = "Dependency Injection Container Library"
 readme = "README.md"
 repository = "https://github.com/pyfony/injecta"
