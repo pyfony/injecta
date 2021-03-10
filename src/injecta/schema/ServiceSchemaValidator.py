@@ -1,53 +1,55 @@
 from injecta.schema.SchemaValidationException import SchemaValidationException
 
+
 class ServiceSchemaValidator:
 
-    allowedAttributes = ['class', 'arguments', 'tags', 'autowire', 'factory']
+    allowed_attributes = ["class", "arguments", "tags", "autowire", "factory"]
 
-    def validate(self, serviceName, rawServiceDefinition):
-        if self.__isBasicDefinition(rawServiceDefinition):
+    def validate(self, service_name, raw_service_definition):
+        if self.__is_basic_definition(raw_service_definition):
             return
 
-        if isinstance(rawServiceDefinition, str):
-            if self.__isAlias(rawServiceDefinition):
+        if isinstance(raw_service_definition, str):
+            if self.__is_alias(raw_service_definition):
                 return
 
-            raise SchemaValidationException(f'Service aliased with {serviceName} must be prefixed with @')
+            raise SchemaValidationException(f"Service aliased with {service_name} must be prefixed with @")
 
-        if isinstance(rawServiceDefinition, list):
-            raise SchemaValidationException('Arguments of service "{}" must be defined in the "arguments" key'.format(serviceName))
+        if isinstance(raw_service_definition, list):
+            raise SchemaValidationException('Arguments of service "{}" must be defined in the "arguments" key'.format(service_name))
 
-        if isinstance(rawServiceDefinition, dict) is False:
-            raise SchemaValidationException('service "{}" not properly defined'.format(serviceName))
+        if isinstance(raw_service_definition, dict) is False:
+            raise SchemaValidationException('service "{}" not properly defined'.format(service_name))
 
-        unexpectedAttributes = set(rawServiceDefinition.keys()) - set(ServiceSchemaValidator.allowedAttributes)
+        unexpected_attributes = set(raw_service_definition.keys()) - set(ServiceSchemaValidator.allowed_attributes)
 
-        if unexpectedAttributes:
-            raise SchemaValidationException('Unexpected attributes ({}) for service "{}"'.format(', '.join(unexpectedAttributes), serviceName))
+        if unexpected_attributes:
+            raise SchemaValidationException(
+                'Unexpected attributes ({}) for service "{}"'.format(", ".join(unexpected_attributes), service_name)
+            )
 
-        #if 'arguments' in rawServiceDefinition:
-            #if isinstance(rawServiceDefinition['arguments'], list) is False:
-                #raise SchemaValidationException('Arguments of service "{}" must be defined as list'.format(serviceName))
+        # if 'arguments' in raw_service_definition:
+        # if isinstance(raw_service_definition['arguments'], list) is False:
+        # raise SchemaValidationException('Arguments of service "{}" must be defined as list'.format(service_name))
 
-        if 'tags' in rawServiceDefinition:
-            if isinstance(rawServiceDefinition['tags'], list) is False:
-                raise SchemaValidationException('Tags of service "{}" must be defined as list'.format(serviceName))
+        if "tags" in raw_service_definition:
+            if isinstance(raw_service_definition["tags"], list) is False:
+                raise SchemaValidationException('Tags of service "{}" must be defined as list'.format(service_name))
 
-        if 'autowire' in rawServiceDefinition:
-            if isinstance(rawServiceDefinition['autowire'], bool) is False:
-                raise SchemaValidationException('Attribute "autowire" of service "{}" must be True or False'.format(serviceName))
+        if "autowire" in raw_service_definition:
+            if isinstance(raw_service_definition["autowire"], bool) is False:
+                raise SchemaValidationException('Attribute "autowire" of service "{}" must be True or False'.format(service_name))
 
-        if 'factory' in rawServiceDefinition:
-            if (
-                isinstance(rawServiceDefinition['factory'], list) is False
-                or (
-                    isinstance(rawServiceDefinition['factory'], list) is True and len(rawServiceDefinition['factory']) != 2
-                )
+        if "factory" in raw_service_definition:
+            if isinstance(raw_service_definition["factory"], list) is False or (
+                isinstance(raw_service_definition["factory"], list) is True and len(raw_service_definition["factory"]) != 2
             ):
-                raise SchemaValidationException('Attribute "factory" of service "{}" must be list [factoryClass, factoryMethod]'.format(serviceName))
+                raise SchemaValidationException(
+                    'Attribute "factory" of service "{}" must be list [factory_class, factory_method]'.format(service_name)
+                )
 
-    def __isBasicDefinition(self, rawServiceDefinition):
-        return rawServiceDefinition is None
+    def __is_basic_definition(self, raw_service_definition):
+        return raw_service_definition is None
 
-    def __isAlias(self, rawServiceDefinition):
-        return rawServiceDefinition[:1] == '@'
+    def __is_alias(self, raw_service_definition):
+        return raw_service_definition[:1] == "@"

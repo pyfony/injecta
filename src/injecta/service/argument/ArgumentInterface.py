@@ -1,17 +1,17 @@
 from abc import ABC, abstractmethod
 from injecta.service.class_.InspectedArgument import InspectedArgument
 
-class ArgumentInterface(ABC):
 
+class ArgumentInterface(ABC):
     @property
     @abstractmethod
     def name(self):
         pass
 
     @abstractmethod
-    def getStringValue(self):
+    def get_string_value(self):
         pass
 
     @abstractmethod
-    def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict, aliases2Services: dict):
+    def check_type_matches_definition(self, inspected_argument: InspectedArgument, services2_classes: dict, aliases2_services: dict):
         pass

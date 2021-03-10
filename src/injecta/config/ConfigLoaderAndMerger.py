@@ -3,21 +3,21 @@ from typing import List
 from injecta.config.ConfigLoader import ConfigLoader
 from injecta.config.ConfigMerger import ConfigMerger
 
+
 class ConfigLoaderAndMerger:
-
     def __init__(self):
-        self.__configLoader = ConfigLoader()
-        self.__configMerger = ConfigMerger()
+        self.__config_loader = ConfigLoader()
+        self.__config_merger = ConfigMerger()
 
-    def loadAndMerge(self, configPaths: List[Path]):
-        yamlConfig = {}
+    def load_and_merge(self, config_paths: List[Path]):
+        yaml_config = {}
 
-        for configPath in configPaths:
-            newYamlConfig = self.__configLoader.load(configPath)
+        for config_path in config_paths:
+            new_yaml_config = self.__config_loader.load(config_path)
 
-            if 'imports' in newYamlConfig:
-                del newYamlConfig['imports']
+            if "imports" in new_yaml_config:
+                del new_yaml_config["imports"]
 
-            yamlConfig = self.__configMerger.merge(yamlConfig, newYamlConfig)
+            yaml_config = self.__config_merger.merge(yaml_config, new_yaml_config)
 
-        return yamlConfig
+        return yaml_config

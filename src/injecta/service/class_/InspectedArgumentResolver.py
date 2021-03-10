@@ -4,28 +4,28 @@ from injecta.dtype.ListType import ListType
 from injecta.dtype.DType import DType
 from injecta.service.class_.InspectedArgument import InspectedArgument
 
-class InspectedArgumentResolver:
 
+class InspectedArgumentResolver:
     def resolve(self, name: str, parameter: Parameter) -> InspectedArgument:
         annotation = parameter.annotation
 
-        if annotation.__module__ == 'typing':
-            subtypeArg = annotation.__args__[0]
+        if annotation.__module__ == "typing":
+            subtype_arg = annotation.__args__[0]
 
-            dtype = ListType(subtypeArg.__module__, subtypeArg.__name__)
+            dtype = ListType(subtype_arg.__module__, subtype_arg.__name__)
 
-            inspectedArgument = InspectedArgument(name, dtype)
+            inspected_argument = InspectedArgument(name, dtype)
         else:
             dtype = DType(annotation.__module__, annotation.__name__)
 
-            defaultValue = parameter.default if not isinstance(parameter.default, locate('type')) else None
-            defaultValueSet = not (
+            default_value = parameter.default if not isinstance(parameter.default, locate("type")) else None
+            default_value_set = not (
                 parameter.default
                 and isclass(parameter.default)
-                and parameter.default.__module__ == 'inspect'
-                and parameter.default.__name__ == '_empty'
+                and parameter.default.__module__ == "inspect"
+                and parameter.default.__name__ == "_empty"
             )
 
-            inspectedArgument = InspectedArgument(name, dtype, defaultValue, defaultValueSet)
+            inspected_argument = InspectedArgument(name, dtype, default_value, default_value_set)
 
-        return inspectedArgument
+        return inspected_argument

@@ -6,62 +6,47 @@ from injecta.service.argument.validator.ArgumentsValidator import ArgumentsValid
 from injecta.service.class_.InspectedArgument import InspectedArgument
 from injecta.service.resolved.ResolvedArgument import ResolvedArgument
 
-class ArgumentsValidatorTest(unittest.TestCase):
 
+class ArgumentsValidatorTest(unittest.TestCase):
     def setUp(self):
-        self.__argumentsValidator = ArgumentsValidator()
+        self.__arguments_validator = ArgumentsValidator()
 
     def test_basic(self):
-        self.__argumentsValidator.validate(
-            'injecta.mocks.Bar',
-            [
-                ResolvedArgument(
-                    'name',
-                    PrimitiveArgument('Jiri Koutny'),
-                    InspectedArgument('name', DType('builtins', 'str'))
-                )
-            ],
+        self.__arguments_validator.validate(
+            "injecta.mocks.Bar",
+            [ResolvedArgument("name", PrimitiveArgument("Jiri Koutny"), InspectedArgument("name", DType("builtins", "str")))],
             {},
             {},
         )
 
         self.assertTrue(True)
 
-    def test_exceptionStringForObject(self):
+    def test_exception_string_for_object(self):
         with self.assertRaises(Exception) as error:
-            self.__argumentsValidator.validate(
-                'injecta.mocks.Foo',
-                [
-                    ResolvedArgument(
-                        'bar',
-                        PrimitiveArgument('Jiri Koutny'),
-                        InspectedArgument('bar', DType('injecta.mocks.Bar', 'Bar'))
-                    )
-                ],
+            self.__arguments_validator.validate(
+                "injecta.mocks.Foo",
+                [ResolvedArgument("bar", PrimitiveArgument("Jiri Koutny"), InspectedArgument("bar", DType("injecta.mocks.Bar", "Bar")))],
                 {},
                 {},
             )
 
-        self.assertEqual('Expected dtype "injecta.mocks.Bar.Bar", got "str" (argument "bar", service "injecta.mocks.Foo")', str(error.exception))
+        self.assertEqual(
+            'Expected dtype "injecta.mocks.Bar.Bar", got "str" (argument "bar", service "injecta.mocks.Foo")', str(error.exception)
+        )
 
-    def test_exceptionObjectForString(self):
+    def test_exception_object_for_string(self):
         with self.assertRaises(Exception) as error:
-            self.__argumentsValidator.validate(
-                'injecta.mocks.Bar',
-                [
-                    ResolvedArgument(
-                        'name',
-                        ServiceArgument('injecta.mocks.Empty'),
-                        InspectedArgument('name', DType('builtins', 'str'))
-                    )
-                ],
-                {
-                    'injecta.mocks.Empty': DType('injecta.mocks.Empty', 'Empty')
-                },
+            self.__arguments_validator.validate(
+                "injecta.mocks.Bar",
+                [ResolvedArgument("name", ServiceArgument("injecta.mocks.Empty"), InspectedArgument("name", DType("builtins", "str")))],
+                {"injecta.mocks.Empty": DType("injecta.mocks.Empty", "Empty")},
                 {},
             )
 
-        self.assertEqual('Expected dtype "str", got "injecta.mocks.Empty.Empty" (argument "name", service "injecta.mocks.Bar")', str(error.exception))
+        self.assertEqual(
+            'Expected dtype "str", got "injecta.mocks.Empty.Empty" (argument "name", service "injecta.mocks.Bar")', str(error.exception)
+        )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

@@ -1,24 +1,24 @@
 from abc import ABC
 
+
 class AbstractType(ABC):
-
-    def __init__(self, moduleName: str, className: str):
-        self._moduleName = moduleName
-        self._className = className
-
-    @property
-    def moduleName(self):
-        return self._moduleName
+    def __init__(self, module_name: str, class_name: str):
+        self._module_name = module_name
+        self._class_name = class_name
 
     @property
-    def className(self):
-        return self._className
+    def module_name(self):
+        return self._module_name
 
-    def isPrimitiveType(self) -> bool:
-        return self._moduleName == 'builtins'
+    @property
+    def class_name(self):
+        return self._class_name
 
-    def isDefined(self) -> bool:
-        return self._moduleName != 'inspect' and self._className != '_empty'
+    def is_primitive_type(self) -> bool:
+        return self._module_name == "builtins"
+
+    def is_defined(self) -> bool:
+        return self._module_name != "inspect" and self._class_name != "_empty"
 
     def __str__(self):
-        return self._moduleName + '.' + self._className
+        return self._module_name + "." + self._class_name

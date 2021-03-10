@@ -1,10 +1,10 @@
 from injecta.schema.ServiceSchemaValidator import ServiceSchemaValidator
 
-class SchemaValidator:
 
+class SchemaValidator:
     def __init__(self):
-        self.__serviceDefinitionSchemaValidator = ServiceSchemaValidator()
+        self.__service_definition_schema_validator = ServiceSchemaValidator()
 
     def validate(self, services: dict):
-        for serviceName, rawServiceDefinition in services.items():
-            self.__serviceDefinitionSchemaValidator.validate(serviceName, rawServiceDefinition)
+        for service_name, raw_service_definition in services.items():
+            self.__service_definition_schema_validator.validate(service_name, raw_service_definition)

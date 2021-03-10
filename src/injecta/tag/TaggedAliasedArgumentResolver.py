@@ -1,40 +1,40 @@
 from injecta.container.ContainerBuild import ContainerBuild
-from injecta.parameter.allPlaceholdersReplacer import findAllPlaceholders, replaceAllPlaceholders
+from injecta.parameter.all_placeholders_replacer import find_all_placeholders, replace_all_placeholders
 from injecta.service.argument.TaggedAliasedServiceArgument import TaggedAliasedServiceArgument
 from injecta.service.argument.ServiceArgument import ServiceArgument
 from injecta.service.resolved.ResolvedArgument import ResolvedArgument
 
-class TaggedAliasedArgumentResolver:
 
-    def resolve(self, resolvedArgument: ResolvedArgument, containerBuild: ContainerBuild):
-        argument = resolvedArgument.argument
+class TaggedAliasedArgumentResolver:
+    def resolve(self, resolved_argument: ResolvedArgument, container_build: ContainerBuild):
+        argument = resolved_argument.argument
 
         if not isinstance(argument, TaggedAliasedServiceArgument):
-            return resolvedArgument
+            return resolved_argument
 
-        servicesForTag = containerBuild.getServicesByTag(argument.tagName)
+        services_for_tag = container_build.get_services_by_tag(argument.tag_name)
 
-        if isinstance(argument.tagAlias, str):
-            tagAlias = self.__resolveParameterValue(argument.tagAlias, containerBuild.parameters)
+        if isinstance(argument.tag_alias, str):
+            tag_alias = self.__resolve_parameter_value(argument.tag_alias, container_build.parameters)
         else:
-            tagAlias = argument.tagAlias
+            tag_alias = argument.tag_alias
 
-        for service in servicesForTag:
-            tagAttributes = service.getTagAttributes(argument.tagName)
+        for service in services_for_tag:
+            tag_attributes = service.get_tag_attributes(argument.tag_name)
 
-            if 'alias' not in tagAttributes:
-                raise Exception(f'"alias" attribute is missing for tag {argument.tagName}')
+            if "alias" not in tag_attributes:
+                raise Exception(f'"alias" attribute is missing for tag {argument.tag_name}')
 
-            if tagAttributes['alias'] == tagAlias:
-                resolvedArgument.modifyArgument(ServiceArgument(service.name, argument.name), 'tagged_aliased')
-                return resolvedArgument
+            if tag_attributes["alias"] == tag_alias:
+                resolved_argument.modify_argument(ServiceArgument(service.name, argument.name), "tagged_aliased")
+                return resolved_argument
 
-        raise Exception(f'No service tagged with {argument.tagName} found for alias: {tagAlias}')
+        raise Exception(f"No service tagged with {argument.tag_name} found for alias: {tag_alias}")
 
-    def __resolveParameterValue(self, argument, parameters):
-        matches = findAllPlaceholders(argument)
+    def __resolve_parameter_value(self, argument, parameters):
+        matches = find_all_placeholders(argument)
 
         if not matches:
             return argument
 
-        return replaceAllPlaceholders(argument, matches, parameters, argument)
+        return replace_all_placeholders(argument, matches, parameters, argument)

@@ -1,4 +1,3 @@
 class ServiceMethodNameTranslator:
-
-    def translate(self, dtypeStr: str):
-        return '__' + dtypeStr.replace('.', '_')
+    def translate(self, dtype_str: str):
+        return "__" + dtype_str.replace(".", "_")

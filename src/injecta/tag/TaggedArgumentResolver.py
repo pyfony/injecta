@@ -4,16 +4,16 @@ from injecta.service.argument.ServiceArgument import ServiceArgument
 from injecta.service.argument.TaggedServicesArgument import TaggedServicesArgument
 from injecta.service.resolved.ResolvedArgument import ResolvedArgument
 
-class TaggedArgumentResolver:
 
-    def resolve(self, resolvedArgument: ResolvedArgument, containerBuild: ContainerBuild):
-        argument = resolvedArgument.argument
+class TaggedArgumentResolver:
+    def resolve(self, resolved_argument: ResolvedArgument, container_build: ContainerBuild):
+        argument = resolved_argument.argument
 
         if not isinstance(argument, TaggedServicesArgument):
-            return resolvedArgument
+            return resolved_argument
 
-        servicesForTag = containerBuild.getServicesByTag(argument.tagName)
-        serviceArguments = list(map(lambda service: ServiceArgument(service.name), servicesForTag))
+        services_for_tag = container_build.get_services_by_tag(argument.tag_name)
+        service_arguments = list(map(lambda service: ServiceArgument(service.name), services_for_tag))
 
-        resolvedArgument.modifyArgument(ListArgument(serviceArguments, argument.name), 'tags')
-        return resolvedArgument
+        resolved_argument.modify_argument(ListArgument(service_arguments, argument.name), "tags")
+        return resolved_argument

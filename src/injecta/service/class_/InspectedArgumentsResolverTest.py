@@ -4,67 +4,68 @@ from injecta.service.class_.InspectedArgumentsResolver import InspectedArguments
 from injecta.dtype.ListType import ListType
 from injecta.dtype.DType import DType
 
+
 class InspectedArgumentsResolverTest(unittest.TestCase):
-
     def setUp(self):
-        self.__inspectedArgumentsResolver = InspectedArgumentsResolver()
+        self.__inspected_arguments_resolver = InspectedArgumentsResolver()
 
-    def test_emptyClass(self):
-        result = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.Empty', 'Empty'))
+    def test_empty_class(self):
+        result = self.__inspected_arguments_resolver.resolve_constructor(DType("injecta.mocks.Empty", "Empty"))
 
         self.assertEqual([], result)
 
-    def test_basicClass(self):
-        result = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.Foo', 'Foo'))
+    def test_basic_class(self):
+        result = self.__inspected_arguments_resolver.resolve_constructor(DType("injecta.mocks.Foo", "Foo"))
 
-        expectedResult = [
-            InspectedArgument('bar', DType('injecta.mocks.Bar', 'Bar'))
+        expected_result = [InspectedArgument("bar", DType("injecta.mocks.Bar", "Bar"))]
+
+        self.assertEqual(expected_result, result)
+
+    def test_with_default_values(self):
+        result = self.__inspected_arguments_resolver.resolve_constructor(DType("injecta.mocks.Bar", "Bar"))
+
+        expected_arguments = [
+            InspectedArgument("name", DType("builtins", "str")),
+            InspectedArgument("number_with_default", DType("builtins", "int"), 0),
+            InspectedArgument("bool_with_default", DType("builtins", "bool"), False),
         ]
 
-        self.assertEqual(expectedResult, result)
+        self.assertEqual(expected_arguments, result)
 
-    def test_withDefaultValues(self):
-        result = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.Bar', 'Bar'))
+    def test_with_default_none_value(self):
+        result = self.__inspected_arguments_resolver.resolve_constructor(DType("injecta.mocks.NoneClass", "NoneClass"))
 
-        expectedArguments = [
-            InspectedArgument('name', DType('builtins', 'str')),
-            InspectedArgument('numberWithDefault', DType('builtins', 'int'), 0),
-            InspectedArgument('boolWithDefault', DType('builtins', 'bool'), False),
+        expected_arguments = [
+            InspectedArgument("name", DType("builtins", "str")),
+            InspectedArgument("some_none_value", DType("builtins", "int"), None),
         ]
 
-        self.assertEqual(expectedArguments, result)
+        self.assertEqual(expected_arguments, result)
+        self.assertTrue(result[1].has_default_value())
 
-    def test_withDefaultNoneValue(self):
-        result = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.NoneClass', 'NoneClass'))
+    def test_with_object_list(self):
+        result = self.__inspected_arguments_resolver.resolve_constructor(DType("injecta.mocks.ObjectList", "ObjectList"))
 
-        expectedArguments = [
-            InspectedArgument('name', DType('builtins', 'str')),
-            InspectedArgument('someNoneValue', DType('builtins', 'int'), None),
+        expected_arguments = [
+            InspectedArgument("objects", ListType("injecta.mocks.Empty", "Empty")),
+            InspectedArgument("name", DType("builtins", "str"), "my_name"),
         ]
 
-        self.assertEqual(expectedArguments, result)
-        self.assertTrue(result[1].hasDefaultValue())
+        self.assertEqual(expected_arguments, result)
 
-    def test_withObjectList(self):
-        result = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.ObjectList', 'ObjectList'))
+    def test_use_parent_constructor(self):
+        result = self.__inspected_arguments_resolver.resolve_constructor(
+            DType("injecta.mocks.UseParentConstructor", "UseParentConstructor")
+        )
 
-        expectedArguments = [
-            InspectedArgument('objects', ListType('injecta.mocks.Empty', 'Empty')),
-            InspectedArgument('name', DType('builtins', 'str'), 'myName'),
+        expected_arguments = [
+            InspectedArgument("name", DType("builtins", "str")),
+            InspectedArgument("number_with_default", DType("builtins", "int"), 0),
+            InspectedArgument("bool_with_default", DType("builtins", "bool"), False),
         ]
 
-        self.assertEqual(expectedArguments, result)
+        self.assertEqual(expected_arguments, result)
 
-    def test_useParentConstructor(self):
-        result = self.__inspectedArgumentsResolver.resolveConstructor(DType('injecta.mocks.UseParentConstructor', 'UseParentConstructor'))
 
-        expectedArguments = [
-            InspectedArgument('name', DType('builtins', 'str')),
-            InspectedArgument('numberWithDefault', DType('builtins', 'int'), 0),
-            InspectedArgument('boolWithDefault', DType('builtins', 'bool'), False),
-        ]
-
-        self.assertEqual(expectedArguments, result)
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

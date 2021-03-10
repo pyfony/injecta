@@ -4,27 +4,27 @@ from injecta.config.ConfigPathsResolver import ConfigPathsResolver
 from injecta.config.ConfigLoaderAndMerger import ConfigLoaderAndMerger
 from injecta.config.ConfigReaderInterface import ConfigReaderInterface
 
+
 class YamlConfigReader(ConfigReaderInterface):
-
     def __init__(self):
-        self.__configPathsResolver = ConfigPathsResolver()
-        self.__configLoaderAndMerger = ConfigLoaderAndMerger()
+        self.__config_paths_resolver = ConfigPathsResolver()
+        self.__config_loader_and_merger = ConfigLoaderAndMerger()
 
-    def read(self, configPath: str):
-        resolvedPaths = self.__configPathsResolver.resolve(Path(configPath), Path(configPath).parent)
-        resolvedPathsByLevels = self.__toListByLevels(resolvedPaths)
-        resolvedPathsByLevels.reverse()
-        flattenedPaths = [item for sublist in resolvedPathsByLevels for item in sublist]
+    def read(self, config_path: str):
+        resolved_paths = self.__config_paths_resolver.resolve(Path(config_path), Path(config_path).parent)
+        resolved_paths_by_levels = self.__to_list_by_levels(resolved_paths)
+        resolved_paths_by_levels.reverse()
+        flattened_paths = [item for sublist in resolved_paths_by_levels for item in sublist]
 
-        return self.__configLoaderAndMerger.loadAndMerge(flattenedPaths)
+        return self.__config_loader_and_merger.load_and_merge(flattened_paths)
 
-    def __toListByLevels(self, resolvedPaths: List[Dict]):
-        configPathsByLevels = dict()
+    def __to_list_by_levels(self, resolved_paths: List[Dict]):
+        config_paths_by_levels = dict()
 
-        for resolvedPath in resolvedPaths:
-            if resolvedPath['level'] not in configPathsByLevels:
-                configPathsByLevels[resolvedPath['level']] = []
+        for resolved_path in resolved_paths:
+            if resolved_path["level"] not in config_paths_by_levels:
+                config_paths_by_levels[resolved_path["level"]] = []
 
-            configPathsByLevels[resolvedPath['level']].append(resolvedPath['path'])
+            config_paths_by_levels[resolved_path["level"]].append(resolved_path["path"])
 
-        return list(configPathsByLevels.values())
+        return list(config_paths_by_levels.values())

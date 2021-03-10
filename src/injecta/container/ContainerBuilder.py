@@ -19,55 +19,57 @@ from injecta.service.argument.ArgumentParser import ArgumentParser
 from injecta.schema.SchemaValidator import SchemaValidator
 from injecta.service.argument.YamlTagArgumentsCompilerPass import YamlTagArgumentsCompilerPass
 
-class ContainerBuilder:
 
+class ContainerBuilder:
     def __init__(self):
-        self.__classes2ServicesBuilder = Classes2ServicesBuilder()
-        self.__servicesPreparer = ServicesPreparer(
+        self.__classes2_services_builder = Classes2ServicesBuilder()
+        self.__services_preparer = ServicesPreparer(
             SchemaValidator(),
             ServiceParser(
                 ArgumentParser(),
                 DTypeResolver(),
-            )
+            ),
         )
-        self.__servicesResolver = ServiceResolver()
-        self.__parametersParser = ParametersParser()
-        self.__tag2ServicesPreparer = Tag2ServicesPreparer()
-        self.__defaultCompilerPasses = [
+        self.__services_resolver = ServiceResolver()
+        self.__parameters_parser = ParametersParser()
+        self.__tag2_services_preparer = Tag2ServicesPreparer()
+        self.__default_compiler_passes = [
             YamlTagArgumentsCompilerPass(),
             AutowiringCompilerPass(ArgumentsAutowirer(ArgumentResolver())),
         ]
 
-    def build(self, rawConfig: dict, hooks: Hooks = Hooks()) -> ContainerBuild:
-        if 'parameters' not in rawConfig:
-            rawConfig['parameters'] = dict()
-        if 'services' not in rawConfig:
-            rawConfig['services'] = dict()
+    def build(self, raw_config: dict, hooks: Hooks = Hooks()) -> ContainerBuild:
+        if "parameters" not in raw_config:
+            raw_config["parameters"] = dict()
+        if "services" not in raw_config:
+            raw_config["services"] = dict()
 
-        rawConfig = hooks.start(rawConfig)
+        raw_config = hooks.start(raw_config)
 
-        parameters = self.__parametersParser.parse(rawConfig['parameters'], hooks.getCustomParameters())
-        parameters = hooks.parametersParsed(parameters)
+        parameters = self.__parameters_parser.parse(raw_config["parameters"], hooks.get_custom_parameters())
+        parameters = hooks.parameters_parsed(parameters)
 
-        services, aliases = self.__servicesPreparer.prepare(rawConfig['services'])
-        services, aliases = hooks.servicesPrepared(services, aliases, parameters)
+        services, aliases = self.__services_preparer.prepare(raw_config["services"])
+        services, aliases = hooks.services_prepared(services, aliases, parameters)
 
-        containerBuild = self._build(parameters, services, aliases)
+        container_build = self._build(parameters, services, aliases)
 
-        for compilerPass in self.__defaultCompilerPasses:
-            compilerPass.process(containerBuild)
+        for compiler_pass in self.__default_compiler_passes:
+            compiler_pass.process(container_build)
 
-        hooks.containerBuildReady(containerBuild)
+        hooks.container_build_ready(container_build)
 
-        return containerBuild
+        return container_build
 
     def _build(self, parameters: Box, services: List[Service], aliases: List[ServiceAlias]):
-        aliases2Services = {serviceAlias.name: serviceAlias.aliasedService for serviceAlias in aliases}
-        classes2Services = self.__classes2ServicesBuilder.build(services)
-        services2Classes = {service.name: service.class_ for service in services}
+        aliases2_services = {service_alias.name: service_alias.aliased_service for service_alias in aliases}
+        classes2_services = self.__classes2_services_builder.build(services)
+        services2_classes = {service.name: service.class_ for service in services}
 
-        resolvedServices: List[ResolvedService] = [self.__servicesResolver.resolve(service, services2Classes, aliases2Services) for service in services]
+        resolved_services: List[ResolvedService] = [
+            self.__services_resolver.resolve(service, services2_classes, aliases2_services) for service in services
+        ]
 
-        tag2Services = self.__tag2ServicesPreparer.prepare(services)
+        tag2_services = self.__tag2_services_preparer.prepare(services)
 
-        return ContainerBuild(parameters, resolvedServices, classes2Services, aliases2Services, tag2Services)
+        return ContainerBuild(parameters, resolved_services, classes2_services, aliases2_services, tag2_services)

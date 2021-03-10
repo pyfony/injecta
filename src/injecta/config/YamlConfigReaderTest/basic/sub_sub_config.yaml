@@ -1,5 +1,5 @@
 parameters:
-  paramLevel3: 999
-  mergedParam:
+  param_level3: 999
+  merged_param:
     level3: 3
-  paramToOverwrite: 333
+  param_to_overwrite: 333

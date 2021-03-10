@@ -3,25 +3,25 @@ from injecta.compiler.CompilerPassInterface import CompilerPassInterface
 from injecta.container.ContainerBuild import ContainerBuild
 from injecta.service.resolved.ResolvedService import ResolvedService
 
+
 class AutowiringCompilerPass(CompilerPassInterface):
+    def __init__(self, arguments_autowirer: ArgumentsAutowirer):
+        self.__arguments_autowirer = arguments_autowirer
 
-    def __init__(self, argumentsAutowirer: ArgumentsAutowirer):
-        self.__argumentsAutowirer = argumentsAutowirer
+    def process(self, container_build: ContainerBuild):
+        def should_autowire(resolved_service: ResolvedService):
+            return resolved_service.service.autowire is True and resolved_service.resolved_arguments
 
-    def process(self, containerBuild: ContainerBuild):
-        def shouldAutowire(resolvedService: ResolvedService):
-            return resolvedService.service.autowire is True and resolvedService.resolvedArguments
+        services_for_autowiring = list(filter(should_autowire, container_build.resolved_services))
 
-        servicesForAutowiring = list(filter(shouldAutowire, containerBuild.resolvedServices))
+        for resolved_service in services_for_autowiring:
+            self.__autowire(resolved_service, container_build.classes2_services)
 
-        for resolvedService in servicesForAutowiring:
-            self.__autowire(resolvedService, containerBuild.classes2Services)
-
-    def __autowire(self, resolvedService: ResolvedService, classes2Services: dict):
-        resolvedArguments = self.__argumentsAutowirer.autowire(
-            resolvedService.service.name,
-            resolvedService.resolvedArguments,
-            classes2Services,
+    def __autowire(self, resolved_service: ResolvedService, classes2_services: dict):
+        resolved_arguments = self.__arguments_autowirer.autowire(
+            resolved_service.service.name,
+            resolved_service.resolved_arguments,
+            classes2_services,
         )
 
-        resolvedService.replaceResolvedArguments(resolvedArguments)
+        resolved_service.replace_resolved_arguments(resolved_arguments)

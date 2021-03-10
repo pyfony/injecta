@@ -5,57 +5,57 @@ from injecta.service.resolved.ResolvedArgument import ResolvedArgument
 from injecta.service.argument.validator.ArgumentsValidator import ArgumentsValidator
 from injecta.service.class_.InspectedArgumentsResolver import InspectedArgumentsResolver
 
+
 class NamedArgumentsResolver:
-
     def __init__(self):
-        self.__inspectedArgumentsResolver = InspectedArgumentsResolver()
-        self.__argumentsValidator = ArgumentsValidator()
+        self.__inspected_arguments_resolver = InspectedArgumentsResolver()
+        self.__arguments_validator = ArgumentsValidator()
 
-    def resolve(self, arguments: List[ArgumentInterface], inspectedArguments: List[InspectedArgument], serviceName: str):
-        inspectedArguments = [inspectedArgument for inspectedArgument in inspectedArguments if inspectedArgument.name != 'args']
-        inspectedArgumentsIndexed = {inspectedArgument.name: inspectedArgument for inspectedArgument in inspectedArguments}
-        argumentsIndexed = {argument.name: argument for argument in arguments}
+    def resolve(self, arguments: List[ArgumentInterface], inspected_arguments: List[InspectedArgument], service_name: str):
+        inspected_arguments = [inspected_argument for inspected_argument in inspected_arguments if inspected_argument.name != "args"]
+        inspected_arguments_indexed = {inspected_argument.name: inspected_argument for inspected_argument in inspected_arguments}
+        arguments_indexed = {argument.name: argument for argument in arguments}
 
-        if self.__containsKwargs(inspectedArguments):
-            return self.__resolveArgumentsKwargs(argumentsIndexed, inspectedArgumentsIndexed)
+        if self.__contains_kwargs(inspected_arguments):
+            return self.__resolve_arguments_kwargs(arguments_indexed, inspected_arguments_indexed)
 
-        for argumentName, argument in argumentsIndexed.items():
-            if argumentName not in inspectedArgumentsIndexed:
-                raise Exception(f'Unknown argument "{argumentName}" in service "{serviceName}"')
+        for argument_name, argument in arguments_indexed.items():
+            if argument_name not in inspected_arguments_indexed:
+                raise Exception(f'Unknown argument "{argument_name}" in service "{service_name}"')
 
-        return self.__resolveArguments(argumentsIndexed, inspectedArgumentsIndexed)
+        return self.__resolve_arguments(arguments_indexed, inspected_arguments_indexed)
 
-    def __resolveArgumentsKwargs(self, argumentsIndexed: Dict[str, ArgumentInterface], inspectedArgumentsIndexed: Dict[str, InspectedArgument]):
-        del inspectedArgumentsIndexed['kwargs']
-        resolvedArguments = self.__resolveArguments(argumentsIndexed, inspectedArgumentsIndexed)
+    def __resolve_arguments_kwargs(
+        self, arguments_indexed: Dict[str, ArgumentInterface], inspected_arguments_indexed: Dict[str, InspectedArgument]
+    ):
+        del inspected_arguments_indexed["kwargs"]
+        resolved_arguments = self.__resolve_arguments(arguments_indexed, inspected_arguments_indexed)
 
-        for resolvedArgument in resolvedArguments:
-            del argumentsIndexed[resolvedArgument.name]
+        for resolved_argument in resolved_arguments:
+            del arguments_indexed[resolved_argument.name]
 
-        for _, argument in argumentsIndexed.items():
-            resolvedArguments.append(ResolvedArgument(argument.name, argument, None))
+        for _, argument in arguments_indexed.items():
+            resolved_arguments.append(ResolvedArgument(argument.name, argument, None))
 
-        return resolvedArguments
+        return resolved_arguments
 
-    def __resolveArguments(self, argumentsIndexed: Dict[str, ArgumentInterface], inspectedArgumentsIndexed: Dict[str, InspectedArgument]):
-        resolvedArguments = []
+    def __resolve_arguments(
+        self, arguments_indexed: Dict[str, ArgumentInterface], inspected_arguments_indexed: Dict[str, InspectedArgument]
+    ):
+        resolved_arguments = []
 
-        for argumentName, inspectedArgument in inspectedArgumentsIndexed.items():
-            argument = argumentsIndexed[argumentName] if argumentName in argumentsIndexed else None
+        for argument_name, inspected_argument in inspected_arguments_indexed.items():
+            argument = arguments_indexed[argument_name] if argument_name in arguments_indexed else None
 
             # argument with default value, no value defined in service configuration
-            if inspectedArgument.hasDefaultValue() and argument is None:
+            if inspected_argument.has_default_value() and argument is None:
                 continue
 
-            resolvedArgument = ResolvedArgument(
-                inspectedArgument.name,
-                argument,
-                inspectedArgument
-            )
+            resolved_argument = ResolvedArgument(inspected_argument.name, argument, inspected_argument)
 
-            resolvedArguments.append(resolvedArgument)
+            resolved_arguments.append(resolved_argument)
 
-        return resolvedArguments
+        return resolved_arguments
 
-    def __containsKwargs(self, inspectedArguments: List[InspectedArgument]):
-        return inspectedArguments and inspectedArguments[-1].name == 'kwargs'
+    def __contains_kwargs(self, inspected_arguments: List[InspectedArgument]):
+        return inspected_arguments and inspected_arguments[-1].name == "kwargs"

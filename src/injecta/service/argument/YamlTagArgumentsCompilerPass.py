@@ -5,22 +5,22 @@ from injecta.service.resolved.ResolvedArgument import ResolvedArgument
 from injecta.service.resolved.ResolvedService import ResolvedService
 from injecta.tag.TaggedArgumentResolver import TaggedArgumentResolver
 
+
 class YamlTagArgumentsCompilerPass(CompilerPassInterface):
-
     def __init__(self):
-        self.__taggedArgumentResolver = TaggedArgumentResolver()
-        self.__taggedAliasedArgumentResolver = TaggedAliasedArgumentResolver()
+        self.__tagged_argument_resolver = TaggedArgumentResolver()
+        self.__tagged_aliased_argument_resolver = TaggedAliasedArgumentResolver()
 
-    def process(self, containerBuild: ContainerBuild):
-        for resolvedService in containerBuild.resolvedServices:
-            resolvedArguments = self.__resolveArguments(resolvedService, containerBuild)
+    def process(self, container_build: ContainerBuild):
+        for resolved_service in container_build.resolved_services:
+            resolved_arguments = self.__resolve_arguments(resolved_service, container_build)
 
-            resolvedService.replaceResolvedArguments(resolvedArguments)
+            resolved_service.replace_resolved_arguments(resolved_arguments)
 
-    def __resolveArguments(self, resolvedService: ResolvedService, containerBuild: ContainerBuild):
-        def resolveArgument(resolvedArgument: ResolvedArgument):
-            resolvedArgument = self.__taggedArgumentResolver.resolve(resolvedArgument, containerBuild)
-            resolvedArgument = self.__taggedAliasedArgumentResolver.resolve(resolvedArgument, containerBuild)
-            return resolvedArgument
+    def __resolve_arguments(self, resolved_service: ResolvedService, container_build: ContainerBuild):
+        def resolve_argument(resolved_argument: ResolvedArgument):
+            resolved_argument = self.__tagged_argument_resolver.resolve(resolved_argument, container_build)
+            resolved_argument = self.__tagged_aliased_argument_resolver.resolve(resolved_argument, container_build)
+            return resolved_argument
 
-        return list(map(resolveArgument, resolvedService.resolvedArguments))
+        return list(map(resolve_argument, resolved_service.resolved_arguments))

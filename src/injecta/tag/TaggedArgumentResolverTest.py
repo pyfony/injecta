@@ -9,64 +9,59 @@ from injecta.service.class_.InspectedArgument import InspectedArgument
 from injecta.service.resolved.ResolvedArgument import ResolvedArgument
 from injecta.tag.TaggedArgumentResolver import TaggedArgumentResolver
 
+
 class TaggedArgumentResolverTest(unittest.TestCase):
-
     def setUp(self):
-        self.__taggedArgumentResolver = TaggedArgumentResolver()
+        self.__tagged_argument_resolver = TaggedArgumentResolver()
 
-    def test_noChange(self):
-        resolvedArgument = ResolvedArgument(
-            'myNumber',
-            PrimitiveArgument(123),
-            InspectedArgument('myNumber', DType('builtins', 'int'))
-        )
-        containerBuild = ContainerBuild({}, [], {}, {}, {})
+    def test_no_change(self):
+        resolved_argument = ResolvedArgument("my_number", PrimitiveArgument(123), InspectedArgument("my_number", DType("builtins", "int")))
+        container_build = ContainerBuild({}, [], {}, {}, {})
 
-        newResolvedArgument = self.__taggedArgumentResolver.resolve(resolvedArgument, containerBuild)
+        new_resolved_argument = self.__tagged_argument_resolver.resolve(resolved_argument, container_build)
 
-        self.assertEqual(resolvedArgument, newResolvedArgument)
+        self.assertEqual(resolved_argument, new_resolved_argument)
 
     def test_basic(self):
-        resolvedArgument = ResolvedArgument(
-            'myNumber',
-            TaggedServicesArgument('myServiceTag'),
-            InspectedArgument('myTaggedServices', DType('builtins', 'list'))
+        resolved_argument = ResolvedArgument(
+            "my_number", TaggedServicesArgument("my_service_tag"), InspectedArgument("my_tagged_services", DType("builtins", "list"))
         )
 
-        newResolvedArgument = self.__taggedArgumentResolver.resolve(resolvedArgument, self.__createContainerBuild())
+        new_resolved_argument = self.__tagged_argument_resolver.resolve(resolved_argument, self.__create_container_build())
 
-        listArgument = newResolvedArgument.argument
+        list_argument = new_resolved_argument.argument
 
-        self.assertIsInstance(listArgument, ListArgument)
-        self.assertEqual(None, listArgument.name)
-        self.assertEqual('injecta.mocks.Bar', listArgument.items[0].serviceName)
-        self.assertEqual('injecta.mocks.Bar.new', listArgument.items[1].serviceName)
+        self.assertIsInstance(list_argument, ListArgument)
+        self.assertEqual(None, list_argument.name)
+        self.assertEqual("injecta.mocks.Bar", list_argument.items[0].service_name)
+        self.assertEqual("injecta.mocks.Bar.new", list_argument.items[1].service_name)
 
-    def test_namedArgument(self):
-        resolvedArgument = ResolvedArgument(
-            'myNumber',
-            TaggedServicesArgument('myServiceTag', 'myTaggedServices'),
-            InspectedArgument('myTaggedServices', DType('builtins', 'list'))
+    def test_named_argument(self):
+        resolved_argument = ResolvedArgument(
+            "my_number",
+            TaggedServicesArgument("my_service_tag", "my_tagged_services"),
+            InspectedArgument("my_tagged_services", DType("builtins", "list")),
         )
 
-        newResolvedArgument = self.__taggedArgumentResolver.resolve(resolvedArgument, self.__createContainerBuild())
+        new_resolved_argument = self.__tagged_argument_resolver.resolve(resolved_argument, self.__create_container_build())
 
-        listArgument = newResolvedArgument.argument
+        list_argument = new_resolved_argument.argument
 
-        self.assertIsInstance(listArgument, ListArgument)
-        self.assertEqual('myTaggedServices', listArgument.name)
-        self.assertEqual('injecta.mocks.Bar', listArgument.items[0].serviceName)
-        self.assertEqual('injecta.mocks.Bar.new', listArgument.items[1].serviceName)
+        self.assertIsInstance(list_argument, ListArgument)
+        self.assertEqual("my_tagged_services", list_argument.name)
+        self.assertEqual("injecta.mocks.Bar", list_argument.items[0].service_name)
+        self.assertEqual("injecta.mocks.Bar.new", list_argument.items[1].service_name)
 
-    def __createContainerBuild(self):
-        tags2Services = {
-            'myServiceTag': [
-                Service('injecta.mocks.Bar', DType('injecta.mocks.Bar', 'Bar')),
-                Service('injecta.mocks.Bar.new', DType('injecta.mocks.Bar', 'Bar'))
+    def __create_container_build(self):
+        tags2_services = {
+            "my_service_tag": [
+                Service("injecta.mocks.Bar", DType("injecta.mocks.Bar", "Bar")),
+                Service("injecta.mocks.Bar.new", DType("injecta.mocks.Bar", "Bar")),
             ]
         }
 
-        return ContainerBuild({}, [], {}, {}, tags2Services)
+        return ContainerBuild({}, [], {}, {}, tags2_services)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

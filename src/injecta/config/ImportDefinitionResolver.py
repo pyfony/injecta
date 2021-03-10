@@ -1,25 +1,25 @@
 from pathlib import Path
-from injecta.package.realResourcePathResolver import resolveRealResourcePath
+from injecta.package.real_resource_path_resolver import resolve_real_resource_path
+
 
 class ImportDefinitionResolver:
+    def resolve(self, import_definition, base_dir: Path) -> set:
+        if isinstance(import_definition, str):
+            if import_definition[0:1] == "@":
+                return {resolve_real_resource_path(import_definition)}
 
-    def resolve(self, importDefinition, baseDir: Path) -> set:
-        if isinstance(importDefinition, str):
-            if importDefinition[0:1] == '@':
-                return {resolveRealResourcePath(importDefinition)}
+            return {base_dir.joinpath(import_definition).resolve()}
 
-            return {baseDir.joinpath(importDefinition).resolve()}
-
-        if isinstance(importDefinition, dict):
-            if 'search' not in importDefinition:
+        if isinstance(import_definition, dict):
+            if "search" not in import_definition:
                 raise Exception('Missing the "search" main keyword in the import definition')
 
-            if 'include' not in importDefinition['search']:
+            if "include" not in import_definition["search"]:
                 raise Exception('Missing the "include" keyword under "search" main keyword')
 
-            basePathGlob = set(baseDir.glob('./**/*.*'))
-            allConfigsGlob = set(map(lambda path: path.resolve(), baseDir.glob(importDefinition['search']['include'])))
+            base_path_glob = set(base_dir.glob("./**/*.*"))
+            all_configs_glob = set(map(lambda path: path.resolve(), base_dir.glob(import_definition["search"]["include"])))
 
-            return set(allConfigsGlob - basePathGlob)
+            return set(all_configs_glob - base_path_glob)
 
-        raise Exception('Unexpected import definition type: ' + type(importDefinition))
+        raise Exception("Unexpected import definition type: " + type(import_definition))

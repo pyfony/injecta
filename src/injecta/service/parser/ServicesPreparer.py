@@ -4,31 +4,31 @@ from injecta.service.parser.ServiceParser import ServiceParser
 from injecta.service.Service import Service
 from injecta.schema.SchemaValidator import SchemaValidator
 
-class ServicesPreparer:
 
+class ServicesPreparer:
     def __init__(
         self,
-        schemaValidator: SchemaValidator,
-        serviceParser: ServiceParser,
+        schema_validator: SchemaValidator,
+        service_parser: ServiceParser,
     ):
-        self.__schemaValidator = schemaValidator
-        self.__serviceParser = serviceParser
+        self.__schema_validator = schema_validator
+        self.__service_parser = service_parser
 
-    def prepare(self, rawDefinitions) -> Tuple[List[Service], List[ServiceAlias]]:
-        self.__schemaValidator.validate(rawDefinitions)
+    def prepare(self, raw_definitions) -> Tuple[List[Service], List[ServiceAlias]]:
+        self.__schema_validator.validate(raw_definitions)
 
         services: List[Service] = []
         aliases: List[ServiceAlias] = []
 
-        for serviceName, rawDefinition in rawDefinitions.items():
-            if self.__isServiceAlias(rawDefinition):
-                serviceAlias = ServiceAlias(serviceName, rawDefinition[1:])
-                aliases.append(serviceAlias)
+        for service_name, raw_definition in raw_definitions.items():
+            if self.__is_service_alias(raw_definition):
+                service_alias = ServiceAlias(service_name, raw_definition[1:])
+                aliases.append(service_alias)
             else:
-                service = self.__serviceParser.parse(serviceName, rawDefinition)
+                service = self.__service_parser.parse(service_name, raw_definition)
                 services.append(service)
 
         return services, aliases
 
-    def __isServiceAlias(self, rawDefinition: dict):
-        return isinstance(rawDefinition, str) and rawDefinition[:1] == '@'
+    def __is_service_alias(self, raw_definition: dict):
+        return isinstance(raw_definition, str) and raw_definition[:1] == "@"

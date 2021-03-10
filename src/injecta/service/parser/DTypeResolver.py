@@ -1,24 +1,24 @@
 from os import path
 from injecta.dtype.DType import DType
-from injecta.package.pathResolver import resolvePath
+from injecta.package.path_resolver import resolve_path
+
 
 class DTypeResolver:
+    def resolve(self, dtype_str: str) -> DType:
+        last_dot_index = dtype_str.rfind(".")
 
-    def resolve(self, dtypeStr: str) -> DType:
-        lastDotIndex = dtypeStr.rfind('.')
+        class_name = dtype_str[last_dot_index + 1 :]  # noqa: 5203
+        root_module_name = dtype_str[: dtype_str.find(".")]
 
-        className = dtypeStr[lastDotIndex + 1:]
-        rootModuleName = dtypeStr[:dtypeStr.find('.')]
+        root_module_path = resolve_path(root_module_name)
 
-        rootModulePath = resolvePath(rootModuleName)
+        file_path = root_module_path[: -len(root_module_name)] + dtype_str.replace(".", "/") + ".py"
 
-        filePath = rootModulePath[:-len(rootModuleName)] + dtypeStr.replace('.', '/') + '.py'
-
-        if path.exists(filePath):
+        if path.exists(file_path):
             # from foo.bar.HelloClass import HelloClass
-            moduleName = dtypeStr
+            module_name = dtype_str
         else:
             # from foo.bar import HelloClass
-            moduleName = dtypeStr[:lastDotIndex]
+            module_name = dtype_str[:last_dot_index]
 
-        return DType(moduleName, className)
+        return DType(module_name, class_name)

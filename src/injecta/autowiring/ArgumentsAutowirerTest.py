@@ -7,78 +7,67 @@ from injecta.service.argument.ServiceArgument import ServiceArgument
 from injecta.service.class_.InspectedArgument import InspectedArgument
 from injecta.service.resolved.ResolvedArgument import ResolvedArgument
 
-class ArgumentsAutowirerTest(unittest.TestCase):
 
+class ArgumentsAutowirerTest(unittest.TestCase):
     def setUp(self):
-        self.__argumentsAutowirer = ArgumentsAutowirer(ArgumentResolver())
+        self.__arguments_autowirer = ArgumentsAutowirer(ArgumentResolver())
 
     def test_basic(self):
-        resolvedArguments = [
+        resolved_arguments = [
+            ResolvedArgument("my_number", PrimitiveArgument(123), InspectedArgument("my_number", DType("builtins", "int"))),
             ResolvedArgument(
-                'myNumber',
-                PrimitiveArgument(123),
-                InspectedArgument('myNumber', DType('builtins', 'int'))
+                "manually_wired_service",
+                ServiceArgument("my.module.ManuallyWiredClass"),
+                InspectedArgument("manually_wired_service", DType("my.module.ManuallyWiredClass", "ManuallyWiredClass")),
             ),
             ResolvedArgument(
-                'manuallyWiredService',
-                ServiceArgument('my.module.ManuallyWiredClass'),
-                InspectedArgument('manuallyWiredService', DType('my.module.ManuallyWiredClass', 'ManuallyWiredClass'))
-            ),
-            ResolvedArgument(
-                'autowiredService',
+                "autowired_service",
                 None,
-                InspectedArgument('autowiredService', DType('my.module.OtherClass', 'OtherClass')),
-            )
+                InspectedArgument("autowired_service", DType("my.module.OtherClass", "OtherClass")),
+            ),
         ]
 
-        classes2Services = {
-            'my.module.OtherClass': {'OtherClass': ['my.module.OtherClass']}
-        }
+        classes2_services = {"my.module.OtherClass": {"OtherClass": ["my.module.OtherClass"]}}
 
-        newResolvedArguments = self.__argumentsAutowirer.autowire(
-            'my.module.MyClass',
-            resolvedArguments,
-            classes2Services,
+        new_resolved_arguments = self.__arguments_autowirer.autowire(
+            "my.module.MyClass",
+            resolved_arguments,
+            classes2_services,
         )
 
-        self.assertEqual(3, len(newResolvedArguments))
-        self.assertEqual(PrimitiveArgument(123), newResolvedArguments[0].argument)
-        self.assertEqual(ServiceArgument('my.module.ManuallyWiredClass'), newResolvedArguments[1].argument)
-        self.assertEqual(ServiceArgument('my.module.OtherClass', 'autowiredService'), newResolvedArguments[2].argument)
+        self.assertEqual(3, len(new_resolved_arguments))
+        self.assertEqual(PrimitiveArgument(123), new_resolved_arguments[0].argument)
+        self.assertEqual(ServiceArgument("my.module.ManuallyWiredClass"), new_resolved_arguments[1].argument)
+        self.assertEqual(ServiceArgument("my.module.OtherClass", "autowired_service"), new_resolved_arguments[2].argument)
 
-    def test_namedArguments(self):
-        resolvedArguments = [
+    def test_named_arguments(self):
+        resolved_arguments = [
+            ResolvedArgument("my_number", PrimitiveArgument(123, "my_number"), InspectedArgument("my_number", DType("builtins", "int"))),
             ResolvedArgument(
-                'myNumber',
-                PrimitiveArgument(123, 'myNumber'),
-                InspectedArgument('myNumber', DType('builtins', 'int'))
+                "manually_wired_service",
+                ServiceArgument("my.module.ManuallyWiredClass", "manually_wired_service"),
+                InspectedArgument("manually_wired_service", DType("my.module.ManuallyWiredClass", "ManuallyWiredClass")),
             ),
             ResolvedArgument(
-                'manuallyWiredService',
-                ServiceArgument('my.module.ManuallyWiredClass', 'manuallyWiredService'),
-                InspectedArgument('manuallyWiredService', DType('my.module.ManuallyWiredClass', 'ManuallyWiredClass'))
-            ),
-            ResolvedArgument(
-                'autowiredService',
+                "autowired_service",
                 None,
-                InspectedArgument('autowiredService', DType('my.module.OtherClass', 'OtherClass')),
-            )
+                InspectedArgument("autowired_service", DType("my.module.OtherClass", "OtherClass")),
+            ),
         ]
 
-        classes2Services = {
-            'my.module.OtherClass': {'OtherClass': ['my.module.OtherClass']}
-        }
+        classes2_services = {"my.module.OtherClass": {"OtherClass": ["my.module.OtherClass"]}}
 
-        newResolvedArguments = self.__argumentsAutowirer.autowire(
-            'my.module.MyClass',
-            resolvedArguments,
-            classes2Services,
+        new_resolved_arguments = self.__arguments_autowirer.autowire(
+            "my.module.MyClass",
+            resolved_arguments,
+            classes2_services,
         )
 
-        self.assertEqual(3, len(newResolvedArguments))
-        self.assertEqual(PrimitiveArgument(123, 'myNumber'), newResolvedArguments[0].argument)
-        self.assertEqual(ServiceArgument('my.module.ManuallyWiredClass', 'manuallyWiredService'), newResolvedArguments[1].argument)
-        self.assertEqual(ServiceArgument('my.module.OtherClass', 'autowiredService'), newResolvedArguments[2].argument)
+        self.assertEqual(3, len(new_resolved_arguments))
+        self.assertEqual(PrimitiveArgument(123, "my_number"), new_resolved_arguments[0].argument)
+        self.assertEqual(ServiceArgument("my.module.ManuallyWiredClass", "manually_wired_service"), new_resolved_arguments[1].argument)
+        self.assertEqual(ServiceArgument("my.module.OtherClass", "autowired_service"), new_resolved_arguments[2].argument)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

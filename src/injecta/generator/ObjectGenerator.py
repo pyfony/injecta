@@ -1,27 +1,33 @@
 from injecta.service.resolved.ResolvedArgument import ResolvedArgument
 from injecta.service.resolved.ResolvedService import ResolvedService
 
+
 class ObjectGenerator:
+    def generate(self, resolved_service: ResolvedService):
+        service = resolved_service.service
+        argument_lines = list(map(self.__create_argument_line, resolved_service.resolved_arguments))
 
-    def generate(self, resolvedService: ResolvedService):
-        service = resolvedService.service
-        argumentLines = list(map(self.__createArgumentLine, resolvedService.resolvedArguments))
-
-        if service.usesFactory():
+        if service.uses_factory():
             return (
-                '        return ' + service.factoryService.getStringValue() + '.' + service.factoryMethod + '(' + ', '.join(argumentLines) + ')'
+                "        return "
+                + service.factory_service.get_string_value()
+                + "."
+                + service.factory_method
+                + "("
+                + ", ".join(argument_lines)
+                + ")"
             )
 
         return (
-            '        from ' + service.class_.moduleName + ' import ' + service.class_.className + '\n'
-            '\n'
-            '        return ' + service.class_.className + '(' + ', '.join(argumentLines) + ')'
+            "        from " + service.class_.module_name + " import " + service.class_.class_name + "\n"
+            "\n"
+            "        return " + service.class_.class_name + "(" + ", ".join(argument_lines) + ")"
         )
 
-    def __createArgumentLine(self, resolvedArgument: ResolvedArgument):
-        argument = resolvedArgument.argument
+    def __create_argument_line(self, resolved_argument: ResolvedArgument):
+        argument = resolved_argument.argument
 
         if argument.name is None:
-            return argument.getStringValue()
+            return argument.get_string_value()
 
-        return argument.name + '=' + argument.getStringValue()
+        return argument.name + "=" + argument.get_string_value()

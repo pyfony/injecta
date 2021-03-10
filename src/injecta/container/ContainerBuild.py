@@ -3,25 +3,25 @@ from box import Box
 from injecta.service.Service import Service
 from injecta.service.resolved.ResolvedService import ResolvedService
 
-class ContainerBuild:
 
+class ContainerBuild:
     def __init__(
         self,
         parameters: Dict[Any, Box],
-        resolvedServices: List[ResolvedService],
-        classes2Services: dict,
-        aliases2Services: dict,
-        tag2Services: Dict[str, List[Service]],
+        resolved_services: List[ResolvedService],
+        classes2_services: dict,
+        aliases2_services: dict,
+        tag2_services: Dict[str, List[Service]],
     ):
         self.__parameters = parameters
-        self.__resolvedServices = resolvedServices
-        self.__classes2Services = classes2Services
-        self.__aliases2Services = aliases2Services
-        self.__tag2Services = tag2Services
+        self.__resolved_services = resolved_services
+        self.__classes2_services = classes2_services
+        self.__aliases2_services = aliases2_services
+        self.__tag2_services = tag2_services
 
     @property
-    def resolvedServices(self) -> List[ResolvedService]:
-        return self.__resolvedServices
+    def resolved_services(self) -> List[ResolvedService]:
+        return self.__resolved_services
 
     @property
     def parameters(self) -> Dict[Any, Box]:
@@ -29,18 +29,18 @@ class ContainerBuild:
 
     @property
     def services(self) -> List[Service]:
-        return list(map(lambda resolvedService: resolvedService.service, self.__resolvedServices))
+        return list(map(lambda resolved_service: resolved_service.service, self.__resolved_services))
 
     @property
-    def classes2Services(self):
-        return self.__classes2Services
+    def classes2_services(self):
+        return self.__classes2_services
 
     @property
-    def aliases2Services(self) -> dict:
-        return self.__aliases2Services
+    def aliases2_services(self) -> dict:
+        return self.__aliases2_services
 
-    def getServicesByTag(self, tagName) -> List[Service]:
-        if tagName not in self.__tag2Services:
+    def get_services_by_tag(self, tag_name) -> List[Service]:
+        if tag_name not in self.__tag2_services:
             return []
 
-        return self.__tag2Services[tagName]
+        return self.__tag2_services[tag_name]

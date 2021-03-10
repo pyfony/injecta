@@ -3,14 +3,15 @@ from injecta.service.argument.ArgumentInterface import ArgumentInterface
 from injecta.service.argument.validator.ArgumentsValidatorException import ArgumentsValidatorException
 from injecta.service.class_.InspectedArgument import InspectedArgument
 from injecta.dtype.DType import DType
-from injecta.dtype.classLoader import loadClass
+from injecta.module import attribute_loader
+
 
 class ServiceArgument(ArgumentInterface):
 
-    __serviceMethodTranslator = ServiceMethodNameTranslator()
+    __service_method_translator = ServiceMethodNameTranslator()
 
-    def __init__(self, serviceName: str, name: str = None):
-        self.__serviceName = serviceName
+    def __init__(self, service_name: str, name: str = None):
+        self.__service_name = service_name
         self.__name = name
 
     @property
@@ -18,43 +19,44 @@ class ServiceArgument(ArgumentInterface):
         return self.__name
 
     @property
-    def serviceName(self):
-        return self.__serviceName
+    def service_name(self):
+        return self.__service_name
 
-    def getStringValue(self):
-        return 'self.' + self.__serviceMethodTranslator.translate(self.__serviceName) + '()'
+    def get_string_value(self):
+        return "self." + self.__service_method_translator.translate(self.__service_name) + "()"
 
-    def checkTypeMatchesDefinition(self, inspectedArgument: InspectedArgument, services2Classes: dict, aliases2Services: dict):
-        serviceClassType = self.__resolveServiceClassType(services2Classes, aliases2Services)
+    def check_type_matches_definition(self, inspected_argument: InspectedArgument, services2_classes: dict, aliases2_services: dict):
+        service_class_type = self.__resolve_service_class_type(services2_classes, aliases2_services)
 
-        if serviceClassType == inspectedArgument.dtype:
+        if service_class_type == inspected_argument.dtype:
             return
 
-        serviceClass = loadClass(serviceClassType.moduleName, serviceClassType.className)
-        inspectedArgumentClass = loadClass(inspectedArgument.dtype.moduleName, inspectedArgument.dtype.className)
+        service_class = attribute_loader.load(service_class_type.module_name, service_class_type.class_name)
+        inspected_argument_class = attribute_loader.load(inspected_argument.dtype.module_name, inspected_argument.dtype.class_name)
 
-        if not issubclass(serviceClass, inspectedArgumentClass):
-            raise ArgumentsValidatorException(inspectedArgument.name, str(inspectedArgument.dtype), str(serviceClassType))
+        if not issubclass(service_class, inspected_argument_class):
+            raise ArgumentsValidatorException(inspected_argument.name, str(inspected_argument.dtype), str(service_class_type))
 
-    def __resolveServiceClassType(self, services2Classes: dict, aliases2Services: dict) -> DType:
-        if self.__serviceName in services2Classes:
-            return services2Classes[self.__serviceName]
+    def __resolve_service_class_type(self, services2_classes: dict, aliases2_services: dict) -> DType:
+        if self.__service_name in services2_classes:
+            return services2_classes[self.__service_name]
 
-        if self.__serviceName in aliases2Services:
-            def resolveRecursive(serviceName):
-                aliasedServiceName = aliases2Services[serviceName]
+        if self.__service_name in aliases2_services:
 
-                if aliasedServiceName in aliases2Services:
-                    return resolveRecursive(aliasedServiceName)
+            def resolve_recursive(service_name):
+                aliased_service_name = aliases2_services[service_name]
 
-                if aliasedServiceName not in services2Classes:
-                    raise Exception(f'Aliased service "{aliasedServiceName}" does not exist')
+                if aliased_service_name in aliases2_services:
+                    return resolve_recursive(aliased_service_name)
 
-                return services2Classes[aliasedServiceName]
+                if aliased_service_name not in services2_classes:
+                    raise Exception(f'Aliased service "{aliased_service_name}" does not exist')
 
-            return resolveRecursive(self.__serviceName)
+                return services2_classes[aliased_service_name]
 
-        raise Exception(f'Undefined service {self.__serviceName}')
+            return resolve_recursive(self.__service_name)
 
-    def __eq__(self, other: 'ServiceArgument'):
-        return self.name == other.name and self.getStringValue() == other.getStringValue()
+        raise Exception(f"Undefined service {self.__service_name}")
+
+    def __eq__(self, other: "ServiceArgument"):
+        return self.name == other.name and self.get_string_value() == other.get_string_value()

@@ -1,5 +1,5 @@
 def split(placeholder: str):
-    parts = placeholder.split('.')
+    parts = placeholder.split(".")
 
     output = []
     buffer = []
@@ -9,7 +9,7 @@ def split(placeholder: str):
             buffer.append(part[1:])
         elif part[-1] == '"':
             buffer.append(part[:-1])
-            output.append('.'.join(buffer))
+            output.append(".".join(buffer))
             buffer = []
         elif buffer:
             buffer.append(part)

@@ -3,6 +3,6 @@ imports:
       include: '../mypackage/**/*.yaml'
 
 parameters:
-  paramLevel1: 123
-  mergedParam:
+  param_level1: 123
+  merged_param:
     level1: 1

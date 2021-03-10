@@ -7,34 +7,31 @@ from injecta.generator.ServiceGenerator import ServiceGenerator
 from injecta.generator.ObjectGenerator import ObjectGenerator
 from injecta.generator.ServiceMethodNameTranslator import ServiceMethodNameTranslator
 
-class ContainerInitializer:
 
+class ContainerInitializer:
     def __init__(self):
-        self.__containerGenerator = ContainerGenerator(
-            ServiceGenerator(
-                ObjectGenerator(),
-                ServiceMethodNameTranslator()
-            ),
+        self.__container_generator = ContainerGenerator(
+            ServiceGenerator(ObjectGenerator(), ServiceMethodNameTranslator()),
         )
 
-    def init(self, containerBuild: ContainerBuild) -> ContainerInterface:
-        code = self.__containerGenerator.generate(containerBuild.resolvedServices, containerBuild.aliases2Services)
+    def init(self, container_build: ContainerBuild) -> ContainerInterface:
+        code = self.__container_generator.generate(container_build.resolved_services, container_build.aliases2_services)
 
-        tmpFile = self.__writeContainer(code)
-        module = self.__importContainer(tmpFile.name)
-        tmpFile.close()
+        tmp_file = self.__write_container(code)
+        module = self.__import_container(tmp_file.name)
+        tmp_file.close()
 
-        return module.Container(containerBuild.parameters)
+        return module.Container(container_build.parameters)
 
-    def __writeContainer(self, code: str):
-        f = tempfile.NamedTemporaryFile(prefix='di_container_', suffix='.py', delete=False)
+    def __write_container(self, code: str):
+        f = tempfile.NamedTemporaryFile(prefix="di_container_", suffix=".py", delete=False)
         f.write(code.encode())
         f.seek(0)
 
         return f
 
-    def __importContainer(self, filePath):
-        spec = importlib.util.spec_from_file_location('container', filePath)
+    def __import_container(self, file_path):
+        spec = importlib.util.spec_from_file_location("container", file_path)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
 

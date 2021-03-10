@@ -5,59 +5,55 @@ from injecta.service.resolved.ResolvedArgument import ResolvedArgument
 from injecta.service.argument.validator.ArgumentsValidator import ArgumentsValidator
 from injecta.service.class_.InspectedArgumentsResolver import InspectedArgumentsResolver
 
+
 class ArgumentListResolver:
-
     def __init__(self):
-        self.__inspectedArgumentsResolver = InspectedArgumentsResolver()
-        self.__argumentsValidator = ArgumentsValidator()
+        self.__inspected_arguments_resolver = InspectedArgumentsResolver()
+        self.__arguments_validator = ArgumentsValidator()
 
-    def resolve(self, arguments: List[ArgumentInterface], inspectedArguments: List[InspectedArgument], serviceName: str):
-        if self.__containsKwargs(inspectedArguments):
-            raise Exception(f'__init__() in service "{serviceName}" contains **kwargs, use named arguments instead')
+    def resolve(self, arguments: List[ArgumentInterface], inspected_arguments: List[InspectedArgument], service_name: str):
+        if self.__contains_kwargs(inspected_arguments):
+            raise Exception(f'__init__() in service "{service_name}" contains **kwargs, use named arguments instead')
 
-        containsArgs = self.__containsArgs(inspectedArguments)
+        contains_args = self.__contains_args(inspected_arguments)
 
-        if not containsArgs and len(arguments) > len(inspectedArguments):
-            raise Exception(f'Too many arguments given for "{serviceName}"')
+        if not contains_args and len(arguments) > len(inspected_arguments):
+            raise Exception(f'Too many arguments given for "{service_name}"')
 
-        if containsArgs:
-            return self.__resolveArgumentsArgs(arguments, inspectedArguments)
+        if contains_args:
+            return self.__resolve_arguments_args(arguments, inspected_arguments)
 
-        return self.__resolveArguments(arguments, inspectedArguments)
+        return self.__resolve_arguments(arguments, inspected_arguments)
 
-    def __resolveArgumentsArgs(self, arguments: List[ArgumentInterface], inspectedArguments: List[InspectedArgument]):
-        resolvedArguments = self.__resolveArguments(arguments, inspectedArguments[0:-1])
+    def __resolve_arguments_args(self, arguments: List[ArgumentInterface], inspected_arguments: List[InspectedArgument]):
+        resolved_arguments = self.__resolve_arguments(arguments, inspected_arguments[0:-1])
 
-        startIndex = len(resolvedArguments)
+        start_index = len(resolved_arguments)
 
-        for idx, argument in enumerate(arguments[startIndex:]):
-            resolvedArguments.append(ResolvedArgument(f'arg_{idx}', argument, None))
+        for idx, argument in enumerate(arguments[start_index:]):
+            resolved_arguments.append(ResolvedArgument(f"arg_{idx}", argument, None))
 
-        return resolvedArguments
+        return resolved_arguments
 
-    def __resolveArguments(self, arguments: List[ArgumentInterface], inspectedArguments: List[InspectedArgument]):
-        resolvedArguments = []
-        argumentCount = len(arguments)
+    def __resolve_arguments(self, arguments: List[ArgumentInterface], inspected_arguments: List[InspectedArgument]):
+        resolved_arguments = []
+        argument_count = len(arguments)
 
-        for idx, inspectedArgument in enumerate(inspectedArguments):
-            argument = arguments[idx] if idx < argumentCount else None
+        for idx, inspected_argument in enumerate(inspected_arguments):
+            argument = arguments[idx] if idx < argument_count else None
 
             # argument with default value, no value defined in service configuration
-            if inspectedArgument.hasDefaultValue() and argument is None:
+            if inspected_argument.has_default_value() and argument is None:
                 continue
 
-            resolvedArgument = ResolvedArgument(
-                inspectedArgument.name,
-                argument,
-                inspectedArgument
-            )
+            resolved_argument = ResolvedArgument(inspected_argument.name, argument, inspected_argument)
 
-            resolvedArguments.append(resolvedArgument)
+            resolved_arguments.append(resolved_argument)
 
-        return resolvedArguments
+        return resolved_arguments
 
-    def __containsArgs(self, inspectedArguments: List[InspectedArgument]):
-        return inspectedArguments and inspectedArguments[-1].name == 'args'
+    def __contains_args(self, inspected_arguments: List[InspectedArgument]):
+        return inspected_arguments and inspected_arguments[-1].name == "args"
 
-    def __containsKwargs(self, inspectedArguments: List[InspectedArgument]):
-        return inspectedArguments and inspectedArguments[-1].name == 'kwargs'
+    def __contains_kwargs(self, inspected_arguments: List[InspectedArgument]):
+        return inspected_arguments and inspected_arguments[-1].name == "kwargs"

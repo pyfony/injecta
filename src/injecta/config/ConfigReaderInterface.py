@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-class ConfigReaderInterface(ABC):
 
+class ConfigReaderInterface(ABC):
     @abstractmethod
-    def read(self, configPath: str) -> dict:
+    def read(self, config_path: str) -> dict:
         pass

@@ -10,55 +10,48 @@ from injecta.service.argument.PrimitiveArgument import PrimitiveArgument
 from injecta.service.argument.ServiceArgument import ServiceArgument
 from injecta.service.Service import Service
 
-class ServicesPreparerTest(unittest.TestCase):
 
+class ServicesPreparerTest(unittest.TestCase):
     def setUp(self):
-        self.__servicesPreparer = ServicesPreparer(
+        self.__services_preparer = ServicesPreparer(
             SchemaValidator(),
             ServiceParser(
                 ArgumentParser(),
                 DTypeResolver(),
-            )
+            ),
         )
 
     def test_basic(self):
-        rawServices = {
-            'injecta.mocks.Bar.Bar': {
-                'arguments': [
-                    'Jiri Koutny'
-                ]
-            },
-            'injecta.mocks.Foo.Foo': {
-                'arguments': [
-                    '@injecta.mocks.Bar.Bar'
-                ]
-            },
-            'injecta.mocks.Bar.BarAlias': '@injecta.mocks.Bar.Bar',
+        raw_services = {
+            "injecta.mocks.Bar.Bar": {"arguments": ["Jiri Koutny"]},
+            "injecta.mocks.Foo.Foo": {"arguments": ["@injecta.mocks.Bar.Bar"]},
+            "injecta.mocks.Bar.BarAlias": "@injecta.mocks.Bar.Bar",
         }
 
-        expectedService1 = Service(
-            'injecta.mocks.Bar.Bar',
-            DType('injecta.mocks.Bar', 'Bar'),
+        expected_service1 = Service(
+            "injecta.mocks.Bar.Bar",
+            DType("injecta.mocks.Bar", "Bar"),
             [
-                PrimitiveArgument('Jiri Koutny'),
-            ]
+                PrimitiveArgument("Jiri Koutny"),
+            ],
         )
 
-        expectedService2 = Service(
-            'injecta.mocks.Foo.Foo',
-            DType('injecta.mocks.Foo', 'Foo'),
+        expected_service2 = Service(
+            "injecta.mocks.Foo.Foo",
+            DType("injecta.mocks.Foo", "Foo"),
             [
-                ServiceArgument('injecta.mocks.Bar.Bar'),
-            ]
+                ServiceArgument("injecta.mocks.Bar.Bar"),
+            ],
         )
 
-        expectedAlias1 = ServiceAlias('injecta.mocks.Bar.BarAlias', 'injecta.mocks.Bar.Bar')
+        expected_alias1 = ServiceAlias("injecta.mocks.Bar.BarAlias", "injecta.mocks.Bar.Bar")
 
-        services, aliases = self.__servicesPreparer.prepare(rawServices)
+        services, aliases = self.__services_preparer.prepare(raw_services)
 
-        self.assertEqual(expectedService1, services[0])
-        self.assertEqual(expectedService2, services[1])
-        self.assertEqual(expectedAlias1, aliases[0])
+        self.assertEqual(expected_service1, services[0])
+        self.assertEqual(expected_service2, services[1])
+        self.assertEqual(expected_alias1, aliases[0])
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

@@ -2,29 +2,26 @@ from typing import List
 from injecta.service.Service import Service
 from injecta.service.resolved.ResolvedArgument import ResolvedArgument
 
-class ResolvedService:
 
+class ResolvedService:
     def __init__(
         self,
         service: Service,
-        resolvedArguments: List[ResolvedArgument],
+        resolved_arguments: List[ResolvedArgument],
     ):
         self.__service = service
-        self.__resolvedArguments = resolvedArguments
+        self.__resolved_arguments = resolved_arguments
 
     @property
     def service(self):
         return self.__service
 
     @property
-    def resolvedArguments(self):
-        return self.__resolvedArguments
+    def resolved_arguments(self):
+        return self.__resolved_arguments
 
-    def replaceResolvedArguments(self, resolvedArguments: List[ResolvedArgument]):
-        self.__resolvedArguments = resolvedArguments
+    def replace_resolved_arguments(self, resolved_arguments: List[ResolvedArgument]):
+        self.__resolved_arguments = resolved_arguments
 
-    def __eq__(self, other: 'ResolvedService'):
-        return (
-            self.service == other.service
-            and self.__resolvedArguments == other.resolvedArguments
-        )
+    def __eq__(self, other: "ResolvedService"):
+        return self.service == other.service and self.__resolved_arguments == other.resolved_arguments
