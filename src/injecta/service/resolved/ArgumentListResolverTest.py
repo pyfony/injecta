@@ -35,7 +35,7 @@ class ArgumentListResolverTest(unittest.TestCase):
         with self.assertRaises(Exception) as error:
             self.__argument_list_resolver.resolve(arguments, inspected_arguments, "injecta.mocks.Bar")
 
-        self.assertEqual('Too many arguments given for "injecta.mocks.Bar"', str(error.exception))
+        self.assertEqual('Too many arguments given for service "injecta.mocks.Bar"', str(error.exception))
 
     def test_args(self):
         arguments = [

@@ -18,7 +18,7 @@ class ArgumentListResolver:
         contains_args = self.__contains_args(inspected_arguments)
 
         if not contains_args and len(arguments) > len(inspected_arguments):
-            raise Exception(f'Too many arguments given for "{service_name}"')
+            raise Exception(f'Too many arguments given for service "{service_name}"')
 
         if contains_args:
             return self.__resolve_arguments_args(arguments, inspected_arguments)
