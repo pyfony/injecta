@@ -39,9 +39,9 @@ class ContainerBuilder:
         ]
 
     def build(self, raw_config: dict, hooks: Hooks = Hooks()) -> ContainerBuild:
-        if "parameters" not in raw_config:
+        if "parameters" not in raw_config or raw_config["parameters"] is None:
             raw_config["parameters"] = dict()
-        if "services" not in raw_config:
+        if "services" not in raw_config or raw_config["services"] is None:
             raw_config["services"] = dict()
 
         raw_config = hooks.start(raw_config)
