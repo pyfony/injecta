@@ -15,6 +15,9 @@ class ServiceResolver:
 
     def resolve(self, service: Service, services2_classes: dict, aliases2_services: dict) -> ResolvedService:
         if service.uses_factory():
+            if service.factory_service.service_name not in services2_classes:
+                raise Exception(f"Factory service {service.factory_service.service_name} not found")
+
             factory_class = services2_classes[service.factory_service.service_name]
             inspected_arguments = self.__inspected_arguments_resolver.resolve_method(factory_class, service.factory_method)
         else:
