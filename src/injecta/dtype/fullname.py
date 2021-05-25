@@ -14,3 +14,12 @@ def get(object_or_class: Union[object, type]):
         return class_name  # avoid outputs like 'builtins.str'
 
     return module + "." + class_name
+
+
+def parse(dtype: str):
+    last_dot_index = dtype.rfind(".")
+
+    module_name = dtype[:last_dot_index]
+    class_name = dtype[last_dot_index + 1 :]  # noqa: 5203
+
+    return module_name, class_name

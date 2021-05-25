@@ -1,4 +1,5 @@
 from importlib import import_module
+from injecta.dtype import fullname
 
 
 def load(module_name, attribute_name):
@@ -8,6 +9,10 @@ def load(module_name, attribute_name):
         raise Exception(f"No module named {module_name} (attribute: {attribute_name})")
 
     return getattr(module, attribute_name)
+
+
+def load_from_fullname(dtype: str):
+    return load(*fullname.parse(dtype))
 
 
 def load_from_string(val):
