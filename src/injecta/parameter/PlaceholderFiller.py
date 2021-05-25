@@ -12,7 +12,7 @@ class PlaceholderFiller:
 
     def __resolve_placeholders(self, value, path: str):
         if isinstance(value, dict):
-            return {k: self.__resolve_placeholders(v, path + "." + k) for k, v in value.items()}
+            return {k: self.__resolve_placeholders(v, path + "." + str(k)) for k, v in value.items()}
 
         if isinstance(value, list):
             return list(map(lambda value: self.__resolve_placeholders(value, path), value))
