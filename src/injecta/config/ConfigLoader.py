@@ -33,7 +33,6 @@ class ConfigLoader:
             raise Exception("{} does not exist".format(config_path))
 
         with config_path.open("r", encoding="utf-8") as f:
-            yaml_config_string = f.read()
-            f.close()
+            yaml_config_string = f.read().replace("\0", "")
 
         return yaml.safe_load(yaml_config_string)
